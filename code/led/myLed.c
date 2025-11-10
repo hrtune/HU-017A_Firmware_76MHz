@@ -154,48 +154,41 @@ void DisplayNUM(uint8t a, b, c, d, dp)
 	uint8t code de = 1;
 	uint8t sizeOfNixie = sizeof(NixieTable);
 
-	if (LED_POLLING_POSTITION == 0)
+	// Turn off all digits first
+	P20 = P21 = P22 = P23 = 1;
+
+	switch (LED_POLLING_POSTITION)
 	{
+	case 0:
 		if (a < sizeOfNixie)
 		{
-			P21 = P22 = P23 = 1;
 			_74HC595_WriteByte(getData(a, dp == 1));
 			P20 = 0;
-			Delay(de);
 		}
-	}
-	else if (LED_POLLING_POSTITION == 1)
-	{
+		break;
+	case 1:
 		if (b < sizeOfNixie)
 		{
-			P20 = P22 = P23 = 1;
 			_74HC595_WriteByte(getData(b, dp == 2));
 			P21 = 0;
-			Delay(de);
 		}
-	}
-	else if (LED_POLLING_POSTITION == 2)
-	{
-
+		break;
+	case 2:
 		if (c < sizeOfNixie)
 		{
-			P20 = P21 = P23 = 1;
 			_74HC595_WriteByte(getData(c, dp == 3));
 			P22 = 0;
-			Delay(de);
 		}
-	}
-	else if (LED_POLLING_POSTITION == 3)
-	{
+		break;
+	case 3:
 		if (d < sizeOfNixie)
 		{
-
-			P20 = P21 = P22 = 1;
 			_74HC595_WriteByte(getData(d, dp == 4));
 			P23 = 0;
-			Delay(de);
 		}
+		break;
 	}
+	Delay(de);
 
 	if (++LED_POLLING_POSTITION > 3)
 	{
