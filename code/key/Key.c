@@ -1,13 +1,14 @@
-#include <STC15.H>
+#include <stc15.h>
 #include <stdio.h>
 #include "Key.h"
+#include "Delay.h"
 
 unsigned char KeyNum = 0;
 
-sbit KEY1 = P1 ^ 6; // v+
-sbit KEY2 = P1 ^ 7; // v-
-sbit KEY3 = P1 ^ 5; // f+
-sbit KEY4 = P1 ^ 4; // f-
+__sbit __at(0x96) KEY1; // v+ P1.6
+__sbit __at(0x97) KEY2; // v- P1.7
+__sbit __at(0x95) KEY3; // f+ P1.5
+__sbit __at(0x94) KEY4; // f- P1.4
 
 unsigned char k1_lock_flage = 0;
 unsigned char k2_lock_flage = 0;
@@ -165,7 +166,7 @@ void Key_Loop(void)
 		if (++k3_cnt > KEY_LONG_TIME)
 		{
 			k3_short_flag = 0;
-			k3_lock_flage = 1;
+			k3_lock_flage = 1; // Self-lock to prevent re-entry
 			KeyNum = 33;
 		}
 	}
@@ -189,7 +190,7 @@ void Key_Loop(void)
 		if (++k4_cnt > KEY_LONG_TIME)
 		{
 			k4_short_flag = 0;
-			k4_lock_flage = 1;
+			k4_lock_flage = 1; // Self-lock to prevent re-entry
 			KeyNum = 44;
 		}
 	}

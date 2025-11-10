@@ -1,4 +1,4 @@
-#include <STC15.H>
+#include <stc15.h>
 #include <stdio.h>
 #include "Delay.h"
 #include "UART.h"
@@ -10,14 +10,14 @@
 #include "key/key.h"
 
 // 搜索触发==1，触发时睡眠模式==11
-uint8t search_SELLP_flag = 0;
+uint8_t search_SELLP_flag = 0;
 
 // 按键触发功能
 void userInput()
 {
-	uint8t snr = 6;
+	uint8_t snr = 6;
 	// 获取按键值，获取后将按键值重置为0;
-	uint8t Key_NUM = POP_KEY();
+	uint8_t Key_NUM = POP_KEY();
 	if (!Key_NUM) // 用户没有输入
 	{
 		return;
@@ -121,26 +121,6 @@ void userInput()
 		return;
 	}
 
-	// K33 手动搜下一个台
-	if (Key_NUM == 33)
-	{
-		LED_SEEK_D = 1;	   // 数码频率改变方向
-		LED_HAND_MARK = 0; // 手动搜台
-		resetSleepTime();  // 数码重置熄灭时间
-		sys_freq = RDA5807M_Seek(1);
-		return;
-	}
-
-	// K44 手动搜上一个台
-	if (Key_NUM == 44)
-	{
-		LED_SEEK_D = 0;	   // 数码频率改变方向
-		LED_HAND_MARK = 0; // 手动搜台
-		resetSleepTime();  // 数码重置熄灭时间
-		sys_freq = RDA5807M_Seek(0);
-		return;
-	}
-
 	// K22 V-长按
 	if (Key_NUM == 22)
 	{
@@ -177,31 +157,59 @@ void userInput()
 	// F+
 	if (Key_NUM == 3)
 	{
-
+		LED_SEEK_D = 1;
+		LED_HAND_MARK = 0; // Manual tune display effect
+		resetSleepTime();
+		sys_freq += 10; // 0.1 MHz = 10 * 10kHz
+		if (sys_freq > 10800)
+		{
+			sys_freq = 8700;
+		}
+		RDA5807M_Set_Freq(sys_freq);
+		sys_radio_index = 0xFF; // Indicate not on a preset
+		return;
+	}
+	// F-
+	if (Key_NUM == 4)
+	{
+		LED_SEEK_D = 0;
+		LED_HAND_MARK = 0; // Manual tune display effect
+		resetSleepTime();
+		sys_freq -= 10; // 0.1 MHz = 10 * 10kHz
+		if (sys_freq < 8700)
+		{
+			sys_freq = 10800;
+		}
+		RDA5807M_Set_Freq(sys_freq);
+		sys_radio_index = 0xFF; // Indicate not on a preset
+		return;
+	}
+	// F+ Long Press (cycle presets up)
+	if (Key_NUM == 33)
+	{
 		if (sys_radio_index == sys_radio_index_max)
 		{
 			sys_radio_index = 0;
 		}
 		else
 		{
-			++sys_radio_index;
+			sys_radio_index++;
 		}
 		LED_HAND_MARK = 1; // 切换列表台
 		resetSleepTime();  // 数码重置熄灭时间
 		RDA5807M_Set_Freq(CONF_GET_RADIO_INDEX(sys_radio_index));
 		return;
 	}
-	// F-
-	if (Key_NUM == 4)
+	// F- Long Press (cycle presets down)
+	if (Key_NUM == 44)
 	{
-
 		if (sys_radio_index == 0)
 		{
 			sys_radio_index = sys_radio_index_max;
 		}
 		else
 		{
-			--sys_radio_index;
+			sys_radio_index--;
 		}
 
 		LED_HAND_MARK = 1; // 切换列表台
@@ -223,28 +231,10 @@ void main()
 	// 打开数码管显示、键盘轮询
 	Timer0Init();
 
-	if (CONF_SYS_INIT()) // 加载上一次系统配置,返回是否需要自动搜台
-	{
-		if (!sys_sleep_mode)
-		{
-			sys_sleep_mode = 1;
-			search_SELLP_flag == 11;
-		}
-		RDA5807M_Search_Automatic();
-		LED_FRE_REAL = sys_freq;
-		if (search_SELLP_flag == 11)
-		{
-			sys_sleep_mode = 0;
-		}
-		LED_HAND_MARK = 1; //  数码管设置为列表换台
-	}
-	else
-	{
-		RDA5807M_Set_Freq(sys_freq);
-	}
-
+	RDA5807M_Set_Freq(7640);
+	LED_HAND_MARK = 1; // Set display to update frequency directly
 	// 设置系统音量
-	RDA5807M_Set_Volume(sys_vol);
+	RDA5807M_Set_Volume(10);
 
 	// printf("setup complete\r\n");
 
@@ -257,10 +247,10 @@ void main()
 /**
  * 定时器零的中断函数
  */
-void Timer0_Rountine(void) interrupt 1
+void Timer0_Rountine(void) // interrupt 1
 {
 	// 循环次数记数
-	static uint16t T0Count1, T0Count2;
+	static uint16_t T0Count1, T0Count2;
 	Led_Loop();
 	Key_Loop();
 
