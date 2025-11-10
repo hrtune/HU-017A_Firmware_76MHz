@@ -539,16 +539,16 @@
                                     539 	.area GSFINAL (CODE)
                                     540 	.area GSINIT  (CODE)
                                     541 ;	code/config/Config.c:7: uint8_t sys_vol = 10;
-      0000C1 75 18 0A         [24]  542 	mov	_sys_vol,#0x0a
+      0000F3 75 18 0A         [24]  542 	mov	_sys_vol,#0x0a
                                     543 ;	code/config/Config.c:9: uint8_t sys_sleep_mode = 0x01;
-      0000C4 75 19 01         [24]  544 	mov	_sys_sleep_mode,#0x01
+      0000F6 75 19 01         [24]  544 	mov	_sys_sleep_mode,#0x01
                                     545 ;	code/config/Config.c:10: uint16_t sys_freq = 7640; // 76.4Mhz
-      0000C7 75 1A D8         [24]  546 	mov	_sys_freq,#0xd8
-      0000CA 75 1B 1D         [24]  547 	mov	(_sys_freq + 1),#0x1d
+      0000F9 75 1A D8         [24]  546 	mov	_sys_freq,#0xd8
+      0000FC 75 1B 1D         [24]  547 	mov	(_sys_freq + 1),#0x1d
                                     548 ;	code/config/Config.c:12: uint8_t sys_radio_index = 0x00;
-      0000CD 75 1C 00         [24]  549 	mov	_sys_radio_index,#0x00
+      0000FF 75 1C 00         [24]  549 	mov	_sys_radio_index,#0x00
                                     550 ;	code/config/Config.c:13: uint8_t sys_radio_index_max = 0x00;
-      0000D0 75 1D 00         [24]  551 	mov	_sys_radio_index_max,#0x00
+      000102 75 1D 00         [24]  551 	mov	_sys_radio_index_max,#0x00
                                     552 ;--------------------------------------------------------
                                     553 ; Home
                                     554 ;--------------------------------------------------------
@@ -567,7 +567,7 @@
                                     567 ;	-----------------------------------------
                                     568 ;	 function CONF_READ_RAIDO_FREQ
                                     569 ;	-----------------------------------------
-      00052D                        570 _CONF_READ_RAIDO_FREQ:
+      000556                        570 _CONF_READ_RAIDO_FREQ:
                            000007   571 	ar7 = 0x07
                            000006   572 	ar6 = 0x06
                            000005   573 	ar5 = 0x05
@@ -577,9 +577,9 @@
                            000001   577 	ar1 = 0x01
                            000000   578 	ar0 = 0x00
                                     579 ;	code/config/Config.c:20: return 0;
-      00052D 90 00 00         [24]  580 	mov	dptr,#0x0000
+      000556 90 00 00         [24]  580 	mov	dptr,#0x0000
                                     581 ;	code/config/Config.c:21: }
-      000530 22               [24]  582 	ret
+      000559 22               [24]  582 	ret
                                     583 ;------------------------------------------------------------
                                     584 ;Allocation info for local variables in function 'CONF_SET_VOL'
                                     585 ;------------------------------------------------------------
@@ -589,11 +589,11 @@
                                     589 ;	-----------------------------------------
                                     590 ;	 function CONF_SET_VOL
                                     591 ;	-----------------------------------------
-      000531                        592 _CONF_SET_VOL:
-      000531 85 82 18         [24]  593 	mov	_sys_vol,dpl
+      00055A                        592 _CONF_SET_VOL:
+      00055A 85 82 18         [24]  593 	mov	_sys_vol,dpl
                                     594 ;	code/config/Config.c:25: sys_vol = vol;
                                     595 ;	code/config/Config.c:26: }
-      000534 22               [24]  596 	ret
+      00055D 22               [24]  596 	ret
                                     597 ;------------------------------------------------------------
                                     598 ;Allocation info for local variables in function 'CONF_SET_FREQ'
                                     599 ;------------------------------------------------------------
@@ -603,12 +603,12 @@
                                     603 ;	-----------------------------------------
                                     604 ;	 function CONF_SET_FREQ
                                     605 ;	-----------------------------------------
-      000535                        606 _CONF_SET_FREQ:
-      000535 85 82 1A         [24]  607 	mov	_sys_freq,dpl
-      000538 85 83 1B         [24]  608 	mov	(_sys_freq + 1),dph
+      00055E                        606 _CONF_SET_FREQ:
+      00055E 85 82 1A         [24]  607 	mov	_sys_freq,dpl
+      000561 85 83 1B         [24]  608 	mov	(_sys_freq + 1),dph
                                     609 ;	code/config/Config.c:33: sys_freq = freq;
                                     610 ;	code/config/Config.c:34: }
-      00053B 22               [24]  611 	ret
+      000564 22               [24]  611 	ret
                                     612 ;------------------------------------------------------------
                                     613 ;Allocation info for local variables in function 'CONF_CHANGE_SLEEP_MODE'
                                     614 ;------------------------------------------------------------
@@ -616,27 +616,27 @@
                                     616 ;	-----------------------------------------
                                     617 ;	 function CONF_CHANGE_SLEEP_MODE
                                     618 ;	-----------------------------------------
-      00053C                        619 _CONF_CHANGE_SLEEP_MODE:
+      000565                        619 _CONF_CHANGE_SLEEP_MODE:
                                     620 ;	code/config/Config.c:42: if (IapReadByte(addr_sleep_mode) & 0x01)
-      00053C 90 04 00         [24]  621 	mov	dptr,#0x0400
-      00053F 12 04 97         [24]  622 	lcall	_IapReadByte
-      000542 E5 82            [12]  623 	mov	a, dpl
-      000544 30 E0 05         [24]  624 	jnb	acc.0,00102$
+      000565 90 04 00         [24]  621 	mov	dptr,#0x0400
+      000568 12 04 C0         [24]  622 	lcall	_IapReadByte
+      00056B E5 82            [12]  623 	mov	a, dpl
+      00056D 30 E0 05         [24]  624 	jnb	acc.0,00102$
                                     625 ;	code/config/Config.c:44: sys_sleep_mode = 0;
-      000547 75 19 00         [24]  626 	mov	_sys_sleep_mode,#0x00
-      00054A 80 03            [24]  627 	sjmp	00103$
-      00054C                        628 00102$:
+      000570 75 19 00         [24]  626 	mov	_sys_sleep_mode,#0x00
+      000573 80 03            [24]  627 	sjmp	00103$
+      000575                        628 00102$:
                                     629 ;	code/config/Config.c:48: sys_sleep_mode = 1;
-      00054C 75 19 01         [24]  630 	mov	_sys_sleep_mode,#0x01
-      00054F                        631 00103$:
+      000575 75 19 01         [24]  630 	mov	_sys_sleep_mode,#0x01
+      000578                        631 00103$:
                                     632 ;	code/config/Config.c:51: IapEraseSector(addr_sleep_mode);
-      00054F 90 04 00         [24]  633 	mov	dptr,#0x0400
-      000552 12 04 7D         [24]  634 	lcall	_IapEraseSector
+      000578 90 04 00         [24]  633 	mov	dptr,#0x0400
+      00057B 12 04 A6         [24]  634 	lcall	_IapEraseSector
                                     635 ;	code/config/Config.c:52: IapProgramByte(addr_sleep_mode, sys_sleep_mode);
-      000555 85 19 17         [24]  636 	mov	_IapProgramByte_PARM_2,_sys_sleep_mode
-      000558 90 04 00         [24]  637 	mov	dptr,#0x0400
+      00057E 85 19 17         [24]  636 	mov	_IapProgramByte_PARM_2,_sys_sleep_mode
+      000581 90 04 00         [24]  637 	mov	dptr,#0x0400
                                     638 ;	code/config/Config.c:53: }
-      00055B 02 05 10         [24]  639 	ljmp	_IapProgramByte
+      000584 02 05 39         [24]  639 	ljmp	_IapProgramByte
                                     640 ;------------------------------------------------------------
                                     641 ;Allocation info for local variables in function 'CONF_RADIO_ERASE'
                                     642 ;------------------------------------------------------------
@@ -644,9 +644,9 @@
                                     644 ;	-----------------------------------------
                                     645 ;	 function CONF_RADIO_ERASE
                                     646 ;	-----------------------------------------
-      00055E                        647 _CONF_RADIO_ERASE:
+      000587                        647 _CONF_RADIO_ERASE:
                                     648 ;	code/config/Config.c:60: }
-      00055E 22               [24]  649 	ret
+      000587 22               [24]  649 	ret
                                     650 ;------------------------------------------------------------
                                     651 ;Allocation info for local variables in function 'CONF_RADIO_PUT'
                                     652 ;------------------------------------------------------------
@@ -657,9 +657,9 @@
                                     657 ;	-----------------------------------------
                                     658 ;	 function CONF_RADIO_PUT
                                     659 ;	-----------------------------------------
-      00055F                        660 _CONF_RADIO_PUT:
+      000588                        660 _CONF_RADIO_PUT:
                                     661 ;	code/config/Config.c:67: }
-      00055F 22               [24]  662 	ret
+      000588 22               [24]  662 	ret
                                     663 ;------------------------------------------------------------
                                     664 ;Allocation info for local variables in function 'CONF_SET_INDEX_MAX'
                                     665 ;------------------------------------------------------------
@@ -669,9 +669,9 @@
                                     669 ;	-----------------------------------------
                                     670 ;	 function CONF_SET_INDEX_MAX
                                     671 ;	-----------------------------------------
-      000560                        672 _CONF_SET_INDEX_MAX:
+      000589                        672 _CONF_SET_INDEX_MAX:
                                     673 ;	code/config/Config.c:75: }
-      000560 22               [24]  674 	ret
+      000589 22               [24]  674 	ret
                                     675 ;------------------------------------------------------------
                                     676 ;Allocation info for local variables in function 'CONF_SYS_INIT'
                                     677 ;------------------------------------------------------------
@@ -679,11 +679,11 @@
                                     679 ;	-----------------------------------------
                                     680 ;	 function CONF_SYS_INIT
                                     681 ;	-----------------------------------------
-      000561                        682 _CONF_SYS_INIT:
+      00058A                        682 _CONF_SYS_INIT:
                                     683 ;	code/config/Config.c:90: return 0;
-      000561 75 82 00         [24]  684 	mov	dpl, #0x00
+      00058A 75 82 00         [24]  684 	mov	dpl, #0x00
                                     685 ;	code/config/Config.c:91: }
-      000564 22               [24]  686 	ret
+      00058D 22               [24]  686 	ret
                                     687 ;------------------------------------------------------------
                                     688 ;Allocation info for local variables in function 'CONF_GET_RADIO_INDEX'
                                     689 ;------------------------------------------------------------
@@ -693,11 +693,11 @@
                                     693 ;	-----------------------------------------
                                     694 ;	 function CONF_GET_RADIO_INDEX
                                     695 ;	-----------------------------------------
-      000565                        696 _CONF_GET_RADIO_INDEX:
+      00058E                        696 _CONF_GET_RADIO_INDEX:
                                     697 ;	code/config/Config.c:98: return 0;
-      000565 90 00 00         [24]  698 	mov	dptr,#0x0000
+      00058E 90 00 00         [24]  698 	mov	dptr,#0x0000
                                     699 ;	code/config/Config.c:99: }
-      000568 22               [24]  700 	ret
+      000591 22               [24]  700 	ret
                                     701 	.area CSEG    (CODE)
                                     702 	.area CONST   (CODE)
                                     703 	.area XINIT   (CODE)

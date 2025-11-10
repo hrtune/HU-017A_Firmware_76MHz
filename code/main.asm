@@ -470,14 +470,28 @@ _CCF0	=	0x00d8
 	.area REG_BANK_0	(REL,OVR,DATA)
 	.ds 8
 ;--------------------------------------------------------
+; overlayable bit register bank
+;--------------------------------------------------------
+	.area BIT_BANK	(REL,OVR,DATA)
+bits:
+	.ds 1
+	b0 = bits[0]
+	b1 = bits[1]
+	b2 = bits[2]
+	b3 = bits[3]
+	b4 = bits[4]
+	b5 = bits[5]
+	b6 = bits[6]
+	b7 = bits[7]
+;--------------------------------------------------------
 ; internal ram data
 ;--------------------------------------------------------
 	.area DSEG    (DATA)
 _search_SELLP_flag::
 	.ds 1
-_Timer0_Rountine_T0Count1_10000_78:
+_Timer0_Rountine_T0Count1_10000_79:
 	.ds 2
-_Timer0_Rountine_T0Count2_10000_78:
+_Timer0_Rountine_T0Count2_10000_79:
 	.ds 2
 ;--------------------------------------------------------
 ; overlayable items in internal ram
@@ -534,8 +548,11 @@ __start__stack:
 	.area HOME    (CODE)
 __interrupt_vect:
 	ljmp	__sdcc_gsinit_startup
+	reti
+	.ds	7
+	ljmp	_Timer0_Rountine
 ; restartable atomic support routines
-	.ds	5
+	.ds	2
 sdcc_atomic_exchange_rollback_start::
 	nop
 	nop
@@ -852,9 +869,9 @@ _userInput:
 	mov	a,#0x2a
 	subb	a,r6
 	jnc	00144$
-;	code/main.c:166: sys_freq = 8700;
-	mov	_sys_freq,#0xfc
-	mov	(_sys_freq + 1),#0x21
+;	code/main.c:166: sys_freq = 7600;
+	mov	_sys_freq,#0xb0
+	mov	(_sys_freq + 1),#0x1d
 00144$:
 ;	code/main.c:168: RDA5807M_Set_Freq(sys_freq);
 	mov	dpl, _sys_freq
@@ -884,14 +901,14 @@ _userInput:
 	mov	a,r6
 	addc	a,#0xff
 	mov	r6,a
-;	code/main.c:179: if (sys_freq < 8700)
+;	code/main.c:179: if (sys_freq < 7600)
 	mov	_sys_freq,r5
 	mov  (_sys_freq + 1),r6
 	clr	c
 	mov	a,r5
-	subb	a,#0xfc
+	subb	a,#0xb0
 	mov	a,r6
-	subb	a,#0x21
+	subb	a,#0x1d
 	jnc	00148$
 ;	code/main.c:181: sys_freq = 10800;
 	mov	_sys_freq,#0x30
@@ -957,7 +974,7 @@ _userInput:
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'main'
 ;------------------------------------------------------------
-;	code/main.c:222: void main()
+;	code/main.c:222: void main(void)
 ;	-----------------------------------------
 ;	 function main
 ;	-----------------------------------------
@@ -970,72 +987,105 @@ _main:
 ;	code/main.c:229: LED_FRE_REAL = sys_freq;
 	mov	_LED_FRE_REAL,_sys_freq
 	mov	(_LED_FRE_REAL + 1),(_sys_freq + 1)
-;	code/main.c:232: Timer0Init();
+;	code/main.c:232: P2M1 &= ~0x0F;
+	anl	_P2M1,#0xf0
+;	code/main.c:233: P2M0 |= 0x0F;
+	orl	_P2M0,#0x0f
+;	code/main.c:236: Timer0Init();
 	lcall	_Timer0Init
-;	code/main.c:234: RDA5807M_Set_Freq(7640);
+;	code/main.c:238: RDA5807M_Set_Freq(7640);
 	mov	dptr,#0x1dd8
 	lcall	_RDA5807M_Set_Freq
-;	code/main.c:235: LED_HAND_MARK = 1; // Set display to update frequency directly
+;	code/main.c:239: LED_HAND_MARK = 1; // Set display to update frequency directly
 ;	assignBit
 	setb	_LED_HAND_MARK
-;	code/main.c:237: RDA5807M_Set_Volume(10);
+;	code/main.c:241: RDA5807M_Set_Volume(10);
 	mov	dpl, #0x0a
 	lcall	_RDA5807M_Set_Volume
-;	code/main.c:241: while (1)
+;	code/main.c:245: while (1)
 00102$:
-;	code/main.c:243: userInput();
+;	code/main.c:247: userInput();
 	lcall	_userInput
-;	code/main.c:245: }
+;	code/main.c:249: }
 	sjmp	00102$
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'Timer0_Rountine'
 ;------------------------------------------------------------
-;T0Count1      Allocated with name '_Timer0_Rountine_T0Count1_10000_78'
-;T0Count2      Allocated with name '_Timer0_Rountine_T0Count2_10000_78'
+;T0Count1      Allocated with name '_Timer0_Rountine_T0Count1_10000_79'
+;T0Count2      Allocated with name '_Timer0_Rountine_T0Count2_10000_79'
 ;------------------------------------------------------------
-;	code/main.c:250: void Timer0_Rountine(void) // interrupt 1
+;	code/main.c:254: void Timer0_Rountine(void) __interrupt(1)
 ;	-----------------------------------------
 ;	 function Timer0_Rountine
 ;	-----------------------------------------
 _Timer0_Rountine:
-;	code/main.c:254: Led_Loop();
+	push	bits
+	push	acc
+	push	b
+	push	dpl
+	push	dph
+	push	(0+7)
+	push	(0+6)
+	push	(0+5)
+	push	(0+4)
+	push	(0+3)
+	push	(0+2)
+	push	(0+1)
+	push	(0+0)
+	push	psw
+	mov	psw,#0x00
+;	code/main.c:258: Led_Loop();
 	lcall	_Led_Loop
-;	code/main.c:255: Key_Loop();
+;	code/main.c:259: Key_Loop();
 	lcall	_Key_Loop
-;	code/main.c:258: if (DISPLAY_type < 10)
+;	code/main.c:262: if (DISPLAY_type < 10)
 	mov	a,#0x100 - 0x0a
 	add	a,_DISPLAY_type
 	jc	00104$
-;	code/main.c:261: if (++T0Count2 >= 4000)
-	inc	_Timer0_Rountine_T0Count2_10000_78
+;	code/main.c:265: if (++T0Count2 >= 4000)
+	inc	_Timer0_Rountine_T0Count2_10000_79
 	clr	a
-	cjne	a,_Timer0_Rountine_T0Count2_10000_78,00120$
-	inc	(_Timer0_Rountine_T0Count2_10000_78 + 1)
+	cjne	a,_Timer0_Rountine_T0Count2_10000_79,00120$
+	inc	(_Timer0_Rountine_T0Count2_10000_79 + 1)
 00120$:
-	mov	r6,_Timer0_Rountine_T0Count2_10000_78
-	mov	r7,(_Timer0_Rountine_T0Count2_10000_78 + 1)
+	mov	r6,_Timer0_Rountine_T0Count2_10000_79
+	mov	r7,(_Timer0_Rountine_T0Count2_10000_79 + 1)
 	clr	c
 	mov	a,r6
 	subb	a,#0xa0
 	mov	a,r7
 	subb	a,#0x0f
 	jc	00104$
-;	code/main.c:263: T0Count2 = 0;
+;	code/main.c:267: T0Count2 = 0;
 	clr	a
-	mov	_Timer0_Rountine_T0Count2_10000_78,a
-	mov	(_Timer0_Rountine_T0Count2_10000_78 + 1),a
-;	code/main.c:264: DISPLAY_type = 10;
+	mov	_Timer0_Rountine_T0Count2_10000_79,a
+	mov	(_Timer0_Rountine_T0Count2_10000_79 + 1),a
+;	code/main.c:268: DISPLAY_type = 10;
 	mov	_DISPLAY_type,#0x0a
 00104$:
-;	code/main.c:268: TL0 = 0x88; // 设置定时初值
+;	code/main.c:272: TL0 = 0x88; // 设置定时初值
 	mov	_TL0,#0x88
-;	code/main.c:269: TH0 = 0x96; // 设置定时初值
+;	code/main.c:273: TH0 = 0x96; // 设置定时初值
 	mov	_TH0,#0x96
-;	code/main.c:270: TF0 = 0;	// 清除TF0标志
+;	code/main.c:274: TF0 = 0;	// 清除TF0标志
 ;	assignBit
 	clr	_TF0
-;	code/main.c:271: }
-	ret
+;	code/main.c:275: }
+	pop	psw
+	pop	(0+0)
+	pop	(0+1)
+	pop	(0+2)
+	pop	(0+3)
+	pop	(0+4)
+	pop	(0+5)
+	pop	(0+6)
+	pop	(0+7)
+	pop	dph
+	pop	dpl
+	pop	b
+	pop	acc
+	pop	bits
+	ljmp	sdcc_atomic_maybe_rollback
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 	.area XINIT   (CODE)

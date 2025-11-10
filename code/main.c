@@ -163,7 +163,7 @@ void userInput()
 		sys_freq += 10; // 0.1 MHz = 10 * 10kHz
 		if (sys_freq > 10800)
 		{
-			sys_freq = 8700;
+			sys_freq = 7600;
 		}
 		RDA5807M_Set_Freq(sys_freq);
 		sys_radio_index = 0xFF; // Indicate not on a preset
@@ -176,7 +176,7 @@ void userInput()
 		LED_HAND_MARK = 0; // Manual tune display effect
 		resetSleepTime();
 		sys_freq -= 10; // 0.1 MHz = 10 * 10kHz
-		if (sys_freq < 8700)
+		if (sys_freq < 7600)
 		{
 			sys_freq = 10800;
 		}
@@ -219,7 +219,7 @@ void userInput()
 	}
 }
 
-void main()
+void main(void)
 {
 	// // 初始化串口
 	// UartInit();
@@ -227,6 +227,10 @@ void main()
 	RDA5807M_init();
 	Delay(10);
 	LED_FRE_REAL = sys_freq;
+
+	// set P2.0-P2.3 to push-pull mode
+	P2M1 &= ~0x0F;
+	P2M0 |= 0x0F;
 
 	// 打开数码管显示、键盘轮询
 	Timer0Init();
@@ -247,7 +251,7 @@ void main()
 /**
  * 定时器零的中断函数
  */
-void Timer0_Rountine(void) // interrupt 1
+void Timer0_Rountine(void) __interrupt(1)
 {
 	// 循环次数记数
 	static uint16_t T0Count1, T0Count2;

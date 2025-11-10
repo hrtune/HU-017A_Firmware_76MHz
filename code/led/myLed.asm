@@ -21,7 +21,6 @@
 	.globl _getData
 	.globl _CONF_CHANGE_SLEEP_MODE
 	.globl __74HC595_WriteByte
-	.globl _Delay
 	.globl _CCF0
 	.globl _CCF1
 	.globl _CCF2
@@ -790,21 +789,20 @@ _DispayFRE:
 	ljmp	_DispayF
 00104$:
 ;	code/led/myLed.c:94: if (LED_SEEK_D)
-	jnb	_LED_SEEK_D,00118$
-;	code/led/myLed.c:96: while (LED_FRE_REAL != sys_freq)
-00107$:
+	jnb	_LED_SEEK_D,00116$
+;	code/led/myLed.c:96: if (LED_FRE_REAL != sys_freq)
 	mov	a,_sys_freq
-	cjne	a,_LED_FRE_REAL,00174$
+	cjne	a,_LED_FRE_REAL,00172$
 	mov	a,(_sys_freq + 1)
-	cjne	a,(_LED_FRE_REAL + 1),00174$
+	cjne	a,(_LED_FRE_REAL + 1),00172$
 	ret
-00174$:
+00172$:
 ;	code/led/myLed.c:98: DispayF(++LED_FRE_REAL);
 	inc	_LED_FRE_REAL
 	clr	a
-	cjne	a,_LED_FRE_REAL,00175$
+	cjne	a,_LED_FRE_REAL,00173$
 	inc	(_LED_FRE_REAL + 1)
-00175$:
+00173$:
 	mov	dpl, _LED_FRE_REAL
 	mov	dph, (_LED_FRE_REAL + 1)
 	lcall	_DispayF
@@ -816,45 +814,43 @@ _DispayFRE:
 	subb	a,r6
 	mov	a,#0x2a
 	subb	a,r7
-	jnc	00107$
-;	code/led/myLed.c:101: LED_FRE_REAL = 8700;
-	mov	_LED_FRE_REAL,#0xfc
-	mov	(_LED_FRE_REAL + 1),#0x21
-	sjmp	00107$
-00118$:
-;	code/led/myLed.c:105: else if (LED_SEEK_D == 0)
-	jb	_LED_SEEK_D,00120$
-;	code/led/myLed.c:107: while (LED_FRE_REAL != sys_freq)
-00112$:
-	mov	a,_sys_freq
-	cjne	a,_LED_FRE_REAL,00178$
-	mov	a,(_sys_freq + 1)
-	cjne	a,(_LED_FRE_REAL + 1),00178$
+	jnc	00118$
+;	code/led/myLed.c:101: LED_FRE_REAL = 7600;
+	mov	_LED_FRE_REAL,#0xb0
+	mov	(_LED_FRE_REAL + 1),#0x1d
 	ret
-00178$:
+00116$:
+;	code/led/myLed.c:105: else if (LED_SEEK_D == 0)
+	jb	_LED_SEEK_D,00118$
+;	code/led/myLed.c:107: if (LED_FRE_REAL != sys_freq)
+	mov	a,_sys_freq
+	cjne	a,_LED_FRE_REAL,00176$
+	mov	a,(_sys_freq + 1)
+	cjne	a,(_LED_FRE_REAL + 1),00176$
+	ret
+00176$:
 ;	code/led/myLed.c:109: DispayF(--LED_FRE_REAL);
 	dec	_LED_FRE_REAL
 	mov	a,#0xff
-	cjne	a,_LED_FRE_REAL,00179$
+	cjne	a,_LED_FRE_REAL,00177$
 	dec	(_LED_FRE_REAL + 1)
-00179$:
+00177$:
 	mov	dpl, _LED_FRE_REAL
 	mov	dph, (_LED_FRE_REAL + 1)
 	lcall	_DispayF
-;	code/led/myLed.c:110: if (LED_FRE_REAL < 8700)
+;	code/led/myLed.c:110: if (LED_FRE_REAL < 7600) // Changed from 8700 to 7600 to match the upper bound logic
 	mov	r6,_LED_FRE_REAL
 	mov	r7,(_LED_FRE_REAL + 1)
 	clr	c
 	mov	a,r6
-	subb	a,#0xfc
+	subb	a,#0xb0
 	mov	a,r7
-	subb	a,#0x21
-	jnc	00112$
+	subb	a,#0x1d
+	jnc	00118$
 ;	code/led/myLed.c:112: LED_FRE_REAL = 10800;
 	mov	_LED_FRE_REAL,#0x30
 	mov	(_LED_FRE_REAL + 1),#0x2a
-	sjmp	00112$
-00120$:
+00118$:
 ;	code/led/myLed.c:116: }
 	ret
 ;------------------------------------------------------------
@@ -1109,9 +1105,6 @@ _DisplayNUM:
 	clr	_P23
 ;	code/led/myLed.c:190: }
 00113$:
-;	code/led/myLed.c:191: Delay(de);
-	mov	dptr,#0x0005
-	lcall	_Delay
 ;	code/led/myLed.c:193: if (++LED_POLLING_POSTITION > 3)
 	inc	_DisplayNUM_LED_POLLING_POSTITION_10000_52
 	mov	a,_DisplayNUM_LED_POLLING_POSTITION_10000_52

@@ -93,21 +93,21 @@ void DispayFRE(void)
 	// 正向  数码管频率在增加的效果
 	if (LED_SEEK_D)
 	{
-		while (LED_FRE_REAL != sys_freq)
+		if (LED_FRE_REAL != sys_freq)
 		{
 			DispayF(++LED_FRE_REAL);
 			if (LED_FRE_REAL > 10800)
 			{
-				LED_FRE_REAL = 8700;
+				LED_FRE_REAL = 7600;
 			}
 		}
 	}
 	else if (LED_SEEK_D == 0)
 	{
-		while (LED_FRE_REAL != sys_freq)
+		if (LED_FRE_REAL != sys_freq)
 		{
 			DispayF(--LED_FRE_REAL);
-			if (LED_FRE_REAL < 8700)
+			if (LED_FRE_REAL < 7600) // Changed from 8700 to 7600 to match the upper bound logic
 			{
 				LED_FRE_REAL = 10800;
 			}
@@ -151,7 +151,7 @@ void DisplayNUM(uint8_t a, uint8_t b, uint8_t c, uint8_t d, uint8_t dp)
 {
 	// 数码管显示位数轮询（0~3）
 	static uint8_t LED_POLLING_POSTITION = 0;
-	uint8_t de = 5;
+	uint8_t de = 1;
 	const uint8_t sizeOfNixie = sizeof(NixieTable);
 
 	// Turn off all digits first
@@ -188,7 +188,7 @@ void DisplayNUM(uint8_t a, uint8_t b, uint8_t c, uint8_t d, uint8_t dp)
 		}
 		break;
 	}
-	Delay(de);
+	// Delay(de); // Removed as delays should not be used in ISRs
 
 	if (++LED_POLLING_POSTITION > 3)
 	{

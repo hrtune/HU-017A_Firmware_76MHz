@@ -487,18 +487,18 @@
                                     487 ; internal ram data
                                     488 ;--------------------------------------------------------
                                     489 	.area DSEG    (DATA)
-      00003C                        490 _MUTE_STATUS::
-      00003C                        491 	.ds 1
-      00003D                        492 _RDA5807M_Write_Reg_PARM_2:
-      00003D                        493 	.ds 2
-      00003F                        494 _RDA5807M_Write_Reg_Buf_10000_43:
-      00003F                        495 	.ds 2
-      000041                        496 _RDA5807M_Read_Reg_Buf_10000_45:
-      000041                        497 	.ds 2
-      000043                        498 _RDA5807M_FreqToChan_End_10000_49:
-      000043                        499 	.ds 2
-      000045                        500 _RDA5807M_ChanToFreq_End_10000_57:
-      000045                        501 	.ds 2
+      00003D                        490 _MUTE_STATUS::
+      00003D                        491 	.ds 1
+      00003E                        492 _RDA5807M_Write_Reg_PARM_2:
+      00003E                        493 	.ds 2
+      000040                        494 _RDA5807M_Write_Reg_Buf_10000_43:
+      000040                        495 	.ds 2
+      000042                        496 _RDA5807M_Read_Reg_Buf_10000_45:
+      000042                        497 	.ds 2
+      000044                        498 _RDA5807M_FreqToChan_End_10000_49:
+      000044                        499 	.ds 2
+      000046                        500 _RDA5807M_ChanToFreq_End_10000_57:
+      000046                        501 	.ds 2
                                     502 ;--------------------------------------------------------
                                     503 ; overlayable items in internal ram
                                     504 ;--------------------------------------------------------
@@ -549,7 +549,7 @@
                                     549 	.area GSFINAL (CODE)
                                     550 	.area GSINIT  (CODE)
                                     551 ;	code/rda5807/RDA5807M.c:9: uint8_t MUTE_STATUS = 0;
-      000108 75 3C 00         [24]  552 	mov	_MUTE_STATUS,#0x00
+      00013A 75 3D 00         [24]  552 	mov	_MUTE_STATUS,#0x00
                                     553 ;--------------------------------------------------------
                                     554 ; Home
                                     555 ;--------------------------------------------------------
@@ -570,7 +570,7 @@
                                     570 ;	-----------------------------------------
                                     571 ;	 function RDA5807M_Write_Reg
                                     572 ;	-----------------------------------------
-      000A58                        573 _RDA5807M_Write_Reg:
+      000AC4                        573 _RDA5807M_Write_Reg:
                            000007   574 	ar7 = 0x07
                            000006   575 	ar6 = 0x06
                            000005   576 	ar5 = 0x05
@@ -579,36 +579,36 @@
                            000002   579 	ar2 = 0x02
                            000001   580 	ar1 = 0x01
                            000000   581 	ar0 = 0x00
-      000A58 AF 82            [24]  582 	mov	r7, dpl
+      000AC4 AF 82            [24]  582 	mov	r7, dpl
                                     583 ;	code/rda5807/RDA5807M.c:16: uint8_t Buf[2] = {0};
-      000A5A 75 3F 00         [24]  584 	mov	_RDA5807M_Write_Reg_Buf_10000_43,#0x00
-      000A5D 75 40 00         [24]  585 	mov	(_RDA5807M_Write_Reg_Buf_10000_43 + 0x0001),#0x00
+      000AC6 75 40 00         [24]  584 	mov	_RDA5807M_Write_Reg_Buf_10000_43,#0x00
+      000AC9 75 41 00         [24]  585 	mov	(_RDA5807M_Write_Reg_Buf_10000_43 + 0x0001),#0x00
                                     586 ;	code/rda5807/RDA5807M.c:17: Buf[0] = (Data & 0xff00) >> 8; // 高位
-      000A60 AE 3E            [24]  587 	mov	r6,(_RDA5807M_Write_Reg_PARM_2 + 1)
-      000A62 8E 05            [24]  588 	mov	ar5,r6
-      000A64 8D 3F            [24]  589 	mov	_RDA5807M_Write_Reg_Buf_10000_43,r5
+      000ACC AE 3F            [24]  587 	mov	r6,(_RDA5807M_Write_Reg_PARM_2 + 1)
+      000ACE 8E 05            [24]  588 	mov	ar5,r6
+      000AD0 8D 40            [24]  589 	mov	_RDA5807M_Write_Reg_Buf_10000_43,r5
                                     590 ;	code/rda5807/RDA5807M.c:18: Buf[1] = Data & 0x00ff;        // 低位
-      000A66 AE 3D            [24]  591 	mov	r6,_RDA5807M_Write_Reg_PARM_2
-      000A68 8E 40            [24]  592 	mov	(_RDA5807M_Write_Reg_Buf_10000_43 + 0x0001),r6
+      000AD2 AE 3E            [24]  591 	mov	r6,_RDA5807M_Write_Reg_PARM_2
+      000AD4 8E 41            [24]  592 	mov	(_RDA5807M_Write_Reg_Buf_10000_43 + 0x0001),r6
                                     593 ;	code/rda5807/RDA5807M.c:20: I2C_Start();
-      000A6A C0 07            [24]  594 	push	ar7
-      000A6C 12 09 99         [24]  595 	lcall	_I2C_Start
+      000AD6 C0 07            [24]  594 	push	ar7
+      000AD8 12 0A 05         [24]  595 	lcall	_I2C_Start
                                     596 ;	code/rda5807/RDA5807M.c:21: I2C_SendByte(0x22);
-      000A6F 75 82 22         [24]  597 	mov	dpl, #0x22
-      000A72 12 09 DC         [24]  598 	lcall	_I2C_SendByte
-      000A75 D0 07            [24]  599 	pop	ar7
+      000ADB 75 82 22         [24]  597 	mov	dpl, #0x22
+      000ADE 12 0A 48         [24]  598 	lcall	_I2C_SendByte
+      000AE1 D0 07            [24]  599 	pop	ar7
                                     600 ;	code/rda5807/RDA5807M.c:22: I2C_SendByte(Address);
-      000A77 8F 82            [24]  601 	mov	dpl, r7
-      000A79 12 09 DC         [24]  602 	lcall	_I2C_SendByte
+      000AE3 8F 82            [24]  601 	mov	dpl, r7
+      000AE5 12 0A 48         [24]  602 	lcall	_I2C_SendByte
                                     603 ;	code/rda5807/RDA5807M.c:23: I2C_SendByte(Buf[0]);
-      000A7C 85 3F 82         [24]  604 	mov	dpl,_RDA5807M_Write_Reg_Buf_10000_43
-      000A7F 12 09 DC         [24]  605 	lcall	_I2C_SendByte
+      000AE8 85 40 82         [24]  604 	mov	dpl,_RDA5807M_Write_Reg_Buf_10000_43
+      000AEB 12 0A 48         [24]  605 	lcall	_I2C_SendByte
                                     606 ;	code/rda5807/RDA5807M.c:24: I2C_SendByte(Buf[1]);
-      000A82 85 40 82         [24]  607 	mov	dpl,(_RDA5807M_Write_Reg_Buf_10000_43 + 0x0001)
-      000A85 12 09 DC         [24]  608 	lcall	_I2C_SendByte
+      000AEE 85 41 82         [24]  607 	mov	dpl,(_RDA5807M_Write_Reg_Buf_10000_43 + 0x0001)
+      000AF1 12 0A 48         [24]  608 	lcall	_I2C_SendByte
                                     609 ;	code/rda5807/RDA5807M.c:25: I2C_End();
                                     610 ;	code/rda5807/RDA5807M.c:26: }
-      000A88 02 09 A8         [24]  611 	ljmp	_I2C_End
+      000AF4 02 0A 14         [24]  611 	ljmp	_I2C_End
                                     612 ;------------------------------------------------------------
                                     613 ;Allocation info for local variables in function 'RDA5807M_Read_Reg'
                                     614 ;------------------------------------------------------------
@@ -619,51 +619,51 @@
                                     619 ;	-----------------------------------------
                                     620 ;	 function RDA5807M_Read_Reg
                                     621 ;	-----------------------------------------
-      000A8B                        622 _RDA5807M_Read_Reg:
-      000A8B AF 82            [24]  623 	mov	r7, dpl
+      000AF7                        622 _RDA5807M_Read_Reg:
+      000AF7 AF 82            [24]  623 	mov	r7, dpl
                                     624 ;	code/rda5807/RDA5807M.c:35: uint8_t Buf[2] = {0};
-      000A8D 75 41 00         [24]  625 	mov	_RDA5807M_Read_Reg_Buf_10000_45,#0x00
-      000A90 75 42 00         [24]  626 	mov	(_RDA5807M_Read_Reg_Buf_10000_45 + 0x0001),#0x00
+      000AF9 75 42 00         [24]  625 	mov	_RDA5807M_Read_Reg_Buf_10000_45,#0x00
+      000AFC 75 43 00         [24]  626 	mov	(_RDA5807M_Read_Reg_Buf_10000_45 + 0x0001),#0x00
                                     627 ;	code/rda5807/RDA5807M.c:37: I2C_Start();
-      000A93 C0 07            [24]  628 	push	ar7
-      000A95 12 09 99         [24]  629 	lcall	_I2C_Start
+      000AFF C0 07            [24]  628 	push	ar7
+      000B01 12 0A 05         [24]  629 	lcall	_I2C_Start
                                     630 ;	code/rda5807/RDA5807M.c:38: I2C_SendByte(0x22);
-      000A98 75 82 22         [24]  631 	mov	dpl, #0x22
-      000A9B 12 09 DC         [24]  632 	lcall	_I2C_SendByte
-      000A9E D0 07            [24]  633 	pop	ar7
+      000B04 75 82 22         [24]  631 	mov	dpl, #0x22
+      000B07 12 0A 48         [24]  632 	lcall	_I2C_SendByte
+      000B0A D0 07            [24]  633 	pop	ar7
                                     634 ;	code/rda5807/RDA5807M.c:39: I2C_SendByte(Address);
-      000AA0 8F 82            [24]  635 	mov	dpl, r7
-      000AA2 12 09 DC         [24]  636 	lcall	_I2C_SendByte
+      000B0C 8F 82            [24]  635 	mov	dpl, r7
+      000B0E 12 0A 48         [24]  636 	lcall	_I2C_SendByte
                                     637 ;	code/rda5807/RDA5807M.c:40: I2C_Start();
-      000AA5 12 09 99         [24]  638 	lcall	_I2C_Start
+      000B11 12 0A 05         [24]  638 	lcall	_I2C_Start
                                     639 ;	code/rda5807/RDA5807M.c:41: I2C_SendByte(0x23);
-      000AA8 75 82 23         [24]  640 	mov	dpl, #0x23
-      000AAB 12 09 DC         [24]  641 	lcall	_I2C_SendByte
+      000B14 75 82 23         [24]  640 	mov	dpl, #0x23
+      000B17 12 0A 48         [24]  641 	lcall	_I2C_SendByte
                                     642 ;	code/rda5807/RDA5807M.c:42: Buf[0] = I2C_ReadByte(0);
-      000AAE 75 82 00         [24]  643 	mov	dpl, #0x00
-      000AB1 12 0A 13         [24]  644 	lcall	_I2C_ReadByte
-      000AB4 E5 82            [12]  645 	mov	a, dpl
-      000AB6 F5 41            [12]  646 	mov	_RDA5807M_Read_Reg_Buf_10000_45,a
+      000B1A 75 82 00         [24]  643 	mov	dpl, #0x00
+      000B1D 12 0A 7F         [24]  644 	lcall	_I2C_ReadByte
+      000B20 E5 82            [12]  645 	mov	a, dpl
+      000B22 F5 42            [12]  646 	mov	_RDA5807M_Read_Reg_Buf_10000_45,a
                                     647 ;	code/rda5807/RDA5807M.c:43: Buf[1] = I2C_ReadByte(1);
-      000AB8 75 82 01         [24]  648 	mov	dpl, #0x01
-      000ABB 12 0A 13         [24]  649 	lcall	_I2C_ReadByte
-      000ABE E5 82            [12]  650 	mov	a, dpl
-      000AC0 F5 42            [12]  651 	mov	(_RDA5807M_Read_Reg_Buf_10000_45 + 0x0001),a
+      000B24 75 82 01         [24]  648 	mov	dpl, #0x01
+      000B27 12 0A 7F         [24]  649 	lcall	_I2C_ReadByte
+      000B2A E5 82            [12]  650 	mov	a, dpl
+      000B2C F5 43            [12]  651 	mov	(_RDA5807M_Read_Reg_Buf_10000_45 + 0x0001),a
                                     652 ;	code/rda5807/RDA5807M.c:44: I2C_End();
-      000AC2 12 09 A8         [24]  653 	lcall	_I2C_End
+      000B2E 12 0A 14         [24]  653 	lcall	_I2C_End
                                     654 ;	code/rda5807/RDA5807M.c:46: return ((Buf[0] << 8) | Buf[1]);
-      000AC5 AF 41            [24]  655 	mov	r7,_RDA5807M_Read_Reg_Buf_10000_45
-      000AC7 7E 00            [12]  656 	mov	r6,#0x00
-      000AC9 AC 42            [24]  657 	mov	r4,(_RDA5807M_Read_Reg_Buf_10000_45 + 0x0001)
-      000ACB 7D 00            [12]  658 	mov	r5,#0x00
-      000ACD EC               [12]  659 	mov	a,r4
-      000ACE 42 06            [12]  660 	orl	ar6,a
-      000AD0 ED               [12]  661 	mov	a,r5
-      000AD1 42 07            [12]  662 	orl	ar7,a
-      000AD3 8E 82            [24]  663 	mov	dpl,r6
-      000AD5 8F 83            [24]  664 	mov	dph,r7
+      000B31 AF 42            [24]  655 	mov	r7,_RDA5807M_Read_Reg_Buf_10000_45
+      000B33 7E 00            [12]  656 	mov	r6,#0x00
+      000B35 AC 43            [24]  657 	mov	r4,(_RDA5807M_Read_Reg_Buf_10000_45 + 0x0001)
+      000B37 7D 00            [12]  658 	mov	r5,#0x00
+      000B39 EC               [12]  659 	mov	a,r4
+      000B3A 42 06            [12]  660 	orl	ar6,a
+      000B3C ED               [12]  661 	mov	a,r5
+      000B3D 42 07            [12]  662 	orl	ar7,a
+      000B3F 8E 82            [24]  663 	mov	dpl,r6
+      000B41 8F 83            [24]  664 	mov	dph,r7
                                     665 ;	code/rda5807/RDA5807M.c:47: }
-      000AD7 22               [24]  666 	ret
+      000B43 22               [24]  666 	ret
                                     667 ;------------------------------------------------------------
                                     668 ;Allocation info for local variables in function 'RDA5807M_init'
                                     669 ;------------------------------------------------------------
@@ -671,60 +671,60 @@
                                     671 ;	-----------------------------------------
                                     672 ;	 function RDA5807M_init
                                     673 ;	-----------------------------------------
-      000AD8                        674 _RDA5807M_init:
+      000B44                        674 _RDA5807M_init:
                                     675 ;	code/rda5807/RDA5807M.c:55: RDA5807M_Write_Reg(0x02, 0xC001); // Power Up, DHIZ=1, MUTE=0, ENABLE=1
-      000AD8 75 3D 01         [24]  676 	mov	_RDA5807M_Write_Reg_PARM_2,#0x01
-      000ADB 75 3E C0         [24]  677 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),#0xc0
-      000ADE 75 82 02         [24]  678 	mov	dpl, #0x02
-      000AE1 12 0A 58         [24]  679 	lcall	_RDA5807M_Write_Reg
+      000B44 75 3E 01         [24]  676 	mov	_RDA5807M_Write_Reg_PARM_2,#0x01
+      000B47 75 3F C0         [24]  677 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),#0xc0
+      000B4A 75 82 02         [24]  678 	mov	dpl, #0x02
+      000B4D 12 0A C4         [24]  679 	lcall	_RDA5807M_Write_Reg
                                     680 ;	code/rda5807/RDA5807M.c:56: Delay(600);
-      000AE4 90 02 58         [24]  681 	mov	dptr,#0x0258
-      000AE7 12 05 92         [24]  682 	lcall	_Delay
+      000B50 90 02 58         [24]  681 	mov	dptr,#0x0258
+      000B53 12 05 BB         [24]  682 	lcall	_Delay
                                     683 ;	code/rda5807/RDA5807M.c:57: RDA5807M_Write_Reg(0x02, 0x0002); // Soft reset
-      000AEA 75 3D 02         [24]  684 	mov	_RDA5807M_Write_Reg_PARM_2,#0x02
-      000AED 75 3E 00         [24]  685 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),#0x00
-      000AF0 75 82 02         [24]  686 	mov	dpl, #0x02
-      000AF3 12 0A 58         [24]  687 	lcall	_RDA5807M_Write_Reg
+      000B56 75 3E 02         [24]  684 	mov	_RDA5807M_Write_Reg_PARM_2,#0x02
+      000B59 75 3F 00         [24]  685 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),#0x00
+      000B5C 75 82 02         [24]  686 	mov	dpl, #0x02
+      000B5F 12 0A C4         [24]  687 	lcall	_RDA5807M_Write_Reg
                                     688 ;	code/rda5807/RDA5807M.c:58: Delay(50);
-      000AF6 90 00 32         [24]  689 	mov	dptr,#0x0032
-      000AF9 12 05 92         [24]  690 	lcall	_Delay
+      000B62 90 00 32         [24]  689 	mov	dptr,#0x0032
+      000B65 12 05 BB         [24]  690 	lcall	_Delay
                                     691 ;	code/rda5807/RDA5807M.c:61: RDA5807M_Write_Reg(0x02, 0xC00D); // Power Up again, DHIZ=1, DMUTE=1, ENABLE=1
-      000AFC 75 3D 0D         [24]  692 	mov	_RDA5807M_Write_Reg_PARM_2,#0x0d
-      000AFF 75 3E C0         [24]  693 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),#0xc0
-      000B02 75 82 02         [24]  694 	mov	dpl, #0x02
-      000B05 12 0A 58         [24]  695 	lcall	_RDA5807M_Write_Reg
+      000B68 75 3E 0D         [24]  692 	mov	_RDA5807M_Write_Reg_PARM_2,#0x0d
+      000B6B 75 3F C0         [24]  693 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),#0xc0
+      000B6E 75 82 02         [24]  694 	mov	dpl, #0x02
+      000B71 12 0A C4         [24]  695 	lcall	_RDA5807M_Write_Reg
                                     696 ;	code/rda5807/RDA5807M.c:62: Delay(50);
-      000B08 90 00 32         [24]  697 	mov	dptr,#0x0032
-      000B0B 12 05 92         [24]  698 	lcall	_Delay
+      000B74 90 00 32         [24]  697 	mov	dptr,#0x0032
+      000B77 12 05 BB         [24]  698 	lcall	_Delay
                                     699 ;	code/rda5807/RDA5807M.c:63: RDA5807M_Write_Reg(0x03, 0x0018); // space 00 100kHz band 10 76-108MHz
-      000B0E 75 3D 18         [24]  700 	mov	_RDA5807M_Write_Reg_PARM_2,#0x18
-      000B11 75 3E 00         [24]  701 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),#0x00
-      000B14 75 82 03         [24]  702 	mov	dpl, #0x03
-      000B17 12 0A 58         [24]  703 	lcall	_RDA5807M_Write_Reg
+      000B7A 75 3E 18         [24]  700 	mov	_RDA5807M_Write_Reg_PARM_2,#0x18
+      000B7D 75 3F 00         [24]  701 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),#0x00
+      000B80 75 82 03         [24]  702 	mov	dpl, #0x03
+      000B83 12 0A C4         [24]  703 	lcall	_RDA5807M_Write_Reg
                                     704 ;	code/rda5807/RDA5807M.c:64: RDA5807M_Write_Reg(0x04, 0x0400);
-      000B1A 75 3D 00         [24]  705 	mov	_RDA5807M_Write_Reg_PARM_2,#0x00
-      000B1D 75 3E 04         [24]  706 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),#0x04
-      000B20 75 82 04         [24]  707 	mov	dpl, #0x04
-      000B23 12 0A 58         [24]  708 	lcall	_RDA5807M_Write_Reg
+      000B86 75 3E 00         [24]  705 	mov	_RDA5807M_Write_Reg_PARM_2,#0x00
+      000B89 75 3F 04         [24]  706 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),#0x04
+      000B8C 75 82 04         [24]  707 	mov	dpl, #0x04
+      000B8F 12 0A C4         [24]  708 	lcall	_RDA5807M_Write_Reg
                                     709 ;	code/rda5807/RDA5807M.c:65: RDA5807M_Write_Reg(0x05, 0x86a5); // seek SNR 0110  --> 6  VOLUME 0101 -->5
-      000B26 75 3D A5         [24]  710 	mov	_RDA5807M_Write_Reg_PARM_2,#0xa5
-      000B29 75 3E 86         [24]  711 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),#0x86
-      000B2C 75 82 05         [24]  712 	mov	dpl, #0x05
-      000B2F 12 0A 58         [24]  713 	lcall	_RDA5807M_Write_Reg
+      000B92 75 3E A5         [24]  710 	mov	_RDA5807M_Write_Reg_PARM_2,#0xa5
+      000B95 75 3F 86         [24]  711 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),#0x86
+      000B98 75 82 05         [24]  712 	mov	dpl, #0x05
+      000B9B 12 0A C4         [24]  713 	lcall	_RDA5807M_Write_Reg
                                     714 ;	code/rda5807/RDA5807M.c:66: RDA5807M_Write_Reg(0x06, 0x8000);
-      000B32 75 3D 00         [24]  715 	mov	_RDA5807M_Write_Reg_PARM_2,#0x00
-      000B35 75 3E 80         [24]  716 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),#0x80
-      000B38 75 82 06         [24]  717 	mov	dpl, #0x06
-      000B3B 12 0A 58         [24]  718 	lcall	_RDA5807M_Write_Reg
+      000B9E 75 3E 00         [24]  715 	mov	_RDA5807M_Write_Reg_PARM_2,#0x00
+      000BA1 75 3F 80         [24]  716 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),#0x80
+      000BA4 75 82 06         [24]  717 	mov	dpl, #0x06
+      000BA7 12 0A C4         [24]  718 	lcall	_RDA5807M_Write_Reg
                                     719 ;	code/rda5807/RDA5807M.c:67: RDA5807M_Write_Reg(0x07, 0x5F1A);
-      000B3E 75 3D 1A         [24]  720 	mov	_RDA5807M_Write_Reg_PARM_2,#0x1a
-      000B41 75 3E 5F         [24]  721 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),#0x5f
-      000B44 75 82 07         [24]  722 	mov	dpl, #0x07
-      000B47 12 0A 58         [24]  723 	lcall	_RDA5807M_Write_Reg
+      000BAA 75 3E 1A         [24]  720 	mov	_RDA5807M_Write_Reg_PARM_2,#0x1a
+      000BAD 75 3F 5F         [24]  721 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),#0x5f
+      000BB0 75 82 07         [24]  722 	mov	dpl, #0x07
+      000BB3 12 0A C4         [24]  723 	lcall	_RDA5807M_Write_Reg
                                     724 ;	code/rda5807/RDA5807M.c:68: RDA5807M_SetMUTE(0);
-      000B4A 75 82 00         [24]  725 	mov	dpl, #0x00
+      000BB6 75 82 00         [24]  725 	mov	dpl, #0x00
                                     726 ;	code/rda5807/RDA5807M.c:69: }
-      000B4D 02 10 48         [24]  727 	ljmp	_RDA5807M_SetMUTE
+      000BB9 02 10 B4         [24]  727 	ljmp	_RDA5807M_SetMUTE
                                     728 ;------------------------------------------------------------
                                     729 ;Allocation info for local variables in function 'RDA5807M_FreqToChan'
                                     730 ;------------------------------------------------------------
@@ -738,174 +738,174 @@
                                     738 ;	-----------------------------------------
                                     739 ;	 function RDA5807M_FreqToChan
                                     740 ;	-----------------------------------------
-      000B50                        741 _RDA5807M_FreqToChan:
-      000B50 AE 82            [24]  742 	mov	r6, dpl
-      000B52 AF 83            [24]  743 	mov	r7, dph
+      000BBC                        741 _RDA5807M_FreqToChan:
+      000BBC AE 82            [24]  742 	mov	r6, dpl
+      000BBE AF 83            [24]  743 	mov	r7, dph
                                     744 ;	code/rda5807/RDA5807M.c:85: band = (RDA5807M_Read_Reg(0x03) & 0x000C) >> 2; // 0x03的3，2位（band）
-      000B54 75 82 03         [24]  745 	mov	dpl, #0x03
-      000B57 C0 07            [24]  746 	push	ar7
-      000B59 C0 06            [24]  747 	push	ar6
-      000B5B 12 0A 8B         [24]  748 	lcall	_RDA5807M_Read_Reg
-      000B5E AC 82            [24]  749 	mov	r4, dpl
-      000B60 D0 06            [24]  750 	pop	ar6
-      000B62 D0 07            [24]  751 	pop	ar7
-      000B64 53 04 0C         [24]  752 	anl	ar4,#0x0c
-      000B67 E4               [12]  753 	clr	a
-      000B68 C3               [12]  754 	clr	c
-      000B69 13               [12]  755 	rrc	a
-      000B6A CC               [12]  756 	xch	a,r4
-      000B6B 13               [12]  757 	rrc	a
-      000B6C CC               [12]  758 	xch	a,r4
-      000B6D C3               [12]  759 	clr	c
-      000B6E 13               [12]  760 	rrc	a
-      000B6F CC               [12]  761 	xch	a,r4
-      000B70 13               [12]  762 	rrc	a
-      000B71 CC               [12]  763 	xch	a,r4
+      000BC0 75 82 03         [24]  745 	mov	dpl, #0x03
+      000BC3 C0 07            [24]  746 	push	ar7
+      000BC5 C0 06            [24]  747 	push	ar6
+      000BC7 12 0A F7         [24]  748 	lcall	_RDA5807M_Read_Reg
+      000BCA AC 82            [24]  749 	mov	r4, dpl
+      000BCC D0 06            [24]  750 	pop	ar6
+      000BCE D0 07            [24]  751 	pop	ar7
+      000BD0 53 04 0C         [24]  752 	anl	ar4,#0x0c
+      000BD3 E4               [12]  753 	clr	a
+      000BD4 C3               [12]  754 	clr	c
+      000BD5 13               [12]  755 	rrc	a
+      000BD6 CC               [12]  756 	xch	a,r4
+      000BD7 13               [12]  757 	rrc	a
+      000BD8 CC               [12]  758 	xch	a,r4
+      000BD9 C3               [12]  759 	clr	c
+      000BDA 13               [12]  760 	rrc	a
+      000BDB CC               [12]  761 	xch	a,r4
+      000BDC 13               [12]  762 	rrc	a
+      000BDD CC               [12]  763 	xch	a,r4
                                     764 ;	code/rda5807/RDA5807M.c:87: if (band == 0 /*0b00*/)
-      000B72 EC               [12]  765 	mov	a,r4
-      000B73 70 0C            [24]  766 	jnz	00114$
+      000BDE EC               [12]  765 	mov	a,r4
+      000BDF 70 0C            [24]  766 	jnz	00114$
                                     767 ;	code/rda5807/RDA5807M.c:89: Start = 8700;
-      000B75 7B FC            [12]  768 	mov	r3,#0xfc
-      000B77 7D 21            [12]  769 	mov	r5,#0x21
+      000BE1 7B FC            [12]  768 	mov	r3,#0xfc
+      000BE3 7D 21            [12]  769 	mov	r5,#0x21
                                     770 ;	code/rda5807/RDA5807M.c:90: End = 10800;
-      000B79 75 43 30         [24]  771 	mov	_RDA5807M_FreqToChan_End_10000_49,#0x30
-      000B7C 75 44 2A         [24]  772 	mov	(_RDA5807M_FreqToChan_End_10000_49 + 1),#0x2a
-      000B7F 80 53            [24]  773 	sjmp	00115$
-      000B81                        774 00114$:
+      000BE5 75 44 30         [24]  771 	mov	_RDA5807M_FreqToChan_End_10000_49,#0x30
+      000BE8 75 45 2A         [24]  772 	mov	(_RDA5807M_FreqToChan_End_10000_49 + 1),#0x2a
+      000BEB 80 53            [24]  773 	sjmp	00115$
+      000BED                        774 00114$:
                                     775 ;	code/rda5807/RDA5807M.c:92: else if (band == 1 /*0b01*/)
-      000B81 BC 01 0C         [24]  776 	cjne	r4,#0x01,00111$
+      000BED BC 01 0C         [24]  776 	cjne	r4,#0x01,00111$
                                     777 ;	code/rda5807/RDA5807M.c:94: Start = 7600;
-      000B84 7B B0            [12]  778 	mov	r3,#0xb0
-      000B86 7D 1D            [12]  779 	mov	r5,#0x1d
+      000BF0 7B B0            [12]  778 	mov	r3,#0xb0
+      000BF2 7D 1D            [12]  779 	mov	r5,#0x1d
                                     780 ;	code/rda5807/RDA5807M.c:95: End = 9100;
-      000B88 75 43 8C         [24]  781 	mov	_RDA5807M_FreqToChan_End_10000_49,#0x8c
-      000B8B 75 44 23         [24]  782 	mov	(_RDA5807M_FreqToChan_End_10000_49 + 1),#0x23
-      000B8E 80 44            [24]  783 	sjmp	00115$
-      000B90                        784 00111$:
+      000BF4 75 44 8C         [24]  781 	mov	_RDA5807M_FreqToChan_End_10000_49,#0x8c
+      000BF7 75 45 23         [24]  782 	mov	(_RDA5807M_FreqToChan_End_10000_49 + 1),#0x23
+      000BFA 80 44            [24]  783 	sjmp	00115$
+      000BFC                        784 00111$:
                                     785 ;	code/rda5807/RDA5807M.c:97: else if (band == 2 /*0b10*/)
-      000B90 BC 02 0C         [24]  786 	cjne	r4,#0x02,00108$
+      000BFC BC 02 0C         [24]  786 	cjne	r4,#0x02,00108$
                                     787 ;	code/rda5807/RDA5807M.c:99: Start = 7600;
-      000B93 7B B0            [12]  788 	mov	r3,#0xb0
-      000B95 7D 1D            [12]  789 	mov	r5,#0x1d
+      000BFF 7B B0            [12]  788 	mov	r3,#0xb0
+      000C01 7D 1D            [12]  789 	mov	r5,#0x1d
                                     790 ;	code/rda5807/RDA5807M.c:100: End = 10800;
-      000B97 75 43 30         [24]  791 	mov	_RDA5807M_FreqToChan_End_10000_49,#0x30
-      000B9A 75 44 2A         [24]  792 	mov	(_RDA5807M_FreqToChan_End_10000_49 + 1),#0x2a
-      000B9D 80 35            [24]  793 	sjmp	00115$
-      000B9F                        794 00108$:
+      000C03 75 44 30         [24]  791 	mov	_RDA5807M_FreqToChan_End_10000_49,#0x30
+      000C06 75 45 2A         [24]  792 	mov	(_RDA5807M_FreqToChan_End_10000_49 + 1),#0x2a
+      000C09 80 35            [24]  793 	sjmp	00115$
+      000C0B                        794 00108$:
                                     795 ;	code/rda5807/RDA5807M.c:102: else if (band == 3 /*0b11*/)
-      000B9F BC 03 2E         [24]  796 	cjne	r4,#0x03,00105$
+      000C0B BC 03 2E         [24]  796 	cjne	r4,#0x03,00105$
                                     797 ;	code/rda5807/RDA5807M.c:104: if ((RDA5807M_Read_Reg(0x07) >> 9) & 0x01)
-      000BA2 75 82 07         [24]  798 	mov	dpl, #0x07
-      000BA5 C0 07            [24]  799 	push	ar7
-      000BA7 C0 06            [24]  800 	push	ar6
-      000BA9 12 0A 8B         [24]  801 	lcall	_RDA5807M_Read_Reg
-      000BAC AC 83            [24]  802 	mov	r4, dph
-      000BAE D0 06            [24]  803 	pop	ar6
-      000BB0 D0 07            [24]  804 	pop	ar7
-      000BB2 EC               [12]  805 	mov	a,r4
-      000BB3 03               [12]  806 	rr	a
-      000BB4 54 01            [12]  807 	anl	a,#0x01
-      000BB6 60 0C            [24]  808 	jz	00102$
+      000C0E 75 82 07         [24]  798 	mov	dpl, #0x07
+      000C11 C0 07            [24]  799 	push	ar7
+      000C13 C0 06            [24]  800 	push	ar6
+      000C15 12 0A F7         [24]  801 	lcall	_RDA5807M_Read_Reg
+      000C18 AC 83            [24]  802 	mov	r4, dph
+      000C1A D0 06            [24]  803 	pop	ar6
+      000C1C D0 07            [24]  804 	pop	ar7
+      000C1E EC               [12]  805 	mov	a,r4
+      000C1F 03               [12]  806 	rr	a
+      000C20 54 01            [12]  807 	anl	a,#0x01
+      000C22 60 0C            [24]  808 	jz	00102$
                                     809 ;	code/rda5807/RDA5807M.c:106: Start = 6500;
-      000BB8 7B 64            [12]  810 	mov	r3,#0x64
-      000BBA 7D 19            [12]  811 	mov	r5,#0x19
+      000C24 7B 64            [12]  810 	mov	r3,#0x64
+      000C26 7D 19            [12]  811 	mov	r5,#0x19
                                     812 ;	code/rda5807/RDA5807M.c:107: End = 7600;
-      000BBC 75 43 B0         [24]  813 	mov	_RDA5807M_FreqToChan_End_10000_49,#0xb0
-      000BBF 75 44 1D         [24]  814 	mov	(_RDA5807M_FreqToChan_End_10000_49 + 1),#0x1d
-      000BC2 80 10            [24]  815 	sjmp	00115$
-      000BC4                        816 00102$:
+      000C28 75 44 B0         [24]  813 	mov	_RDA5807M_FreqToChan_End_10000_49,#0xb0
+      000C2B 75 45 1D         [24]  814 	mov	(_RDA5807M_FreqToChan_End_10000_49 + 1),#0x1d
+      000C2E 80 10            [24]  815 	sjmp	00115$
+      000C30                        816 00102$:
                                     817 ;	code/rda5807/RDA5807M.c:111: Start = 5000;
-      000BC4 7B 88            [12]  818 	mov	r3,#0x88
-      000BC6 7D 13            [12]  819 	mov	r5,#0x13
+      000C30 7B 88            [12]  818 	mov	r3,#0x88
+      000C32 7D 13            [12]  819 	mov	r5,#0x13
                                     820 ;	code/rda5807/RDA5807M.c:112: End = 7600;
-      000BC8 75 43 B0         [24]  821 	mov	_RDA5807M_FreqToChan_End_10000_49,#0xb0
-      000BCB 75 44 1D         [24]  822 	mov	(_RDA5807M_FreqToChan_End_10000_49 + 1),#0x1d
-      000BCE 80 04            [24]  823 	sjmp	00115$
-      000BD0                        824 00105$:
+      000C34 75 44 B0         [24]  821 	mov	_RDA5807M_FreqToChan_End_10000_49,#0xb0
+      000C37 75 45 1D         [24]  822 	mov	(_RDA5807M_FreqToChan_End_10000_49 + 1),#0x1d
+      000C3A 80 04            [24]  823 	sjmp	00115$
+      000C3C                        824 00105$:
                                     825 ;	code/rda5807/RDA5807M.c:116: return 0;
-      000BD0 90 00 00         [24]  826 	mov	dptr,#0x0000
-      000BD3 22               [24]  827 	ret
-      000BD4                        828 00115$:
+      000C3C 90 00 00         [24]  826 	mov	dptr,#0x0000
+      000C3F 22               [24]  827 	ret
+      000C40                        828 00115$:
                                     829 ;	code/rda5807/RDA5807M.c:118: band = (RDA5807M_Read_Reg(0x03) & 0x0003);
-      000BD4 75 82 03         [24]  830 	mov	dpl, #0x03
-      000BD7 C0 07            [24]  831 	push	ar7
-      000BD9 C0 06            [24]  832 	push	ar6
-      000BDB C0 05            [24]  833 	push	ar5
-      000BDD C0 03            [24]  834 	push	ar3
-      000BDF 12 0A 8B         [24]  835 	lcall	_RDA5807M_Read_Reg
-      000BE2 A8 82            [24]  836 	mov	r0, dpl
-      000BE4 D0 03            [24]  837 	pop	ar3
-      000BE6 D0 05            [24]  838 	pop	ar5
-      000BE8 D0 06            [24]  839 	pop	ar6
-      000BEA D0 07            [24]  840 	pop	ar7
-      000BEC 53 00 03         [24]  841 	anl	ar0,#0x03
+      000C40 75 82 03         [24]  830 	mov	dpl, #0x03
+      000C43 C0 07            [24]  831 	push	ar7
+      000C45 C0 06            [24]  832 	push	ar6
+      000C47 C0 05            [24]  833 	push	ar5
+      000C49 C0 03            [24]  834 	push	ar3
+      000C4B 12 0A F7         [24]  835 	lcall	_RDA5807M_Read_Reg
+      000C4E A8 82            [24]  836 	mov	r0, dpl
+      000C50 D0 03            [24]  837 	pop	ar3
+      000C52 D0 05            [24]  838 	pop	ar5
+      000C54 D0 06            [24]  839 	pop	ar6
+      000C56 D0 07            [24]  840 	pop	ar7
+      000C58 53 00 03         [24]  841 	anl	ar0,#0x03
                                     842 ;	code/rda5807/RDA5807M.c:120: if (band == 0 /*0b00*/)
-      000BEF E8               [12]  843 	mov	a,r0
+      000C5B E8               [12]  843 	mov	a,r0
                                     844 ;	code/rda5807/RDA5807M.c:121: Space = 10;
-      000BF0 70 05            [24]  845 	jnz	00126$
-      000BF2 7A 0A            [12]  846 	mov	r2,#0x0a
-      000BF4 FC               [12]  847 	mov	r4,a
-      000BF5 80 1F            [24]  848 	sjmp	00127$
-      000BF7                        849 00126$:
+      000C5C 70 05            [24]  845 	jnz	00126$
+      000C5E 7A 0A            [12]  846 	mov	r2,#0x0a
+      000C60 FC               [12]  847 	mov	r4,a
+      000C61 80 1F            [24]  848 	sjmp	00127$
+      000C63                        849 00126$:
                                     850 ;	code/rda5807/RDA5807M.c:122: else if (band == 1 /*0b01*/)
-      000BF7 B8 01 06         [24]  851 	cjne	r0,#0x01,00123$
+      000C63 B8 01 06         [24]  851 	cjne	r0,#0x01,00123$
                                     852 ;	code/rda5807/RDA5807M.c:123: Space = 20;
-      000BFA 7A 14            [12]  853 	mov	r2,#0x14
-      000BFC 7C 00            [12]  854 	mov	r4,#0x00
-      000BFE 80 16            [24]  855 	sjmp	00127$
-      000C00                        856 00123$:
+      000C66 7A 14            [12]  853 	mov	r2,#0x14
+      000C68 7C 00            [12]  854 	mov	r4,#0x00
+      000C6A 80 16            [24]  855 	sjmp	00127$
+      000C6C                        856 00123$:
                                     857 ;	code/rda5807/RDA5807M.c:124: else if (band == 2 /*0b10*/)
-      000C00 B8 02 06         [24]  858 	cjne	r0,#0x02,00120$
+      000C6C B8 02 06         [24]  858 	cjne	r0,#0x02,00120$
                                     859 ;	code/rda5807/RDA5807M.c:125: Space = 5;
-      000C03 7A 05            [12]  860 	mov	r2,#0x05
-      000C05 7C 00            [12]  861 	mov	r4,#0x00
-      000C07 80 0D            [24]  862 	sjmp	00127$
-      000C09                        863 00120$:
+      000C6F 7A 05            [12]  860 	mov	r2,#0x05
+      000C71 7C 00            [12]  861 	mov	r4,#0x00
+      000C73 80 0D            [24]  862 	sjmp	00127$
+      000C75                        863 00120$:
                                     864 ;	code/rda5807/RDA5807M.c:126: else if (band == 3 /*0b11*/)
-      000C09 B8 03 06         [24]  865 	cjne	r0,#0x03,00117$
+      000C75 B8 03 06         [24]  865 	cjne	r0,#0x03,00117$
                                     866 ;	code/rda5807/RDA5807M.c:127: Space = 2;
-      000C0C 7A 02            [12]  867 	mov	r2,#0x02
-      000C0E 7C 00            [12]  868 	mov	r4,#0x00
-      000C10 80 04            [24]  869 	sjmp	00127$
-      000C12                        870 00117$:
+      000C78 7A 02            [12]  867 	mov	r2,#0x02
+      000C7A 7C 00            [12]  868 	mov	r4,#0x00
+      000C7C 80 04            [24]  869 	sjmp	00127$
+      000C7E                        870 00117$:
                                     871 ;	code/rda5807/RDA5807M.c:129: return 0;
-      000C12 90 00 00         [24]  872 	mov	dptr,#0x0000
-      000C15 22               [24]  873 	ret
-      000C16                        874 00127$:
+      000C7E 90 00 00         [24]  872 	mov	dptr,#0x0000
+      000C81 22               [24]  873 	ret
+      000C82                        874 00127$:
                                     875 ;	code/rda5807/RDA5807M.c:131: if (Freq < Start)
-      000C16 C3               [12]  876 	clr	c
-      000C17 EE               [12]  877 	mov	a,r6
-      000C18 9B               [12]  878 	subb	a,r3
-      000C19 EF               [12]  879 	mov	a,r7
-      000C1A 9D               [12]  880 	subb	a,r5
-      000C1B 50 04            [24]  881 	jnc	00129$
+      000C82 C3               [12]  876 	clr	c
+      000C83 EE               [12]  877 	mov	a,r6
+      000C84 9B               [12]  878 	subb	a,r3
+      000C85 EF               [12]  879 	mov	a,r7
+      000C86 9D               [12]  880 	subb	a,r5
+      000C87 50 04            [24]  881 	jnc	00129$
                                     882 ;	code/rda5807/RDA5807M.c:132: return 0;
-      000C1D 90 00 00         [24]  883 	mov	dptr,#0x0000
-      000C20 22               [24]  884 	ret
-      000C21                        885 00129$:
+      000C89 90 00 00         [24]  883 	mov	dptr,#0x0000
+      000C8C 22               [24]  884 	ret
+      000C8D                        885 00129$:
                                     886 ;	code/rda5807/RDA5807M.c:133: if (Freq > End)
-      000C21 C3               [12]  887 	clr	c
-      000C22 E5 43            [12]  888 	mov	a,_RDA5807M_FreqToChan_End_10000_49
-      000C24 9E               [12]  889 	subb	a,r6
-      000C25 E5 44            [12]  890 	mov	a,(_RDA5807M_FreqToChan_End_10000_49 + 1)
-      000C27 9F               [12]  891 	subb	a,r7
-      000C28 50 04            [24]  892 	jnc	00131$
+      000C8D C3               [12]  887 	clr	c
+      000C8E E5 44            [12]  888 	mov	a,_RDA5807M_FreqToChan_End_10000_49
+      000C90 9E               [12]  889 	subb	a,r6
+      000C91 E5 45            [12]  890 	mov	a,(_RDA5807M_FreqToChan_End_10000_49 + 1)
+      000C93 9F               [12]  891 	subb	a,r7
+      000C94 50 04            [24]  892 	jnc	00131$
                                     893 ;	code/rda5807/RDA5807M.c:134: return 0;
-      000C2A 90 00 00         [24]  894 	mov	dptr,#0x0000
-      000C2D 22               [24]  895 	ret
-      000C2E                        896 00131$:
+      000C96 90 00 00         [24]  894 	mov	dptr,#0x0000
+      000C99 22               [24]  895 	ret
+      000C9A                        896 00131$:
                                     897 ;	code/rda5807/RDA5807M.c:136: return ((Freq - Start) / Space);
-      000C2E EE               [12]  898 	mov	a,r6
-      000C2F C3               [12]  899 	clr	c
-      000C30 9B               [12]  900 	subb	a,r3
-      000C31 F5 82            [12]  901 	mov	dpl,a
-      000C33 EF               [12]  902 	mov	a,r7
-      000C34 9D               [12]  903 	subb	a,r5
-      000C35 F5 83            [12]  904 	mov	dph,a
-      000C37 8A 1E            [24]  905 	mov	__divuint_PARM_2,r2
-      000C39 8C 1F            [24]  906 	mov	(__divuint_PARM_2 + 1),r4
+      000C9A EE               [12]  898 	mov	a,r6
+      000C9B C3               [12]  899 	clr	c
+      000C9C 9B               [12]  900 	subb	a,r3
+      000C9D F5 82            [12]  901 	mov	dpl,a
+      000C9F EF               [12]  902 	mov	a,r7
+      000CA0 9D               [12]  903 	subb	a,r5
+      000CA1 F5 83            [12]  904 	mov	dph,a
+      000CA3 8A 1E            [24]  905 	mov	__divuint_PARM_2,r2
+      000CA5 8C 1F            [24]  906 	mov	(__divuint_PARM_2 + 1),r4
                                     907 ;	code/rda5807/RDA5807M.c:137: }
-      000C3B 02 12 2F         [24]  908 	ljmp	__divuint
+      000CA7 02 12 9B         [24]  908 	ljmp	__divuint
                                     909 ;------------------------------------------------------------
                                     910 ;Allocation info for local variables in function 'RDA5807M_ChanToFreq'
                                     911 ;------------------------------------------------------------
@@ -919,187 +919,187 @@
                                     919 ;	-----------------------------------------
                                     920 ;	 function RDA5807M_ChanToFreq
                                     921 ;	-----------------------------------------
-      000C3E                        922 _RDA5807M_ChanToFreq:
-      000C3E AE 82            [24]  923 	mov	r6, dpl
-      000C40 AF 83            [24]  924 	mov	r7, dph
+      000CAA                        922 _RDA5807M_ChanToFreq:
+      000CAA AE 82            [24]  923 	mov	r6, dpl
+      000CAC AF 83            [24]  924 	mov	r7, dph
                                     925 ;	code/rda5807/RDA5807M.c:151: band = (RDA5807M_Read_Reg(0x03) & 0x000C) >> 2; // 0x03的3，2位（波段）
-      000C42 75 82 03         [24]  926 	mov	dpl, #0x03
-      000C45 C0 07            [24]  927 	push	ar7
-      000C47 C0 06            [24]  928 	push	ar6
-      000C49 12 0A 8B         [24]  929 	lcall	_RDA5807M_Read_Reg
-      000C4C AC 82            [24]  930 	mov	r4, dpl
-      000C4E D0 06            [24]  931 	pop	ar6
-      000C50 D0 07            [24]  932 	pop	ar7
-      000C52 53 04 0C         [24]  933 	anl	ar4,#0x0c
-      000C55 E4               [12]  934 	clr	a
-      000C56 C3               [12]  935 	clr	c
-      000C57 13               [12]  936 	rrc	a
-      000C58 CC               [12]  937 	xch	a,r4
-      000C59 13               [12]  938 	rrc	a
-      000C5A CC               [12]  939 	xch	a,r4
-      000C5B C3               [12]  940 	clr	c
-      000C5C 13               [12]  941 	rrc	a
-      000C5D CC               [12]  942 	xch	a,r4
-      000C5E 13               [12]  943 	rrc	a
-      000C5F CC               [12]  944 	xch	a,r4
+      000CAE 75 82 03         [24]  926 	mov	dpl, #0x03
+      000CB1 C0 07            [24]  927 	push	ar7
+      000CB3 C0 06            [24]  928 	push	ar6
+      000CB5 12 0A F7         [24]  929 	lcall	_RDA5807M_Read_Reg
+      000CB8 AC 82            [24]  930 	mov	r4, dpl
+      000CBA D0 06            [24]  931 	pop	ar6
+      000CBC D0 07            [24]  932 	pop	ar7
+      000CBE 53 04 0C         [24]  933 	anl	ar4,#0x0c
+      000CC1 E4               [12]  934 	clr	a
+      000CC2 C3               [12]  935 	clr	c
+      000CC3 13               [12]  936 	rrc	a
+      000CC4 CC               [12]  937 	xch	a,r4
+      000CC5 13               [12]  938 	rrc	a
+      000CC6 CC               [12]  939 	xch	a,r4
+      000CC7 C3               [12]  940 	clr	c
+      000CC8 13               [12]  941 	rrc	a
+      000CC9 CC               [12]  942 	xch	a,r4
+      000CCA 13               [12]  943 	rrc	a
+      000CCB CC               [12]  944 	xch	a,r4
                                     945 ;	code/rda5807/RDA5807M.c:153: if (band == 0 /*0b00*/)
-      000C60 4C               [12]  946 	orl	a,r4
-      000C61 70 0C            [24]  947 	jnz	00114$
+      000CCC 4C               [12]  946 	orl	a,r4
+      000CCD 70 0C            [24]  947 	jnz	00114$
                                     948 ;	code/rda5807/RDA5807M.c:155: Start = 8700;
-      000C63 7A FC            [12]  949 	mov	r2,#0xfc
-      000C65 7B 21            [12]  950 	mov	r3,#0x21
+      000CCF 7A FC            [12]  949 	mov	r2,#0xfc
+      000CD1 7B 21            [12]  950 	mov	r3,#0x21
                                     951 ;	code/rda5807/RDA5807M.c:156: End = 10800;
-      000C67 75 45 30         [24]  952 	mov	_RDA5807M_ChanToFreq_End_10000_57,#0x30
-      000C6A 75 46 2A         [24]  953 	mov	(_RDA5807M_ChanToFreq_End_10000_57 + 1),#0x2a
-      000C6D 80 53            [24]  954 	sjmp	00115$
-      000C6F                        955 00114$:
+      000CD3 75 46 30         [24]  952 	mov	_RDA5807M_ChanToFreq_End_10000_57,#0x30
+      000CD6 75 47 2A         [24]  953 	mov	(_RDA5807M_ChanToFreq_End_10000_57 + 1),#0x2a
+      000CD9 80 53            [24]  954 	sjmp	00115$
+      000CDB                        955 00114$:
                                     956 ;	code/rda5807/RDA5807M.c:158: else if (band == 1 /*0b01*/)
-      000C6F BC 01 0C         [24]  957 	cjne	r4,#0x01,00111$
+      000CDB BC 01 0C         [24]  957 	cjne	r4,#0x01,00111$
                                     958 ;	code/rda5807/RDA5807M.c:160: Start = 7600;
-      000C72 7A B0            [12]  959 	mov	r2,#0xb0
-      000C74 7B 1D            [12]  960 	mov	r3,#0x1d
+      000CDE 7A B0            [12]  959 	mov	r2,#0xb0
+      000CE0 7B 1D            [12]  960 	mov	r3,#0x1d
                                     961 ;	code/rda5807/RDA5807M.c:161: End = 9100;
-      000C76 75 45 8C         [24]  962 	mov	_RDA5807M_ChanToFreq_End_10000_57,#0x8c
-      000C79 75 46 23         [24]  963 	mov	(_RDA5807M_ChanToFreq_End_10000_57 + 1),#0x23
-      000C7C 80 44            [24]  964 	sjmp	00115$
-      000C7E                        965 00111$:
+      000CE2 75 46 8C         [24]  962 	mov	_RDA5807M_ChanToFreq_End_10000_57,#0x8c
+      000CE5 75 47 23         [24]  963 	mov	(_RDA5807M_ChanToFreq_End_10000_57 + 1),#0x23
+      000CE8 80 44            [24]  964 	sjmp	00115$
+      000CEA                        965 00111$:
                                     966 ;	code/rda5807/RDA5807M.c:163: else if (band == 2 /*0b10*/)
-      000C7E BC 02 0C         [24]  967 	cjne	r4,#0x02,00108$
+      000CEA BC 02 0C         [24]  967 	cjne	r4,#0x02,00108$
                                     968 ;	code/rda5807/RDA5807M.c:165: Start = 7600;
-      000C81 7A B0            [12]  969 	mov	r2,#0xb0
-      000C83 7B 1D            [12]  970 	mov	r3,#0x1d
+      000CED 7A B0            [12]  969 	mov	r2,#0xb0
+      000CEF 7B 1D            [12]  970 	mov	r3,#0x1d
                                     971 ;	code/rda5807/RDA5807M.c:166: End = 10800;
-      000C85 75 45 30         [24]  972 	mov	_RDA5807M_ChanToFreq_End_10000_57,#0x30
-      000C88 75 46 2A         [24]  973 	mov	(_RDA5807M_ChanToFreq_End_10000_57 + 1),#0x2a
-      000C8B 80 35            [24]  974 	sjmp	00115$
-      000C8D                        975 00108$:
+      000CF1 75 46 30         [24]  972 	mov	_RDA5807M_ChanToFreq_End_10000_57,#0x30
+      000CF4 75 47 2A         [24]  973 	mov	(_RDA5807M_ChanToFreq_End_10000_57 + 1),#0x2a
+      000CF7 80 35            [24]  974 	sjmp	00115$
+      000CF9                        975 00108$:
                                     976 ;	code/rda5807/RDA5807M.c:168: else if (band == 3 /*0b11*/)
-      000C8D BC 03 2E         [24]  977 	cjne	r4,#0x03,00105$
+      000CF9 BC 03 2E         [24]  977 	cjne	r4,#0x03,00105$
                                     978 ;	code/rda5807/RDA5807M.c:170: if ((RDA5807M_Read_Reg(0x07) >> 9) & 0x01)
-      000C90 75 82 07         [24]  979 	mov	dpl, #0x07
-      000C93 C0 07            [24]  980 	push	ar7
-      000C95 C0 06            [24]  981 	push	ar6
-      000C97 12 0A 8B         [24]  982 	lcall	_RDA5807M_Read_Reg
-      000C9A AD 83            [24]  983 	mov	r5, dph
-      000C9C D0 06            [24]  984 	pop	ar6
-      000C9E D0 07            [24]  985 	pop	ar7
-      000CA0 ED               [12]  986 	mov	a,r5
-      000CA1 03               [12]  987 	rr	a
-      000CA2 54 01            [12]  988 	anl	a,#0x01
-      000CA4 60 0C            [24]  989 	jz	00102$
+      000CFC 75 82 07         [24]  979 	mov	dpl, #0x07
+      000CFF C0 07            [24]  980 	push	ar7
+      000D01 C0 06            [24]  981 	push	ar6
+      000D03 12 0A F7         [24]  982 	lcall	_RDA5807M_Read_Reg
+      000D06 AD 83            [24]  983 	mov	r5, dph
+      000D08 D0 06            [24]  984 	pop	ar6
+      000D0A D0 07            [24]  985 	pop	ar7
+      000D0C ED               [12]  986 	mov	a,r5
+      000D0D 03               [12]  987 	rr	a
+      000D0E 54 01            [12]  988 	anl	a,#0x01
+      000D10 60 0C            [24]  989 	jz	00102$
                                     990 ;	code/rda5807/RDA5807M.c:172: Start = 6500;
-      000CA6 7A 64            [12]  991 	mov	r2,#0x64
-      000CA8 7B 19            [12]  992 	mov	r3,#0x19
+      000D12 7A 64            [12]  991 	mov	r2,#0x64
+      000D14 7B 19            [12]  992 	mov	r3,#0x19
                                     993 ;	code/rda5807/RDA5807M.c:173: End = 7600;
-      000CAA 75 45 B0         [24]  994 	mov	_RDA5807M_ChanToFreq_End_10000_57,#0xb0
-      000CAD 75 46 1D         [24]  995 	mov	(_RDA5807M_ChanToFreq_End_10000_57 + 1),#0x1d
-      000CB0 80 10            [24]  996 	sjmp	00115$
-      000CB2                        997 00102$:
+      000D16 75 46 B0         [24]  994 	mov	_RDA5807M_ChanToFreq_End_10000_57,#0xb0
+      000D19 75 47 1D         [24]  995 	mov	(_RDA5807M_ChanToFreq_End_10000_57 + 1),#0x1d
+      000D1C 80 10            [24]  996 	sjmp	00115$
+      000D1E                        997 00102$:
                                     998 ;	code/rda5807/RDA5807M.c:177: Start = 5000;
-      000CB2 7A 88            [12]  999 	mov	r2,#0x88
-      000CB4 7B 13            [12] 1000 	mov	r3,#0x13
+      000D1E 7A 88            [12]  999 	mov	r2,#0x88
+      000D20 7B 13            [12] 1000 	mov	r3,#0x13
                                    1001 ;	code/rda5807/RDA5807M.c:178: End = 7600;
-      000CB6 75 45 B0         [24] 1002 	mov	_RDA5807M_ChanToFreq_End_10000_57,#0xb0
-      000CB9 75 46 1D         [24] 1003 	mov	(_RDA5807M_ChanToFreq_End_10000_57 + 1),#0x1d
-      000CBC 80 04            [24] 1004 	sjmp	00115$
-      000CBE                       1005 00105$:
+      000D22 75 46 B0         [24] 1002 	mov	_RDA5807M_ChanToFreq_End_10000_57,#0xb0
+      000D25 75 47 1D         [24] 1003 	mov	(_RDA5807M_ChanToFreq_End_10000_57 + 1),#0x1d
+      000D28 80 04            [24] 1004 	sjmp	00115$
+      000D2A                       1005 00105$:
                                    1006 ;	code/rda5807/RDA5807M.c:182: return 0;
-      000CBE 90 00 00         [24] 1007 	mov	dptr,#0x0000
-      000CC1 22               [24] 1008 	ret
-      000CC2                       1009 00115$:
+      000D2A 90 00 00         [24] 1007 	mov	dptr,#0x0000
+      000D2D 22               [24] 1008 	ret
+      000D2E                       1009 00115$:
                                    1010 ;	code/rda5807/RDA5807M.c:184: band = (RDA5807M_Read_Reg(0x03) & 0x0003);
-      000CC2 75 82 03         [24] 1011 	mov	dpl, #0x03
-      000CC5 C0 07            [24] 1012 	push	ar7
-      000CC7 C0 06            [24] 1013 	push	ar6
-      000CC9 C0 03            [24] 1014 	push	ar3
-      000CCB C0 02            [24] 1015 	push	ar2
-      000CCD 12 0A 8B         [24] 1016 	lcall	_RDA5807M_Read_Reg
-      000CD0 AC 82            [24] 1017 	mov	r4, dpl
-      000CD2 D0 02            [24] 1018 	pop	ar2
-      000CD4 D0 03            [24] 1019 	pop	ar3
-      000CD6 D0 06            [24] 1020 	pop	ar6
-      000CD8 D0 07            [24] 1021 	pop	ar7
-      000CDA 53 04 03         [24] 1022 	anl	ar4,#0x03
-      000CDD 7D 00            [12] 1023 	mov	r5,#0x00
+      000D2E 75 82 03         [24] 1011 	mov	dpl, #0x03
+      000D31 C0 07            [24] 1012 	push	ar7
+      000D33 C0 06            [24] 1013 	push	ar6
+      000D35 C0 03            [24] 1014 	push	ar3
+      000D37 C0 02            [24] 1015 	push	ar2
+      000D39 12 0A F7         [24] 1016 	lcall	_RDA5807M_Read_Reg
+      000D3C AC 82            [24] 1017 	mov	r4, dpl
+      000D3E D0 02            [24] 1018 	pop	ar2
+      000D40 D0 03            [24] 1019 	pop	ar3
+      000D42 D0 06            [24] 1020 	pop	ar6
+      000D44 D0 07            [24] 1021 	pop	ar7
+      000D46 53 04 03         [24] 1022 	anl	ar4,#0x03
+      000D49 7D 00            [12] 1023 	mov	r5,#0x00
                                    1024 ;	code/rda5807/RDA5807M.c:186: if (band == 0 /*0b00*/)
-      000CDF EC               [12] 1025 	mov	a,r4
-      000CE0 4D               [12] 1026 	orl	a,r5
+      000D4B EC               [12] 1025 	mov	a,r4
+      000D4C 4D               [12] 1026 	orl	a,r5
                                    1027 ;	code/rda5807/RDA5807M.c:187: Space = 10;
-      000CE1 70 05            [24] 1028 	jnz	00126$
-      000CE3 78 0A            [12] 1029 	mov	r0,#0x0a
-      000CE5 F9               [12] 1030 	mov	r1,a
-      000CE6 80 1F            [24] 1031 	sjmp	00127$
-      000CE8                       1032 00126$:
+      000D4D 70 05            [24] 1028 	jnz	00126$
+      000D4F 78 0A            [12] 1029 	mov	r0,#0x0a
+      000D51 F9               [12] 1030 	mov	r1,a
+      000D52 80 1F            [24] 1031 	sjmp	00127$
+      000D54                       1032 00126$:
                                    1033 ;	code/rda5807/RDA5807M.c:188: else if (band == 1 /*0b01*/)
-      000CE8 BC 01 06         [24] 1034 	cjne	r4,#0x01,00123$
+      000D54 BC 01 06         [24] 1034 	cjne	r4,#0x01,00123$
                                    1035 ;	code/rda5807/RDA5807M.c:189: Space = 20;
-      000CEB 78 14            [12] 1036 	mov	r0,#0x14
-      000CED 79 00            [12] 1037 	mov	r1,#0x00
-      000CEF 80 16            [24] 1038 	sjmp	00127$
-      000CF1                       1039 00123$:
+      000D57 78 14            [12] 1036 	mov	r0,#0x14
+      000D59 79 00            [12] 1037 	mov	r1,#0x00
+      000D5B 80 16            [24] 1038 	sjmp	00127$
+      000D5D                       1039 00123$:
                                    1040 ;	code/rda5807/RDA5807M.c:190: else if (band == 2 /*0b10*/)
-      000CF1 BC 02 06         [24] 1041 	cjne	r4,#0x02,00120$
+      000D5D BC 02 06         [24] 1041 	cjne	r4,#0x02,00120$
                                    1042 ;	code/rda5807/RDA5807M.c:191: Space = 5;
-      000CF4 78 05            [12] 1043 	mov	r0,#0x05
-      000CF6 79 00            [12] 1044 	mov	r1,#0x00
-      000CF8 80 0D            [24] 1045 	sjmp	00127$
-      000CFA                       1046 00120$:
+      000D60 78 05            [12] 1043 	mov	r0,#0x05
+      000D62 79 00            [12] 1044 	mov	r1,#0x00
+      000D64 80 0D            [24] 1045 	sjmp	00127$
+      000D66                       1046 00120$:
                                    1047 ;	code/rda5807/RDA5807M.c:192: else if (band == 3 /*0b11*/)
-      000CFA BC 03 06         [24] 1048 	cjne	r4,#0x03,00117$
+      000D66 BC 03 06         [24] 1048 	cjne	r4,#0x03,00117$
                                    1049 ;	code/rda5807/RDA5807M.c:193: Space = 2;
-      000CFD 78 02            [12] 1050 	mov	r0,#0x02
-      000CFF 79 00            [12] 1051 	mov	r1,#0x00
-      000D01 80 04            [24] 1052 	sjmp	00127$
-      000D03                       1053 00117$:
+      000D69 78 02            [12] 1050 	mov	r0,#0x02
+      000D6B 79 00            [12] 1051 	mov	r1,#0x00
+      000D6D 80 04            [24] 1052 	sjmp	00127$
+      000D6F                       1053 00117$:
                                    1054 ;	code/rda5807/RDA5807M.c:195: return 0;
-      000D03 90 00 00         [24] 1055 	mov	dptr,#0x0000
-      000D06 22               [24] 1056 	ret
-      000D07                       1057 00127$:
+      000D6F 90 00 00         [24] 1055 	mov	dptr,#0x0000
+      000D72 22               [24] 1056 	ret
+      000D73                       1057 00127$:
                                    1058 ;	code/rda5807/RDA5807M.c:196: band = Start + Chan * Space;
-      000D07 88 1E            [24] 1059 	mov	__mulint_PARM_2,r0
-      000D09 89 1F            [24] 1060 	mov	(__mulint_PARM_2 + 1),r1
-      000D0B 8E 82            [24] 1061 	mov	dpl, r6
-      000D0D 8F 83            [24] 1062 	mov	dph, r7
-      000D0F C0 03            [24] 1063 	push	ar3
-      000D11 C0 02            [24] 1064 	push	ar2
-      000D13 12 12 73         [24] 1065 	lcall	__mulint
-      000D16 AE 82            [24] 1066 	mov	r6, dpl
-      000D18 AF 83            [24] 1067 	mov	r7, dph
-      000D1A D0 02            [24] 1068 	pop	ar2
-      000D1C D0 03            [24] 1069 	pop	ar3
-      000D1E EE               [12] 1070 	mov	a,r6
-      000D1F 2A               [12] 1071 	add	a, r2
-      000D20 FE               [12] 1072 	mov	r6,a
-      000D21 EF               [12] 1073 	mov	a,r7
-      000D22 3B               [12] 1074 	addc	a, r3
-      000D23 FF               [12] 1075 	mov	r7,a
+      000D73 88 1E            [24] 1059 	mov	__mulint_PARM_2,r0
+      000D75 89 1F            [24] 1060 	mov	(__mulint_PARM_2 + 1),r1
+      000D77 8E 82            [24] 1061 	mov	dpl, r6
+      000D79 8F 83            [24] 1062 	mov	dph, r7
+      000D7B C0 03            [24] 1063 	push	ar3
+      000D7D C0 02            [24] 1064 	push	ar2
+      000D7F 12 12 DF         [24] 1065 	lcall	__mulint
+      000D82 AE 82            [24] 1066 	mov	r6, dpl
+      000D84 AF 83            [24] 1067 	mov	r7, dph
+      000D86 D0 02            [24] 1068 	pop	ar2
+      000D88 D0 03            [24] 1069 	pop	ar3
+      000D8A EE               [12] 1070 	mov	a,r6
+      000D8B 2A               [12] 1071 	add	a, r2
+      000D8C FE               [12] 1072 	mov	r6,a
+      000D8D EF               [12] 1073 	mov	a,r7
+      000D8E 3B               [12] 1074 	addc	a, r3
+      000D8F FF               [12] 1075 	mov	r7,a
                                    1076 ;	code/rda5807/RDA5807M.c:197: if (band > End)
-      000D24 C3               [12] 1077 	clr	c
-      000D25 E5 45            [12] 1078 	mov	a,_RDA5807M_ChanToFreq_End_10000_57
-      000D27 9E               [12] 1079 	subb	a,r6
-      000D28 E5 46            [12] 1080 	mov	a,(_RDA5807M_ChanToFreq_End_10000_57 + 1)
-      000D2A 9F               [12] 1081 	subb	a,r7
-      000D2B 50 04            [24] 1082 	jnc	00129$
+      000D90 C3               [12] 1077 	clr	c
+      000D91 E5 46            [12] 1078 	mov	a,_RDA5807M_ChanToFreq_End_10000_57
+      000D93 9E               [12] 1079 	subb	a,r6
+      000D94 E5 47            [12] 1080 	mov	a,(_RDA5807M_ChanToFreq_End_10000_57 + 1)
+      000D96 9F               [12] 1081 	subb	a,r7
+      000D97 50 04            [24] 1082 	jnc	00129$
                                    1083 ;	code/rda5807/RDA5807M.c:198: return 0;
-      000D2D 90 00 00         [24] 1084 	mov	dptr,#0x0000
-      000D30 22               [24] 1085 	ret
-      000D31                       1086 00129$:
+      000D99 90 00 00         [24] 1084 	mov	dptr,#0x0000
+      000D9C 22               [24] 1085 	ret
+      000D9D                       1086 00129$:
                                    1087 ;	code/rda5807/RDA5807M.c:199: if (band < Start)
-      000D31 C3               [12] 1088 	clr	c
-      000D32 EE               [12] 1089 	mov	a,r6
-      000D33 9A               [12] 1090 	subb	a,r2
-      000D34 EF               [12] 1091 	mov	a,r7
-      000D35 9B               [12] 1092 	subb	a,r3
-      000D36 50 04            [24] 1093 	jnc	00131$
+      000D9D C3               [12] 1088 	clr	c
+      000D9E EE               [12] 1089 	mov	a,r6
+      000D9F 9A               [12] 1090 	subb	a,r2
+      000DA0 EF               [12] 1091 	mov	a,r7
+      000DA1 9B               [12] 1092 	subb	a,r3
+      000DA2 50 04            [24] 1093 	jnc	00131$
                                    1094 ;	code/rda5807/RDA5807M.c:200: return 0;
-      000D38 90 00 00         [24] 1095 	mov	dptr,#0x0000
-      000D3B 22               [24] 1096 	ret
-      000D3C                       1097 00131$:
+      000DA4 90 00 00         [24] 1095 	mov	dptr,#0x0000
+      000DA7 22               [24] 1096 	ret
+      000DA8                       1097 00131$:
                                    1098 ;	code/rda5807/RDA5807M.c:201: return band;
-      000D3C 8E 82            [24] 1099 	mov	dpl, r6
-      000D3E 8F 83            [24] 1100 	mov	dph, r7
+      000DA8 8E 82            [24] 1099 	mov	dpl, r6
+      000DAA 8F 83            [24] 1100 	mov	dph, r7
                                    1101 ;	code/rda5807/RDA5807M.c:202: }
-      000D40 22               [24] 1102 	ret
+      000DAC 22               [24] 1102 	ret
                                    1103 ;------------------------------------------------------------
                                    1104 ;Allocation info for local variables in function 'RDA5807M_Read_Freq'
                                    1105 ;------------------------------------------------------------
@@ -1109,18 +1109,18 @@
                                    1109 ;	-----------------------------------------
                                    1110 ;	 function RDA5807M_Read_Freq
                                    1111 ;	-----------------------------------------
-      000D41                       1112 _RDA5807M_Read_Freq:
+      000DAD                       1112 _RDA5807M_Read_Freq:
                                    1113 ;	code/rda5807/RDA5807M.c:211: Chan = RDA5807M_Read_Reg(0x0A) & 0x03FF;
-      000D41 75 82 0A         [24] 1114 	mov	dpl, #0x0a
-      000D44 12 0A 8B         [24] 1115 	lcall	_RDA5807M_Read_Reg
-      000D47 AE 82            [24] 1116 	mov	r6, dpl
-      000D49 AF 83            [24] 1117 	mov	r7, dph
-      000D4B 53 07 03         [24] 1118 	anl	ar7,#0x03
-      000D4E 8E 82            [24] 1119 	mov	dpl,r6
-      000D50 8F 83            [24] 1120 	mov	dph,r7
+      000DAD 75 82 0A         [24] 1114 	mov	dpl, #0x0a
+      000DB0 12 0A F7         [24] 1115 	lcall	_RDA5807M_Read_Reg
+      000DB3 AE 82            [24] 1116 	mov	r6, dpl
+      000DB5 AF 83            [24] 1117 	mov	r7, dph
+      000DB7 53 07 03         [24] 1118 	anl	ar7,#0x03
+      000DBA 8E 82            [24] 1119 	mov	dpl,r6
+      000DBC 8F 83            [24] 1120 	mov	dph,r7
                                    1121 ;	code/rda5807/RDA5807M.c:212: return RDA5807M_ChanToFreq(Chan);
                                    1122 ;	code/rda5807/RDA5807M.c:213: }
-      000D52 02 0C 3E         [24] 1123 	ljmp	_RDA5807M_ChanToFreq
+      000DBE 02 0C AA         [24] 1123 	ljmp	_RDA5807M_ChanToFreq
                                    1124 ;------------------------------------------------------------
                                    1125 ;Allocation info for local variables in function 'RDA5807M_Set_Freq'
                                    1126 ;------------------------------------------------------------
@@ -1133,123 +1133,123 @@
                                    1133 ;	-----------------------------------------
                                    1134 ;	 function RDA5807M_Set_Freq
                                    1135 ;	-----------------------------------------
-      000D55                       1136 _RDA5807M_Set_Freq:
+      000DC1                       1136 _RDA5807M_Set_Freq:
                                    1137 ;	code/rda5807/RDA5807M.c:223: uint16_t Chan = RDA5807M_FreqToChan(freq); // 先转化为信道值
-      000D55 AE 82            [24] 1138 	mov	r6,dpl
-      000D57 AF 83            [24] 1139 	mov  r7,dph
-      000D59 C0 07            [24] 1140 	push	ar7
-      000D5B C0 06            [24] 1141 	push	ar6
-      000D5D 12 0B 50         [24] 1142 	lcall	_RDA5807M_FreqToChan
-      000D60 AC 82            [24] 1143 	mov	r4, dpl
-      000D62 AD 83            [24] 1144 	mov	r5, dph
+      000DC1 AE 82            [24] 1138 	mov	r6,dpl
+      000DC3 AF 83            [24] 1139 	mov  r7,dph
+      000DC5 C0 07            [24] 1140 	push	ar7
+      000DC7 C0 06            [24] 1141 	push	ar6
+      000DC9 12 0B BC         [24] 1142 	lcall	_RDA5807M_FreqToChan
+      000DCC AC 82            [24] 1143 	mov	r4, dpl
+      000DCE AD 83            [24] 1144 	mov	r5, dph
                                    1145 ;	code/rda5807/RDA5807M.c:227: reg03 = RDA5807M_Read_Reg(0x03);
-      000D64 75 82 03         [24] 1146 	mov	dpl, #0x03
-      000D67 C0 05            [24] 1147 	push	ar5
-      000D69 C0 04            [24] 1148 	push	ar4
-      000D6B 12 0A 8B         [24] 1149 	lcall	_RDA5807M_Read_Reg
-      000D6E AA 82            [24] 1150 	mov	r2, dpl
-      000D70 D0 04            [24] 1151 	pop	ar4
-      000D72 D0 05            [24] 1152 	pop	ar5
+      000DD0 75 82 03         [24] 1146 	mov	dpl, #0x03
+      000DD3 C0 05            [24] 1147 	push	ar5
+      000DD5 C0 04            [24] 1148 	push	ar4
+      000DD7 12 0A F7         [24] 1149 	lcall	_RDA5807M_Read_Reg
+      000DDA AA 82            [24] 1150 	mov	r2, dpl
+      000DDC D0 04            [24] 1151 	pop	ar4
+      000DDE D0 05            [24] 1152 	pop	ar5
                                    1153 ;	code/rda5807/RDA5807M.c:228: reg03 &= 0x003F;               // Clear channel bits (15:6)
-      000D74 53 02 3F         [24] 1154 	anl	ar2,#0x3f
-      000D77 7B 00            [12] 1155 	mov	r3,#0x00
+      000DE0 53 02 3F         [24] 1154 	anl	ar2,#0x3f
+      000DE3 7B 00            [12] 1155 	mov	r3,#0x00
                                    1156 ;	code/rda5807/RDA5807M.c:229: reg03 |= (Chan & 0x03FF) << 6; // Set channel bits
-      000D79 53 05 03         [24] 1157 	anl	ar5,#0x03
-      000D7C ED               [12] 1158 	mov	a,r5
-      000D7D 54 03            [12] 1159 	anl	a,#0x03
-      000D7F A2 E0            [12] 1160 	mov	c,acc.0
-      000D81 CC               [12] 1161 	xch	a,r4
-      000D82 13               [12] 1162 	rrc	a
-      000D83 CC               [12] 1163 	xch	a,r4
-      000D84 13               [12] 1164 	rrc	a
-      000D85 A2 E0            [12] 1165 	mov	c,acc.0
-      000D87 CC               [12] 1166 	xch	a,r4
-      000D88 13               [12] 1167 	rrc	a
-      000D89 CC               [12] 1168 	xch	a,r4
-      000D8A 13               [12] 1169 	rrc	a
-      000D8B CC               [12] 1170 	xch	a,r4
-      000D8C FD               [12] 1171 	mov	r5,a
-      000D8D EA               [12] 1172 	mov	a,r2
-      000D8E 42 04            [12] 1173 	orl	ar4,a
-      000D90 EB               [12] 1174 	mov	a,r3
-      000D91 42 05            [12] 1175 	orl	ar5,a
+      000DE5 53 05 03         [24] 1157 	anl	ar5,#0x03
+      000DE8 ED               [12] 1158 	mov	a,r5
+      000DE9 54 03            [12] 1159 	anl	a,#0x03
+      000DEB A2 E0            [12] 1160 	mov	c,acc.0
+      000DED CC               [12] 1161 	xch	a,r4
+      000DEE 13               [12] 1162 	rrc	a
+      000DEF CC               [12] 1163 	xch	a,r4
+      000DF0 13               [12] 1164 	rrc	a
+      000DF1 A2 E0            [12] 1165 	mov	c,acc.0
+      000DF3 CC               [12] 1166 	xch	a,r4
+      000DF4 13               [12] 1167 	rrc	a
+      000DF5 CC               [12] 1168 	xch	a,r4
+      000DF6 13               [12] 1169 	rrc	a
+      000DF7 CC               [12] 1170 	xch	a,r4
+      000DF8 FD               [12] 1171 	mov	r5,a
+      000DF9 EA               [12] 1172 	mov	a,r2
+      000DFA 42 04            [12] 1173 	orl	ar4,a
+      000DFC EB               [12] 1174 	mov	a,r3
+      000DFD 42 05            [12] 1175 	orl	ar5,a
                                    1176 ;	code/rda5807/RDA5807M.c:230: reg03 |= (1 << 4);             // Enable Tune
-      000D93 74 10            [12] 1177 	mov	a,#0x10
-      000D95 4C               [12] 1178 	orl	a,r4
-      000D96 F5 3D            [12] 1179 	mov	_RDA5807M_Write_Reg_PARM_2,a
-      000D98 8D 3E            [24] 1180 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r5
+      000DFF 74 10            [12] 1177 	mov	a,#0x10
+      000E01 4C               [12] 1178 	orl	a,r4
+      000E02 F5 3E            [12] 1179 	mov	_RDA5807M_Write_Reg_PARM_2,a
+      000E04 8D 3F            [24] 1180 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r5
                                    1181 ;	code/rda5807/RDA5807M.c:231: RDA5807M_Write_Reg(0x03, reg03);
-      000D9A 75 82 03         [24] 1182 	mov	dpl, #0x03
-      000D9D 12 0A 58         [24] 1183 	lcall	_RDA5807M_Write_Reg
-      000DA0 D0 06            [24] 1184 	pop	ar6
-      000DA2 D0 07            [24] 1185 	pop	ar7
+      000E06 75 82 03         [24] 1182 	mov	dpl, #0x03
+      000E09 12 0A C4         [24] 1183 	lcall	_RDA5807M_Write_Reg
+      000E0C D0 06            [24] 1184 	pop	ar6
+      000E0E D0 07            [24] 1185 	pop	ar7
                                    1186 ;	code/rda5807/RDA5807M.c:234: while ((RDA5807M_Read_Reg(0x0A) & (1 << 14)) == 0)
-      000DA4 7C 00            [12] 1187 	mov	r4,#0x00
-      000DA6 7D 00            [12] 1188 	mov	r5,#0x00
-      000DA8                       1189 00103$:
-      000DA8 75 82 0A         [24] 1190 	mov	dpl, #0x0a
-      000DAB C0 07            [24] 1191 	push	ar7
-      000DAD C0 06            [24] 1192 	push	ar6
-      000DAF C0 05            [24] 1193 	push	ar5
-      000DB1 C0 04            [24] 1194 	push	ar4
-      000DB3 12 0A 8B         [24] 1195 	lcall	_RDA5807M_Read_Reg
-      000DB6 E5 82            [12] 1196 	mov	a, dpl
-      000DB8 85 83 F0         [24] 1197 	mov	b, dph
-      000DBB D0 04            [24] 1198 	pop	ar4
-      000DBD D0 05            [24] 1199 	pop	ar5
-      000DBF D0 06            [24] 1200 	pop	ar6
-      000DC1 D0 07            [24] 1201 	pop	ar7
-      000DC3 E5 F0            [12] 1202 	mov	a,b
-      000DC5 20 E6 43         [24] 1203 	jb	acc.6,00105$
+      000E10 7C 00            [12] 1187 	mov	r4,#0x00
+      000E12 7D 00            [12] 1188 	mov	r5,#0x00
+      000E14                       1189 00103$:
+      000E14 75 82 0A         [24] 1190 	mov	dpl, #0x0a
+      000E17 C0 07            [24] 1191 	push	ar7
+      000E19 C0 06            [24] 1192 	push	ar6
+      000E1B C0 05            [24] 1193 	push	ar5
+      000E1D C0 04            [24] 1194 	push	ar4
+      000E1F 12 0A F7         [24] 1195 	lcall	_RDA5807M_Read_Reg
+      000E22 E5 82            [12] 1196 	mov	a, dpl
+      000E24 85 83 F0         [24] 1197 	mov	b, dph
+      000E27 D0 04            [24] 1198 	pop	ar4
+      000E29 D0 05            [24] 1199 	pop	ar5
+      000E2B D0 06            [24] 1200 	pop	ar6
+      000E2D D0 07            [24] 1201 	pop	ar7
+      000E2F E5 F0            [12] 1202 	mov	a,b
+      000E31 20 E6 43         [24] 1203 	jb	acc.6,00105$
                                    1204 ;	code/rda5807/RDA5807M.c:236: Delay(1); // 1ms delay
-      000DC8 90 00 01         [24] 1205 	mov	dptr,#0x0001
-      000DCB C0 07            [24] 1206 	push	ar7
-      000DCD C0 06            [24] 1207 	push	ar6
-      000DCF C0 05            [24] 1208 	push	ar5
-      000DD1 C0 04            [24] 1209 	push	ar4
-      000DD3 12 05 92         [24] 1210 	lcall	_Delay
-      000DD6 D0 04            [24] 1211 	pop	ar4
-      000DD8 D0 05            [24] 1212 	pop	ar5
-      000DDA D0 06            [24] 1213 	pop	ar6
-      000DDC D0 07            [24] 1214 	pop	ar7
+      000E34 90 00 01         [24] 1205 	mov	dptr,#0x0001
+      000E37 C0 07            [24] 1206 	push	ar7
+      000E39 C0 06            [24] 1207 	push	ar6
+      000E3B C0 05            [24] 1208 	push	ar5
+      000E3D C0 04            [24] 1209 	push	ar4
+      000E3F 12 05 BB         [24] 1210 	lcall	_Delay
+      000E42 D0 04            [24] 1211 	pop	ar4
+      000E44 D0 05            [24] 1212 	pop	ar5
+      000E46 D0 06            [24] 1213 	pop	ar6
+      000E48 D0 07            [24] 1214 	pop	ar7
                                    1215 ;	code/rda5807/RDA5807M.c:237: if (timeout++ > 500) // 500ms timeout
-      000DDE 8C 02            [24] 1216 	mov	ar2,r4
-      000DE0 8D 03            [24] 1217 	mov	ar3,r5
-      000DE2 0C               [12] 1218 	inc	r4
-      000DE3 BC 00 01         [24] 1219 	cjne	r4,#0x00,00130$
-      000DE6 0D               [12] 1220 	inc	r5
-      000DE7                       1221 00130$:
-      000DE7 C3               [12] 1222 	clr	c
-      000DE8 74 F4            [12] 1223 	mov	a,#0xf4
-      000DEA 9A               [12] 1224 	subb	a,r2
-      000DEB 74 01            [12] 1225 	mov	a,#0x01
-      000DED 9B               [12] 1226 	subb	a,r3
-      000DEE 50 B8            [24] 1227 	jnc	00103$
+      000E4A 8C 02            [24] 1216 	mov	ar2,r4
+      000E4C 8D 03            [24] 1217 	mov	ar3,r5
+      000E4E 0C               [12] 1218 	inc	r4
+      000E4F BC 00 01         [24] 1219 	cjne	r4,#0x00,00130$
+      000E52 0D               [12] 1220 	inc	r5
+      000E53                       1221 00130$:
+      000E53 C3               [12] 1222 	clr	c
+      000E54 74 F4            [12] 1223 	mov	a,#0xf4
+      000E56 9A               [12] 1224 	subb	a,r2
+      000E57 74 01            [12] 1225 	mov	a,#0x01
+      000E59 9B               [12] 1226 	subb	a,r3
+      000E5A 50 B8            [24] 1227 	jnc	00103$
                                    1228 ;	code/rda5807/RDA5807M.c:240: reg03 = RDA5807M_Read_Reg(0x03);
-      000DF0 75 82 03         [24] 1229 	mov	dpl, #0x03
-      000DF3 12 0A 8B         [24] 1230 	lcall	_RDA5807M_Read_Reg
-      000DF6 AC 82            [24] 1231 	mov	r4, dpl
-      000DF8 AD 83            [24] 1232 	mov	r5, dph
+      000E5C 75 82 03         [24] 1229 	mov	dpl, #0x03
+      000E5F 12 0A F7         [24] 1230 	lcall	_RDA5807M_Read_Reg
+      000E62 AC 82            [24] 1231 	mov	r4, dpl
+      000E64 AD 83            [24] 1232 	mov	r5, dph
                                    1233 ;	code/rda5807/RDA5807M.c:241: reg03 &= ~(1 << 4); // Clear TUNE bit
-      000DFA 53 04 EF         [24] 1234 	anl	ar4,#0xef
-      000DFD 8C 3D            [24] 1235 	mov	_RDA5807M_Write_Reg_PARM_2,r4
-      000DFF 8D 3E            [24] 1236 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r5
+      000E66 53 04 EF         [24] 1234 	anl	ar4,#0xef
+      000E69 8C 3E            [24] 1235 	mov	_RDA5807M_Write_Reg_PARM_2,r4
+      000E6B 8D 3F            [24] 1236 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r5
                                    1237 ;	code/rda5807/RDA5807M.c:242: RDA5807M_Write_Reg(0x03, reg03);
-      000E01 75 82 03         [24] 1238 	mov	dpl, #0x03
-      000E04 12 0A 58         [24] 1239 	lcall	_RDA5807M_Write_Reg
+      000E6D 75 82 03         [24] 1238 	mov	dpl, #0x03
+      000E70 12 0A C4         [24] 1239 	lcall	_RDA5807M_Write_Reg
                                    1240 ;	code/rda5807/RDA5807M.c:243: return 0;
-      000E07 75 82 00         [24] 1241 	mov	dpl, #0x00
-      000E0A 22               [24] 1242 	ret
-      000E0B                       1243 00105$:
+      000E73 75 82 00         [24] 1241 	mov	dpl, #0x00
+      000E76 22               [24] 1242 	ret
+      000E77                       1243 00105$:
                                    1244 ;	code/rda5807/RDA5807M.c:247: DISPLAY_type = 10;
-      000E0B 75 0A 0A         [24] 1245 	mov	_DISPLAY_type,#0x0a
+      000E77 75 0A 0A         [24] 1245 	mov	_DISPLAY_type,#0x0a
                                    1246 ;	code/rda5807/RDA5807M.c:248: sys_freq = freq;
-      000E0E 8E 1A            [24] 1247 	mov	_sys_freq,r6
-      000E10 8F 1B            [24] 1248 	mov	(_sys_freq + 1),r7
+      000E7A 8E 1A            [24] 1247 	mov	_sys_freq,r6
+      000E7C 8F 1B            [24] 1248 	mov	(_sys_freq + 1),r7
                                    1249 ;	code/rda5807/RDA5807M.c:249: return 1;
-      000E12 75 82 01         [24] 1250 	mov	dpl, #0x01
+      000E7E 75 82 01         [24] 1250 	mov	dpl, #0x01
                                    1251 ;	code/rda5807/RDA5807M.c:250: }
-      000E15 22               [24] 1252 	ret
+      000E81 22               [24] 1252 	ret
                                    1253 ;------------------------------------------------------------
                                    1254 ;Allocation info for local variables in function 'RDA5807M_Read_SNR'
                                    1255 ;------------------------------------------------------------
@@ -1259,18 +1259,18 @@
                                    1259 ;	-----------------------------------------
                                    1260 ;	 function RDA5807M_Read_SNR
                                    1261 ;	-----------------------------------------
-      000E16                       1262 _RDA5807M_Read_SNR:
+      000E82                       1262 _RDA5807M_Read_SNR:
                                    1263 ;	code/rda5807/RDA5807M.c:259: temp_snr = RDA5807M_Read_Reg(0x05);
-      000E16 75 82 05         [24] 1264 	mov	dpl, #0x05
-      000E19 12 0A 8B         [24] 1265 	lcall	_RDA5807M_Read_Reg
+      000E82 75 82 05         [24] 1264 	mov	dpl, #0x05
+      000E85 12 0A F7         [24] 1265 	lcall	_RDA5807M_Read_Reg
                                    1266 ;	code/rda5807/RDA5807M.c:260: temp_snr >>= 8;
-      000E1C AE 83            [24] 1267 	mov	r6,dph
+      000E88 AE 83            [24] 1267 	mov	r6,dph
                                    1268 ;	code/rda5807/RDA5807M.c:261: return ((uint8_t)temp_snr) & 0x0F;
-      000E1E 74 0F            [12] 1269 	mov	a,#0x0f
-      000E20 5E               [12] 1270 	anl	a,r6
-      000E21 F5 82            [12] 1271 	mov	dpl,a
+      000E8A 74 0F            [12] 1269 	mov	a,#0x0f
+      000E8C 5E               [12] 1270 	anl	a,r6
+      000E8D F5 82            [12] 1271 	mov	dpl,a
                                    1272 ;	code/rda5807/RDA5807M.c:262: }
-      000E23 22               [24] 1273 	ret
+      000E8F 22               [24] 1273 	ret
                                    1274 ;------------------------------------------------------------
                                    1275 ;Allocation info for local variables in function 'RDA5807M_Set_SNR'
                                    1276 ;------------------------------------------------------------
@@ -1281,30 +1281,30 @@
                                    1281 ;	-----------------------------------------
                                    1282 ;	 function RDA5807M_Set_SNR
                                    1283 ;	-----------------------------------------
-      000E24                       1284 _RDA5807M_Set_SNR:
-      000E24 AF 82            [24] 1285 	mov	r7, dpl
+      000E90                       1284 _RDA5807M_Set_SNR:
+      000E90 AF 82            [24] 1285 	mov	r7, dpl
                                    1286 ;	code/rda5807/RDA5807M.c:271: temp_snr = RDA5807M_Read_Reg(0x05);
-      000E26 75 82 05         [24] 1287 	mov	dpl, #0x05
-      000E29 C0 07            [24] 1288 	push	ar7
-      000E2B 12 0A 8B         [24] 1289 	lcall	_RDA5807M_Read_Reg
-      000E2E AD 82            [24] 1290 	mov	r5, dpl
-      000E30 AE 83            [24] 1291 	mov	r6, dph
-      000E32 D0 07            [24] 1292 	pop	ar7
+      000E92 75 82 05         [24] 1287 	mov	dpl, #0x05
+      000E95 C0 07            [24] 1288 	push	ar7
+      000E97 12 0A F7         [24] 1289 	lcall	_RDA5807M_Read_Reg
+      000E9A AD 82            [24] 1290 	mov	r5, dpl
+      000E9C AE 83            [24] 1291 	mov	r6, dph
+      000E9E D0 07            [24] 1292 	pop	ar7
                                    1293 ;	code/rda5807/RDA5807M.c:272: temp_snr &= 0xF0FF;
-      000E34 53 06 F0         [24] 1294 	anl	ar6,#0xf0
+      000EA0 53 06 F0         [24] 1294 	anl	ar6,#0xf0
                                    1295 ;	code/rda5807/RDA5807M.c:273: temp_snr |= snr << 8;
-      000E37 8F 04            [24] 1296 	mov	ar4,r7
-      000E39 7F 00            [12] 1297 	mov	r7,#0x00
-      000E3B ED               [12] 1298 	mov	a,r5
-      000E3C 42 07            [12] 1299 	orl	ar7,a
-      000E3E EE               [12] 1300 	mov	a,r6
-      000E3F 42 04            [12] 1301 	orl	ar4,a
-      000E41 8F 3D            [24] 1302 	mov	_RDA5807M_Write_Reg_PARM_2,r7
-      000E43 8C 3E            [24] 1303 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r4
+      000EA3 8F 04            [24] 1296 	mov	ar4,r7
+      000EA5 7F 00            [12] 1297 	mov	r7,#0x00
+      000EA7 ED               [12] 1298 	mov	a,r5
+      000EA8 42 07            [12] 1299 	orl	ar7,a
+      000EAA EE               [12] 1300 	mov	a,r6
+      000EAB 42 04            [12] 1301 	orl	ar4,a
+      000EAD 8F 3E            [24] 1302 	mov	_RDA5807M_Write_Reg_PARM_2,r7
+      000EAF 8C 3F            [24] 1303 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r4
                                    1304 ;	code/rda5807/RDA5807M.c:274: RDA5807M_Write_Reg(0x05, temp_snr);
-      000E45 75 82 05         [24] 1305 	mov	dpl, #0x05
+      000EB1 75 82 05         [24] 1305 	mov	dpl, #0x05
                                    1306 ;	code/rda5807/RDA5807M.c:275: }
-      000E48 02 0A 58         [24] 1307 	ljmp	_RDA5807M_Write_Reg
+      000EB4 02 0A C4         [24] 1307 	ljmp	_RDA5807M_Write_Reg
                                    1308 ;------------------------------------------------------------
                                    1309 ;Allocation info for local variables in function 'seek'
                                    1310 ;------------------------------------------------------------
@@ -1317,113 +1317,113 @@
                                    1317 ;	-----------------------------------------
                                    1318 ;	 function seek
                                    1319 ;	-----------------------------------------
-      000E4B                       1320 _seek:
-      000E4B AF 82            [24] 1321 	mov	r7, dpl
+      000EB7                       1320 _seek:
+      000EB7 AF 82            [24] 1321 	mov	r7, dpl
                                    1322 ;	code/rda5807/RDA5807M.c:289: reg02 = RDA5807M_Read_Reg(0x02);
-      000E4D 75 82 02         [24] 1323 	mov	dpl, #0x02
-      000E50 C0 07            [24] 1324 	push	ar7
-      000E52 12 0A 8B         [24] 1325 	lcall	_RDA5807M_Read_Reg
-      000E55 AD 82            [24] 1326 	mov	r5, dpl
-      000E57 AE 83            [24] 1327 	mov	r6, dph
-      000E59 D0 07            [24] 1328 	pop	ar7
+      000EB9 75 82 02         [24] 1323 	mov	dpl, #0x02
+      000EBC C0 07            [24] 1324 	push	ar7
+      000EBE 12 0A F7         [24] 1325 	lcall	_RDA5807M_Read_Reg
+      000EC1 AD 82            [24] 1326 	mov	r5, dpl
+      000EC3 AE 83            [24] 1327 	mov	r6, dph
+      000EC5 D0 07            [24] 1328 	pop	ar7
                                    1329 ;	code/rda5807/RDA5807M.c:292: if (direction == 1)
-      000E5B BF 01 09         [24] 1330 	cjne	r7,#0x01,00102$
+      000EC7 BF 01 09         [24] 1330 	cjne	r7,#0x01,00102$
                                    1331 ;	code/rda5807/RDA5807M.c:294: reg02 |= (1 << 9); // Seek up
-      000E5E 8D 04            [24] 1332 	mov	ar4,r5
-      000E60 8E 07            [24] 1333 	mov	ar7,r6
-      000E62 43 07 02         [24] 1334 	orl	ar7,#0x02
-      000E65 80 07            [24] 1335 	sjmp	00103$
-      000E67                       1336 00102$:
+      000ECA 8D 04            [24] 1332 	mov	ar4,r5
+      000ECC 8E 07            [24] 1333 	mov	ar7,r6
+      000ECE 43 07 02         [24] 1334 	orl	ar7,#0x02
+      000ED1 80 07            [24] 1335 	sjmp	00103$
+      000ED3                       1336 00102$:
                                    1337 ;	code/rda5807/RDA5807M.c:298: reg02 &= ~(1 << 9); // Seek down
-      000E67 53 06 FD         [24] 1338 	anl	ar6,#0xfd
-      000E6A 8D 04            [24] 1339 	mov	ar4,r5
-      000E6C 8E 07            [24] 1340 	mov	ar7,r6
-      000E6E                       1341 00103$:
+      000ED3 53 06 FD         [24] 1338 	anl	ar6,#0xfd
+      000ED6 8D 04            [24] 1339 	mov	ar4,r5
+      000ED8 8E 07            [24] 1340 	mov	ar7,r6
+      000EDA                       1341 00103$:
                                    1342 ;	code/rda5807/RDA5807M.c:302: reg02 |= (1 << 8);
-      000E6E 43 07 01         [24] 1343 	orl	ar7,#0x01
-      000E71 8C 3D            [24] 1344 	mov	_RDA5807M_Write_Reg_PARM_2,r4
-      000E73 8F 3E            [24] 1345 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r7
+      000EDA 43 07 01         [24] 1343 	orl	ar7,#0x01
+      000EDD 8C 3E            [24] 1344 	mov	_RDA5807M_Write_Reg_PARM_2,r4
+      000EDF 8F 3F            [24] 1345 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r7
                                    1346 ;	code/rda5807/RDA5807M.c:303: RDA5807M_Write_Reg(0x02, reg02);
-      000E75 75 82 02         [24] 1347 	mov	dpl, #0x02
-      000E78 12 0A 58         [24] 1348 	lcall	_RDA5807M_Write_Reg
+      000EE1 75 82 02         [24] 1347 	mov	dpl, #0x02
+      000EE4 12 0A C4         [24] 1348 	lcall	_RDA5807M_Write_Reg
                                    1349 ;	code/rda5807/RDA5807M.c:306: while ((RDA5807M_Read_Reg(0x0A) & (1 << 14)) == 0)
-      000E7B 7E 00            [12] 1350 	mov	r6,#0x00
-      000E7D 7F 00            [12] 1351 	mov	r7,#0x00
-      000E7F                       1352 00106$:
-      000E7F 75 82 0A         [24] 1353 	mov	dpl, #0x0a
-      000E82 C0 07            [24] 1354 	push	ar7
-      000E84 C0 06            [24] 1355 	push	ar6
-      000E86 12 0A 8B         [24] 1356 	lcall	_RDA5807M_Read_Reg
-      000E89 E5 82            [12] 1357 	mov	a, dpl
-      000E8B 85 83 F0         [24] 1358 	mov	b, dph
-      000E8E D0 06            [24] 1359 	pop	ar6
-      000E90 D0 07            [24] 1360 	pop	ar7
-      000E92 E5 F0            [12] 1361 	mov	a,b
-      000E94 20 E6 3A         [24] 1362 	jb	acc.6,00108$
+      000EE7 7E 00            [12] 1350 	mov	r6,#0x00
+      000EE9 7F 00            [12] 1351 	mov	r7,#0x00
+      000EEB                       1352 00106$:
+      000EEB 75 82 0A         [24] 1353 	mov	dpl, #0x0a
+      000EEE C0 07            [24] 1354 	push	ar7
+      000EF0 C0 06            [24] 1355 	push	ar6
+      000EF2 12 0A F7         [24] 1356 	lcall	_RDA5807M_Read_Reg
+      000EF5 E5 82            [12] 1357 	mov	a, dpl
+      000EF7 85 83 F0         [24] 1358 	mov	b, dph
+      000EFA D0 06            [24] 1359 	pop	ar6
+      000EFC D0 07            [24] 1360 	pop	ar7
+      000EFE E5 F0            [12] 1361 	mov	a,b
+      000F00 20 E6 3A         [24] 1362 	jb	acc.6,00108$
                                    1363 ;	code/rda5807/RDA5807M.c:308: Delay(10);
-      000E97 90 00 0A         [24] 1364 	mov	dptr,#0x000a
-      000E9A C0 07            [24] 1365 	push	ar7
-      000E9C C0 06            [24] 1366 	push	ar6
-      000E9E 12 05 92         [24] 1367 	lcall	_Delay
-      000EA1 D0 06            [24] 1368 	pop	ar6
-      000EA3 D0 07            [24] 1369 	pop	ar7
+      000F03 90 00 0A         [24] 1364 	mov	dptr,#0x000a
+      000F06 C0 07            [24] 1365 	push	ar7
+      000F08 C0 06            [24] 1366 	push	ar6
+      000F0A 12 05 BB         [24] 1367 	lcall	_Delay
+      000F0D D0 06            [24] 1368 	pop	ar6
+      000F0F D0 07            [24] 1369 	pop	ar7
                                    1370 ;	code/rda5807/RDA5807M.c:309: if (timeout++ > 200) // 2 seconds timeout
-      000EA5 8E 04            [24] 1371 	mov	ar4,r6
-      000EA7 8F 05            [24] 1372 	mov	ar5,r7
-      000EA9 0E               [12] 1373 	inc	r6
-      000EAA BE 00 01         [24] 1374 	cjne	r6,#0x00,00142$
-      000EAD 0F               [12] 1375 	inc	r7
-      000EAE                       1376 00142$:
-      000EAE C3               [12] 1377 	clr	c
-      000EAF 74 C8            [12] 1378 	mov	a,#0xc8
-      000EB1 9C               [12] 1379 	subb	a,r4
-      000EB2 E4               [12] 1380 	clr	a
-      000EB3 9D               [12] 1381 	subb	a,r5
-      000EB4 50 C9            [24] 1382 	jnc	00106$
+      000F11 8E 04            [24] 1371 	mov	ar4,r6
+      000F13 8F 05            [24] 1372 	mov	ar5,r7
+      000F15 0E               [12] 1373 	inc	r6
+      000F16 BE 00 01         [24] 1374 	cjne	r6,#0x00,00142$
+      000F19 0F               [12] 1375 	inc	r7
+      000F1A                       1376 00142$:
+      000F1A C3               [12] 1377 	clr	c
+      000F1B 74 C8            [12] 1378 	mov	a,#0xc8
+      000F1D 9C               [12] 1379 	subb	a,r4
+      000F1E E4               [12] 1380 	clr	a
+      000F1F 9D               [12] 1381 	subb	a,r5
+      000F20 50 C9            [24] 1382 	jnc	00106$
                                    1383 ;	code/rda5807/RDA5807M.c:312: reg02 = RDA5807M_Read_Reg(0x02);
-      000EB6 75 82 02         [24] 1384 	mov	dpl, #0x02
-      000EB9 12 0A 8B         [24] 1385 	lcall	_RDA5807M_Read_Reg
-      000EBC AE 82            [24] 1386 	mov	r6, dpl
-      000EBE AF 83            [24] 1387 	mov	r7, dph
+      000F22 75 82 02         [24] 1384 	mov	dpl, #0x02
+      000F25 12 0A F7         [24] 1385 	lcall	_RDA5807M_Read_Reg
+      000F28 AE 82            [24] 1386 	mov	r6, dpl
+      000F2A AF 83            [24] 1387 	mov	r7, dph
                                    1388 ;	code/rda5807/RDA5807M.c:313: reg02 &= ~(1 << 8); // Clear SEEK bit
-      000EC0 53 07 FE         [24] 1389 	anl	ar7,#0xfe
-      000EC3 8E 3D            [24] 1390 	mov	_RDA5807M_Write_Reg_PARM_2,r6
-      000EC5 8F 3E            [24] 1391 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r7
+      000F2C 53 07 FE         [24] 1389 	anl	ar7,#0xfe
+      000F2F 8E 3E            [24] 1390 	mov	_RDA5807M_Write_Reg_PARM_2,r6
+      000F31 8F 3F            [24] 1391 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r7
                                    1392 ;	code/rda5807/RDA5807M.c:314: RDA5807M_Write_Reg(0x02, reg02);
-      000EC7 75 82 02         [24] 1393 	mov	dpl, #0x02
-      000ECA 12 0A 58         [24] 1394 	lcall	_RDA5807M_Write_Reg
+      000F33 75 82 02         [24] 1393 	mov	dpl, #0x02
+      000F36 12 0A C4         [24] 1394 	lcall	_RDA5807M_Write_Reg
                                    1395 ;	code/rda5807/RDA5807M.c:315: return 0;
-      000ECD 90 00 00         [24] 1396 	mov	dptr,#0x0000
-      000ED0 22               [24] 1397 	ret
-      000ED1                       1398 00108$:
+      000F39 90 00 00         [24] 1396 	mov	dptr,#0x0000
+      000F3C 22               [24] 1397 	ret
+      000F3D                       1398 00108$:
                                    1399 ;	code/rda5807/RDA5807M.c:320: reg02 = RDA5807M_Read_Reg(0x03);
-      000ED1 75 82 03         [24] 1400 	mov	dpl, #0x03
-      000ED4 12 0A 8B         [24] 1401 	lcall	_RDA5807M_Read_Reg
-      000ED7 E5 82            [12] 1402 	mov	a, dpl
-      000ED9 85 83 F0         [24] 1403 	mov	b, dph
+      000F3D 75 82 03         [24] 1400 	mov	dpl, #0x03
+      000F40 12 0A F7         [24] 1401 	lcall	_RDA5807M_Read_Reg
+      000F43 E5 82            [12] 1402 	mov	a, dpl
+      000F45 85 83 F0         [24] 1403 	mov	b, dph
                                    1404 ;	code/rda5807/RDA5807M.c:321: reg02 |= (1 << 4); // TUNE=1, enable tuning
-      000EDC 44 10            [12] 1405 	orl	a,#0x10
-      000EDE F5 3D            [12] 1406 	mov	_RDA5807M_Write_Reg_PARM_2,a
-      000EE0 85 F0 3E         [24] 1407 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),b
+      000F48 44 10            [12] 1405 	orl	a,#0x10
+      000F4A F5 3E            [12] 1406 	mov	_RDA5807M_Write_Reg_PARM_2,a
+      000F4C 85 F0 3F         [24] 1407 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),b
                                    1408 ;	code/rda5807/RDA5807M.c:322: RDA5807M_Write_Reg(0x03, reg02);
-      000EE3 75 82 03         [24] 1409 	mov	dpl, #0x03
-      000EE6 12 0A 58         [24] 1410 	lcall	_RDA5807M_Write_Reg
+      000F4F 75 82 03         [24] 1409 	mov	dpl, #0x03
+      000F52 12 0A C4         [24] 1410 	lcall	_RDA5807M_Write_Reg
                                    1411 ;	code/rda5807/RDA5807M.c:325: reg02 = RDA5807M_Read_Reg(0x02);
-      000EE9 75 82 02         [24] 1412 	mov	dpl, #0x02
-      000EEC 12 0A 8B         [24] 1413 	lcall	_RDA5807M_Read_Reg
-      000EEF AE 82            [24] 1414 	mov	r6, dpl
-      000EF1 AF 83            [24] 1415 	mov	r7, dph
+      000F55 75 82 02         [24] 1412 	mov	dpl, #0x02
+      000F58 12 0A F7         [24] 1413 	lcall	_RDA5807M_Read_Reg
+      000F5B AE 82            [24] 1414 	mov	r6, dpl
+      000F5D AF 83            [24] 1415 	mov	r7, dph
                                    1416 ;	code/rda5807/RDA5807M.c:326: reg02 &= ~(1 << 8); // SEEK=0
-      000EF3 53 07 FE         [24] 1417 	anl	ar7,#0xfe
-      000EF6 8E 3D            [24] 1418 	mov	_RDA5807M_Write_Reg_PARM_2,r6
-      000EF8 8F 3E            [24] 1419 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r7
+      000F5F 53 07 FE         [24] 1417 	anl	ar7,#0xfe
+      000F62 8E 3E            [24] 1418 	mov	_RDA5807M_Write_Reg_PARM_2,r6
+      000F64 8F 3F            [24] 1419 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r7
                                    1420 ;	code/rda5807/RDA5807M.c:327: RDA5807M_Write_Reg(0x02, reg02);
-      000EFA 75 82 02         [24] 1421 	mov	dpl, #0x02
-      000EFD 12 0A 58         [24] 1422 	lcall	_RDA5807M_Write_Reg
+      000F66 75 82 02         [24] 1421 	mov	dpl, #0x02
+      000F69 12 0A C4         [24] 1422 	lcall	_RDA5807M_Write_Reg
                                    1423 ;	code/rda5807/RDA5807M.c:329: freq = RDA5807M_Read_Freq();
                                    1424 ;	code/rda5807/RDA5807M.c:330: return freq;
                                    1425 ;	code/rda5807/RDA5807M.c:331: }
-      000F00 02 0D 41         [24] 1426 	ljmp	_RDA5807M_Read_Freq
+      000F6C 02 0D AD         [24] 1426 	ljmp	_RDA5807M_Read_Freq
                                    1427 ;------------------------------------------------------------
                                    1428 ;Allocation info for local variables in function 'RDA5807M_Seek'
                                    1429 ;------------------------------------------------------------
@@ -1433,10 +1433,10 @@
                                    1433 ;	-----------------------------------------
                                    1434 ;	 function RDA5807M_Seek
                                    1435 ;	-----------------------------------------
-      000F03                       1436 _RDA5807M_Seek:
+      000F6F                       1436 _RDA5807M_Seek:
                                    1437 ;	code/rda5807/RDA5807M.c:335: return seek(direction);
                                    1438 ;	code/rda5807/RDA5807M.c:336: }
-      000F03 02 0E 4B         [24] 1439 	ljmp	_seek
+      000F6F 02 0E B7         [24] 1439 	ljmp	_seek
                                    1440 ;------------------------------------------------------------
                                    1441 ;Allocation info for local variables in function 'RDA5807M_Radio_TRUE'
                                    1442 ;------------------------------------------------------------
@@ -1446,18 +1446,18 @@
                                    1446 ;	-----------------------------------------
                                    1447 ;	 function RDA5807M_Radio_TRUE
                                    1448 ;	-----------------------------------------
-      000F06                       1449 _RDA5807M_Radio_TRUE:
+      000F72                       1449 _RDA5807M_Radio_TRUE:
                                    1450 ;	code/rda5807/RDA5807M.c:345: isRadio = RDA5807M_Read_Reg(0x0B);
-      000F06 75 82 0B         [24] 1451 	mov	dpl, #0x0b
-      000F09 12 0A 8B         [24] 1452 	lcall	_RDA5807M_Read_Reg
+      000F72 75 82 0B         [24] 1451 	mov	dpl, #0x0b
+      000F75 12 0A F7         [24] 1452 	lcall	_RDA5807M_Read_Reg
                                    1453 ;	code/rda5807/RDA5807M.c:346: isRadio >>= 8;
-      000F0C AE 83            [24] 1454 	mov	r6,dph
+      000F78 AE 83            [24] 1454 	mov	r6,dph
                                    1455 ;	code/rda5807/RDA5807M.c:347: isRadio &= 1;
-      000F0E 53 06 01         [24] 1456 	anl	ar6,#0x01
+      000F7A 53 06 01         [24] 1456 	anl	ar6,#0x01
                                    1457 ;	code/rda5807/RDA5807M.c:348: return isRadio;
-      000F11 8E 82            [24] 1458 	mov	dpl,r6
+      000F7D 8E 82            [24] 1458 	mov	dpl,r6
                                    1459 ;	code/rda5807/RDA5807M.c:349: }
-      000F13 22               [24] 1460 	ret
+      000F7F 22               [24] 1460 	ret
                                    1461 ;------------------------------------------------------------
                                    1462 ;Allocation info for local variables in function 'RDA5807M_Search_Automatic'
                                    1463 ;------------------------------------------------------------
@@ -1470,171 +1470,171 @@
                                    1470 ;	-----------------------------------------
                                    1471 ;	 function RDA5807M_Search_Automatic
                                    1472 ;	-----------------------------------------
-      000F14                       1473 _RDA5807M_Search_Automatic:
+      000F80                       1473 _RDA5807M_Search_Automatic:
                                    1474 ;	code/rda5807/RDA5807M.c:362: band = (RDA5807M_Read_Reg(0x03) & 0x000C) >> 2; // 0x03的3，2位（band）
-      000F14 75 82 03         [24] 1475 	mov	dpl, #0x03
-      000F17 12 0A 8B         [24] 1476 	lcall	_RDA5807M_Read_Reg
-      000F1A AE 82            [24] 1477 	mov	r6, dpl
-      000F1C 53 06 0C         [24] 1478 	anl	ar6,#0x0c
-      000F1F E4               [12] 1479 	clr	a
-      000F20 C3               [12] 1480 	clr	c
-      000F21 13               [12] 1481 	rrc	a
-      000F22 CE               [12] 1482 	xch	a,r6
-      000F23 13               [12] 1483 	rrc	a
-      000F24 CE               [12] 1484 	xch	a,r6
-      000F25 C3               [12] 1485 	clr	c
-      000F26 13               [12] 1486 	rrc	a
-      000F27 CE               [12] 1487 	xch	a,r6
-      000F28 13               [12] 1488 	rrc	a
-      000F29 CE               [12] 1489 	xch	a,r6
+      000F80 75 82 03         [24] 1475 	mov	dpl, #0x03
+      000F83 12 0A F7         [24] 1476 	lcall	_RDA5807M_Read_Reg
+      000F86 AE 82            [24] 1477 	mov	r6, dpl
+      000F88 53 06 0C         [24] 1478 	anl	ar6,#0x0c
+      000F8B E4               [12] 1479 	clr	a
+      000F8C C3               [12] 1480 	clr	c
+      000F8D 13               [12] 1481 	rrc	a
+      000F8E CE               [12] 1482 	xch	a,r6
+      000F8F 13               [12] 1483 	rrc	a
+      000F90 CE               [12] 1484 	xch	a,r6
+      000F91 C3               [12] 1485 	clr	c
+      000F92 13               [12] 1486 	rrc	a
+      000F93 CE               [12] 1487 	xch	a,r6
+      000F94 13               [12] 1488 	rrc	a
+      000F95 CE               [12] 1489 	xch	a,r6
                                    1490 ;	code/rda5807/RDA5807M.c:364: if (band == 0 /*0b00*/)
-      000F2A EE               [12] 1491 	mov	a,r6
-      000F2B FF               [12] 1492 	mov	r7,a
-      000F2C 70 0A            [24] 1493 	jnz	00114$
+      000F96 EE               [12] 1491 	mov	a,r6
+      000F97 FF               [12] 1492 	mov	r7,a
+      000F98 70 0A            [24] 1493 	jnz	00114$
                                    1494 ;	code/rda5807/RDA5807M.c:366: Start = 8700;
-      000F2E 7D FC            [12] 1495 	mov	r5,#0xfc
-      000F30 7E 21            [12] 1496 	mov	r6,#0x21
+      000F9A 7D FC            [12] 1495 	mov	r5,#0xfc
+      000F9C 7E 21            [12] 1496 	mov	r6,#0x21
                                    1497 ;	code/rda5807/RDA5807M.c:367: End = 10800;
-      000F32 7B 30            [12] 1498 	mov	r3,#0x30
-      000F34 7C 2A            [12] 1499 	mov	r4,#0x2a
-      000F36 80 3F            [24] 1500 	sjmp	00115$
-      000F38                       1501 00114$:
+      000F9E 7B 30            [12] 1498 	mov	r3,#0x30
+      000FA0 7C 2A            [12] 1499 	mov	r4,#0x2a
+      000FA2 80 3F            [24] 1500 	sjmp	00115$
+      000FA4                       1501 00114$:
                                    1502 ;	code/rda5807/RDA5807M.c:369: else if (band == 1 /*0b01*/)
-      000F38 BF 01 0A         [24] 1503 	cjne	r7,#0x01,00111$
+      000FA4 BF 01 0A         [24] 1503 	cjne	r7,#0x01,00111$
                                    1504 ;	code/rda5807/RDA5807M.c:371: Start = 7600;
-      000F3B 7D B0            [12] 1505 	mov	r5,#0xb0
-      000F3D 7E 1D            [12] 1506 	mov	r6,#0x1d
+      000FA7 7D B0            [12] 1505 	mov	r5,#0xb0
+      000FA9 7E 1D            [12] 1506 	mov	r6,#0x1d
                                    1507 ;	code/rda5807/RDA5807M.c:372: End = 9100;
-      000F3F 7B 8C            [12] 1508 	mov	r3,#0x8c
-      000F41 7C 23            [12] 1509 	mov	r4,#0x23
-      000F43 80 32            [24] 1510 	sjmp	00115$
-      000F45                       1511 00111$:
+      000FAB 7B 8C            [12] 1508 	mov	r3,#0x8c
+      000FAD 7C 23            [12] 1509 	mov	r4,#0x23
+      000FAF 80 32            [24] 1510 	sjmp	00115$
+      000FB1                       1511 00111$:
                                    1512 ;	code/rda5807/RDA5807M.c:374: else if (band == 2 /*0b10*/)
-      000F45 BF 02 0A         [24] 1513 	cjne	r7,#0x02,00108$
+      000FB1 BF 02 0A         [24] 1513 	cjne	r7,#0x02,00108$
                                    1514 ;	code/rda5807/RDA5807M.c:376: Start = 7600;
-      000F48 7D B0            [12] 1515 	mov	r5,#0xb0
-      000F4A 7E 1D            [12] 1516 	mov	r6,#0x1d
+      000FB4 7D B0            [12] 1515 	mov	r5,#0xb0
+      000FB6 7E 1D            [12] 1516 	mov	r6,#0x1d
                                    1517 ;	code/rda5807/RDA5807M.c:377: End = 10800;
-      000F4C 7B 30            [12] 1518 	mov	r3,#0x30
-      000F4E 7C 2A            [12] 1519 	mov	r4,#0x2a
-      000F50 80 25            [24] 1520 	sjmp	00115$
-      000F52                       1521 00108$:
+      000FB8 7B 30            [12] 1518 	mov	r3,#0x30
+      000FBA 7C 2A            [12] 1519 	mov	r4,#0x2a
+      000FBC 80 25            [24] 1520 	sjmp	00115$
+      000FBE                       1521 00108$:
                                    1522 ;	code/rda5807/RDA5807M.c:379: else if (band == 3 /*0b11*/)
-      000F52 BF 03 21         [24] 1523 	cjne	r7,#0x03,00105$
+      000FBE BF 03 21         [24] 1523 	cjne	r7,#0x03,00105$
                                    1524 ;	code/rda5807/RDA5807M.c:381: if ((RDA5807M_Read_Reg(0x07) >> 9) & 0x01)
-      000F55 75 82 07         [24] 1525 	mov	dpl, #0x07
-      000F58 12 0A 8B         [24] 1526 	lcall	_RDA5807M_Read_Reg
-      000F5B E5 83            [12] 1527 	mov	a,dph
-      000F5D 03               [12] 1528 	rr	a
-      000F5E 54 01            [12] 1529 	anl	a,#0x01
-      000F60 60 0A            [24] 1530 	jz	00102$
+      000FC1 75 82 07         [24] 1525 	mov	dpl, #0x07
+      000FC4 12 0A F7         [24] 1526 	lcall	_RDA5807M_Read_Reg
+      000FC7 E5 83            [12] 1527 	mov	a,dph
+      000FC9 03               [12] 1528 	rr	a
+      000FCA 54 01            [12] 1529 	anl	a,#0x01
+      000FCC 60 0A            [24] 1530 	jz	00102$
                                    1531 ;	code/rda5807/RDA5807M.c:383: Start = 6500;
-      000F62 7D 64            [12] 1532 	mov	r5,#0x64
-      000F64 7E 19            [12] 1533 	mov	r6,#0x19
+      000FCE 7D 64            [12] 1532 	mov	r5,#0x64
+      000FD0 7E 19            [12] 1533 	mov	r6,#0x19
                                    1534 ;	code/rda5807/RDA5807M.c:384: End = 7600;
-      000F66 7B B0            [12] 1535 	mov	r3,#0xb0
-      000F68 7C 1D            [12] 1536 	mov	r4,#0x1d
-      000F6A 80 0B            [24] 1537 	sjmp	00115$
-      000F6C                       1538 00102$:
+      000FD2 7B B0            [12] 1535 	mov	r3,#0xb0
+      000FD4 7C 1D            [12] 1536 	mov	r4,#0x1d
+      000FD6 80 0B            [24] 1537 	sjmp	00115$
+      000FD8                       1538 00102$:
                                    1539 ;	code/rda5807/RDA5807M.c:388: Start = 5000;
-      000F6C 7D 88            [12] 1540 	mov	r5,#0x88
-      000F6E 7E 13            [12] 1541 	mov	r6,#0x13
+      000FD8 7D 88            [12] 1540 	mov	r5,#0x88
+      000FDA 7E 13            [12] 1541 	mov	r6,#0x13
                                    1542 ;	code/rda5807/RDA5807M.c:389: End = 7600;
-      000F70 7B B0            [12] 1543 	mov	r3,#0xb0
-      000F72 7C 1D            [12] 1544 	mov	r4,#0x1d
-      000F74 80 01            [24] 1545 	sjmp	00115$
-      000F76                       1546 00105$:
+      000FDC 7B B0            [12] 1543 	mov	r3,#0xb0
+      000FDE 7C 1D            [12] 1544 	mov	r4,#0x1d
+      000FE0 80 01            [24] 1545 	sjmp	00115$
+      000FE2                       1546 00105$:
                                    1547 ;	code/rda5807/RDA5807M.c:395: return;
-      000F76 22               [24] 1548 	ret
-      000F77                       1549 00115$:
+      000FE2 22               [24] 1548 	ret
+      000FE3                       1549 00115$:
                                    1550 ;	code/rda5807/RDA5807M.c:398: sys_freq = LED_FRE_REAL = Start;
-      000F77 8D 08            [24] 1551 	mov	_LED_FRE_REAL,r5
-      000F79 8E 09            [24] 1552 	mov	(_LED_FRE_REAL + 1),r6
-      000F7B 8D 1A            [24] 1553 	mov	_sys_freq,r5
-      000F7D 8E 1B            [24] 1554 	mov	(_sys_freq + 1),r6
+      000FE3 8D 08            [24] 1551 	mov	_LED_FRE_REAL,r5
+      000FE5 8E 09            [24] 1552 	mov	(_LED_FRE_REAL + 1),r6
+      000FE7 8D 1A            [24] 1553 	mov	_sys_freq,r5
+      000FE9 8E 1B            [24] 1554 	mov	(_sys_freq + 1),r6
                                    1555 ;	code/rda5807/RDA5807M.c:399: LED_SEEK_D = 1;
                                    1556 ;	assignBit
-      000F7F D2 00            [12] 1557 	setb	_LED_SEEK_D
+      000FEB D2 00            [12] 1557 	setb	_LED_SEEK_D
                                    1558 ;	code/rda5807/RDA5807M.c:400: DISPLAY_type = 10;
-      000F81 75 0A 0A         [24] 1559 	mov	_DISPLAY_type,#0x0a
+      000FED 75 0A 0A         [24] 1559 	mov	_DISPLAY_type,#0x0a
                                    1560 ;	code/rda5807/RDA5807M.c:401: LED_HAND_MARK = 0; // 数码管设置为搜台模式
                                    1561 ;	assignBit
-      000F84 C2 01            [12] 1562 	clr	_LED_HAND_MARK
+      000FF0 C2 01            [12] 1562 	clr	_LED_HAND_MARK
                                    1563 ;	code/rda5807/RDA5807M.c:403: RDA5807M_Set_Freq(Start);
-      000F86 8D 82            [24] 1564 	mov	dpl, r5
-      000F88 8E 83            [24] 1565 	mov	dph, r6
-      000F8A C0 04            [24] 1566 	push	ar4
-      000F8C C0 03            [24] 1567 	push	ar3
-      000F8E 12 0D 55         [24] 1568 	lcall	_RDA5807M_Set_Freq
+      000FF2 8D 82            [24] 1564 	mov	dpl, r5
+      000FF4 8E 83            [24] 1565 	mov	dph, r6
+      000FF6 C0 04            [24] 1566 	push	ar4
+      000FF8 C0 03            [24] 1567 	push	ar3
+      000FFA 12 0D C1         [24] 1568 	lcall	_RDA5807M_Set_Freq
                                    1569 ;	code/rda5807/RDA5807M.c:404: Delay(50);
-      000F91 90 00 32         [24] 1570 	mov	dptr,#0x0032
-      000F94 12 05 92         [24] 1571 	lcall	_Delay
+      000FFD 90 00 32         [24] 1570 	mov	dptr,#0x0032
+      001000 12 05 BB         [24] 1571 	lcall	_Delay
                                    1572 ;	code/rda5807/RDA5807M.c:407: CONF_RADIO_ERASE();
-      000F97 12 05 5E         [24] 1573 	lcall	_CONF_RADIO_ERASE
-      000F9A D0 03            [24] 1574 	pop	ar3
-      000F9C D0 04            [24] 1575 	pop	ar4
+      001003 12 05 87         [24] 1573 	lcall	_CONF_RADIO_ERASE
+      001006 D0 03            [24] 1574 	pop	ar3
+      001008 D0 04            [24] 1575 	pop	ar4
                                    1576 ;	code/rda5807/RDA5807M.c:410: while (sys_freq != End)
-      000F9E 7E 00            [12] 1577 	mov	r6,#0x00
-      000FA0 7F 00            [12] 1578 	mov	r7,#0x00
-      000FA2                       1579 00118$:
-      000FA2 EB               [12] 1580 	mov	a,r3
-      000FA3 B5 1A 06         [24] 1581 	cjne	a,_sys_freq,00180$
-      000FA6 EC               [12] 1582 	mov	a,r4
-      000FA7 B5 1B 02         [24] 1583 	cjne	a,(_sys_freq + 1),00180$
-      000FAA 80 4B            [24] 1584 	sjmp	00120$
-      000FAC                       1585 00180$:
+      00100A 7E 00            [12] 1577 	mov	r6,#0x00
+      00100C 7F 00            [12] 1578 	mov	r7,#0x00
+      00100E                       1579 00118$:
+      00100E EB               [12] 1580 	mov	a,r3
+      00100F B5 1A 06         [24] 1581 	cjne	a,_sys_freq,00180$
+      001012 EC               [12] 1582 	mov	a,r4
+      001013 B5 1B 02         [24] 1583 	cjne	a,(_sys_freq + 1),00180$
+      001016 80 4B            [24] 1584 	sjmp	00120$
+      001018                       1585 00180$:
                                    1586 ;	code/rda5807/RDA5807M.c:413: sys_freq = seek(1);
-      000FAC 75 82 01         [24] 1587 	mov	dpl, #0x01
-      000FAF C0 07            [24] 1588 	push	ar7
-      000FB1 C0 06            [24] 1589 	push	ar6
-      000FB3 C0 04            [24] 1590 	push	ar4
-      000FB5 C0 03            [24] 1591 	push	ar3
-      000FB7 12 0E 4B         [24] 1592 	lcall	_seek
-      000FBA 85 82 1A         [24] 1593 	mov	_sys_freq,dpl
-      000FBD 85 83 1B         [24] 1594 	mov	(_sys_freq + 1),dph
+      001018 75 82 01         [24] 1587 	mov	dpl, #0x01
+      00101B C0 07            [24] 1588 	push	ar7
+      00101D C0 06            [24] 1589 	push	ar6
+      00101F C0 04            [24] 1590 	push	ar4
+      001021 C0 03            [24] 1591 	push	ar3
+      001023 12 0E B7         [24] 1592 	lcall	_seek
+      001026 85 82 1A         [24] 1593 	mov	_sys_freq,dpl
+      001029 85 83 1B         [24] 1594 	mov	(_sys_freq + 1),dph
                                    1595 ;	code/rda5807/RDA5807M.c:415: if (RDA5807M_Radio_TRUE())
-      000FC0 12 0F 06         [24] 1596 	lcall	_RDA5807M_Radio_TRUE
-      000FC3 E5 82            [12] 1597 	mov	a, dpl
-      000FC5 D0 03            [24] 1598 	pop	ar3
-      000FC7 D0 04            [24] 1599 	pop	ar4
-      000FC9 D0 06            [24] 1600 	pop	ar6
-      000FCB D0 07            [24] 1601 	pop	ar7
-      000FCD 60 D3            [24] 1602 	jz	00118$
+      00102C 12 0F 72         [24] 1596 	lcall	_RDA5807M_Radio_TRUE
+      00102F E5 82            [12] 1597 	mov	a, dpl
+      001031 D0 03            [24] 1598 	pop	ar3
+      001033 D0 04            [24] 1599 	pop	ar4
+      001035 D0 06            [24] 1600 	pop	ar6
+      001037 D0 07            [24] 1601 	pop	ar7
+      001039 60 D3            [24] 1602 	jz	00118$
                                    1603 ;	code/rda5807/RDA5807M.c:417: CONF_RADIO_PUT(i, sys_freq);
-      000FCF 8E 82            [24] 1604 	mov	dpl,r6
-      000FD1 85 1A 1E         [24] 1605 	mov	_CONF_RADIO_PUT_PARM_2,_sys_freq
-      000FD4 85 1B 1F         [24] 1606 	mov	(_CONF_RADIO_PUT_PARM_2 + 1),(_sys_freq + 1)
-      000FD7 C0 07            [24] 1607 	push	ar7
-      000FD9 C0 06            [24] 1608 	push	ar6
-      000FDB C0 04            [24] 1609 	push	ar4
-      000FDD C0 03            [24] 1610 	push	ar3
-      000FDF 12 05 5F         [24] 1611 	lcall	_CONF_RADIO_PUT
+      00103B 8E 82            [24] 1604 	mov	dpl,r6
+      00103D 85 1A 1E         [24] 1605 	mov	_CONF_RADIO_PUT_PARM_2,_sys_freq
+      001040 85 1B 1F         [24] 1606 	mov	(_CONF_RADIO_PUT_PARM_2 + 1),(_sys_freq + 1)
+      001043 C0 07            [24] 1607 	push	ar7
+      001045 C0 06            [24] 1608 	push	ar6
+      001047 C0 04            [24] 1609 	push	ar4
+      001049 C0 03            [24] 1610 	push	ar3
+      00104B 12 05 88         [24] 1611 	lcall	_CONF_RADIO_PUT
                                    1612 ;	code/rda5807/RDA5807M.c:418: Delay(100); // 给用户听个声音
-      000FE2 90 00 64         [24] 1613 	mov	dptr,#0x0064
-      000FE5 12 05 92         [24] 1614 	lcall	_Delay
-      000FE8 D0 03            [24] 1615 	pop	ar3
-      000FEA D0 04            [24] 1616 	pop	ar4
-      000FEC D0 06            [24] 1617 	pop	ar6
-      000FEE D0 07            [24] 1618 	pop	ar7
+      00104E 90 00 64         [24] 1613 	mov	dptr,#0x0064
+      001051 12 05 BB         [24] 1614 	lcall	_Delay
+      001054 D0 03            [24] 1615 	pop	ar3
+      001056 D0 04            [24] 1616 	pop	ar4
+      001058 D0 06            [24] 1617 	pop	ar6
+      00105A D0 07            [24] 1618 	pop	ar7
                                    1619 ;	code/rda5807/RDA5807M.c:419: i++;        // 最后会多加一次
-      000FF0 0E               [12] 1620 	inc	r6
-      000FF1 BE 00 AE         [24] 1621 	cjne	r6,#0x00,00118$
-      000FF4 0F               [12] 1622 	inc	r7
-      000FF5 80 AB            [24] 1623 	sjmp	00118$
-      000FF7                       1624 00120$:
+      00105C 0E               [12] 1620 	inc	r6
+      00105D BE 00 AE         [24] 1621 	cjne	r6,#0x00,00118$
+      001060 0F               [12] 1622 	inc	r7
+      001061 80 AB            [24] 1623 	sjmp	00118$
+      001063                       1624 00120$:
                                    1625 ;	code/rda5807/RDA5807M.c:423: i = i - 1;
-      000FF7 EE               [12] 1626 	mov	a,r6
-      000FF8 14               [12] 1627 	dec	a
-      000FF9 F5 82            [12] 1628 	mov	dpl,a
+      001063 EE               [12] 1626 	mov	a,r6
+      001064 14               [12] 1627 	dec	a
+      001065 F5 82            [12] 1628 	mov	dpl,a
                                    1629 ;	code/rda5807/RDA5807M.c:425: CONF_SET_INDEX_MAX(i);
-      000FFB 12 05 60         [24] 1630 	lcall	_CONF_SET_INDEX_MAX
+      001067 12 05 89         [24] 1630 	lcall	_CONF_SET_INDEX_MAX
                                    1631 ;	code/rda5807/RDA5807M.c:427: sys_radio_index = 0;
-      000FFE 75 1C 00         [24] 1632 	mov	_sys_radio_index,#0x00
+      00106A 75 1C 00         [24] 1632 	mov	_sys_radio_index,#0x00
                                    1633 ;	code/rda5807/RDA5807M.c:428: RDA5807M_Set_Freq(CONF_GET_RADIO_INDEX(0));
-      001001 75 82 00         [24] 1634 	mov	dpl, #0x00
-      001004 12 05 65         [24] 1635 	lcall	_CONF_GET_RADIO_INDEX
+      00106D 75 82 00         [24] 1634 	mov	dpl, #0x00
+      001070 12 05 8E         [24] 1635 	lcall	_CONF_GET_RADIO_INDEX
                                    1636 ;	code/rda5807/RDA5807M.c:430: }
-      001007 02 0D 55         [24] 1637 	ljmp	_RDA5807M_Set_Freq
+      001073 02 0D C1         [24] 1637 	ljmp	_RDA5807M_Set_Freq
                                    1638 ;------------------------------------------------------------
                                    1639 ;Allocation info for local variables in function 'RDA5807M_Set_Volume'
                                    1640 ;------------------------------------------------------------
@@ -1645,44 +1645,44 @@
                                    1645 ;	-----------------------------------------
                                    1646 ;	 function RDA5807M_Set_Volume
                                    1647 ;	-----------------------------------------
-      00100A                       1648 _RDA5807M_Set_Volume:
-      00100A AF 82            [24] 1649 	mov	r7, dpl
+      001076                       1648 _RDA5807M_Set_Volume:
+      001076 AF 82            [24] 1649 	mov	r7, dpl
                                    1650 ;	code/rda5807/RDA5807M.c:442: vol16 = RDA5807M_Read_Reg(0x05);
-      00100C 75 82 05         [24] 1651 	mov	dpl, #0x05
-      00100F C0 07            [24] 1652 	push	ar7
-      001011 12 0A 8B         [24] 1653 	lcall	_RDA5807M_Read_Reg
-      001014 AD 82            [24] 1654 	mov	r5, dpl
-      001016 AE 83            [24] 1655 	mov	r6, dph
-      001018 D0 07            [24] 1656 	pop	ar7
+      001078 75 82 05         [24] 1651 	mov	dpl, #0x05
+      00107B C0 07            [24] 1652 	push	ar7
+      00107D 12 0A F7         [24] 1653 	lcall	_RDA5807M_Read_Reg
+      001080 AD 82            [24] 1654 	mov	r5, dpl
+      001082 AE 83            [24] 1655 	mov	r6, dph
+      001084 D0 07            [24] 1656 	pop	ar7
                                    1657 ;	code/rda5807/RDA5807M.c:443: vol16 &= 0xFFF0;
-      00101A 53 05 F0         [24] 1658 	anl	ar5,#0xf0
+      001086 53 05 F0         [24] 1658 	anl	ar5,#0xf0
                                    1659 ;	code/rda5807/RDA5807M.c:444: vol16 |= (vol & 0x0F);
-      00101D 8F 03            [24] 1660 	mov	ar3,r7
-      00101F 53 03 0F         [24] 1661 	anl	ar3,#0x0f
-      001022 7C 00            [12] 1662 	mov	r4,#0x00
-      001024 ED               [12] 1663 	mov	a,r5
-      001025 42 03            [12] 1664 	orl	ar3,a
-      001027 EE               [12] 1665 	mov	a,r6
-      001028 42 04            [12] 1666 	orl	ar4,a
-      00102A 8B 3D            [24] 1667 	mov	_RDA5807M_Write_Reg_PARM_2,r3
-      00102C 8C 3E            [24] 1668 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r4
+      001089 8F 03            [24] 1660 	mov	ar3,r7
+      00108B 53 03 0F         [24] 1661 	anl	ar3,#0x0f
+      00108E 7C 00            [12] 1662 	mov	r4,#0x00
+      001090 ED               [12] 1663 	mov	a,r5
+      001091 42 03            [12] 1664 	orl	ar3,a
+      001093 EE               [12] 1665 	mov	a,r6
+      001094 42 04            [12] 1666 	orl	ar4,a
+      001096 8B 3E            [24] 1667 	mov	_RDA5807M_Write_Reg_PARM_2,r3
+      001098 8C 3F            [24] 1668 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r4
                                    1669 ;	code/rda5807/RDA5807M.c:445: RDA5807M_Write_Reg(0x05, vol16);
-      00102E 75 82 05         [24] 1670 	mov	dpl, #0x05
-      001031 C0 07            [24] 1671 	push	ar7
-      001033 12 0A 58         [24] 1672 	lcall	_RDA5807M_Write_Reg
-      001036 D0 07            [24] 1673 	pop	ar7
+      00109A 75 82 05         [24] 1670 	mov	dpl, #0x05
+      00109D C0 07            [24] 1671 	push	ar7
+      00109F 12 0A C4         [24] 1672 	lcall	_RDA5807M_Write_Reg
+      0010A2 D0 07            [24] 1673 	pop	ar7
                                    1674 ;	code/rda5807/RDA5807M.c:447: CONF_SET_VOL(vol);
-      001038 8F 82            [24] 1675 	mov	dpl, r7
-      00103A 12 05 31         [24] 1676 	lcall	_CONF_SET_VOL
+      0010A4 8F 82            [24] 1675 	mov	dpl, r7
+      0010A6 12 05 5A         [24] 1676 	lcall	_CONF_SET_VOL
                                    1677 ;	code/rda5807/RDA5807M.c:450: if (!MUTE_STATUS)
-      00103D E5 3C            [12] 1678 	mov	a,_MUTE_STATUS
-      00103F 70 06            [24] 1679 	jnz	00103$
+      0010A9 E5 3D            [12] 1678 	mov	a,_MUTE_STATUS
+      0010AB 70 06            [24] 1679 	jnz	00103$
                                    1680 ;	code/rda5807/RDA5807M.c:452: RDA5807M_SetMUTE(1);
-      001041 75 82 01         [24] 1681 	mov	dpl, #0x01
+      0010AD 75 82 01         [24] 1681 	mov	dpl, #0x01
                                    1682 ;	code/rda5807/RDA5807M.c:454: }
-      001044 02 10 48         [24] 1683 	ljmp	_RDA5807M_SetMUTE
-      001047                       1684 00103$:
-      001047 22               [24] 1685 	ret
+      0010B0 02 10 B4         [24] 1683 	ljmp	_RDA5807M_SetMUTE
+      0010B3                       1684 00103$:
+      0010B3 22               [24] 1685 	ret
                                    1686 ;------------------------------------------------------------
                                    1687 ;Allocation info for local variables in function 'RDA5807M_SetMUTE'
                                    1688 ;------------------------------------------------------------
@@ -1693,35 +1693,35 @@
                                    1693 ;	-----------------------------------------
                                    1694 ;	 function RDA5807M_SetMUTE
                                    1695 ;	-----------------------------------------
-      001048                       1696 _RDA5807M_SetMUTE:
-      001048 AF 82            [24] 1697 	mov	r7, dpl
+      0010B4                       1696 _RDA5807M_SetMUTE:
+      0010B4 AF 82            [24] 1697 	mov	r7, dpl
                                    1698 ;	code/rda5807/RDA5807M.c:463: band = RDA5807M_Read_Reg(0x02);
-      00104A 75 82 02         [24] 1699 	mov	dpl, #0x02
-      00104D C0 07            [24] 1700 	push	ar7
-      00104F 12 0A 8B         [24] 1701 	lcall	_RDA5807M_Read_Reg
-      001052 AD 82            [24] 1702 	mov	r5, dpl
-      001054 AE 83            [24] 1703 	mov	r6, dph
-      001056 D0 07            [24] 1704 	pop	ar7
+      0010B6 75 82 02         [24] 1699 	mov	dpl, #0x02
+      0010B9 C0 07            [24] 1700 	push	ar7
+      0010BB 12 0A F7         [24] 1701 	lcall	_RDA5807M_Read_Reg
+      0010BE AD 82            [24] 1702 	mov	r5, dpl
+      0010C0 AE 83            [24] 1703 	mov	r6, dph
+      0010C2 D0 07            [24] 1704 	pop	ar7
                                    1705 ;	code/rda5807/RDA5807M.c:464: if (mute)
-      001058 EF               [12] 1706 	mov	a,r7
-      001059 60 09            [24] 1707 	jz	00102$
+      0010C4 EF               [12] 1706 	mov	a,r7
+      0010C5 60 09            [24] 1707 	jz	00102$
                                    1708 ;	code/rda5807/RDA5807M.c:466: band |= 1 << 14;
-      00105B 8D 04            [24] 1709 	mov	ar4,r5
-      00105D 8E 07            [24] 1710 	mov	ar7,r6
-      00105F 43 07 40         [24] 1711 	orl	ar7,#0x40
-      001062 80 07            [24] 1712 	sjmp	00103$
-      001064                       1713 00102$:
+      0010C7 8D 04            [24] 1709 	mov	ar4,r5
+      0010C9 8E 07            [24] 1710 	mov	ar7,r6
+      0010CB 43 07 40         [24] 1711 	orl	ar7,#0x40
+      0010CE 80 07            [24] 1712 	sjmp	00103$
+      0010D0                       1713 00102$:
                                    1714 ;	code/rda5807/RDA5807M.c:470: band &= ~(1 << 14);
-      001064 53 06 BF         [24] 1715 	anl	ar6,#0xbf
-      001067 8D 04            [24] 1716 	mov	ar4,r5
-      001069 8E 07            [24] 1717 	mov	ar7,r6
-      00106B                       1718 00103$:
+      0010D0 53 06 BF         [24] 1715 	anl	ar6,#0xbf
+      0010D3 8D 04            [24] 1716 	mov	ar4,r5
+      0010D5 8E 07            [24] 1717 	mov	ar7,r6
+      0010D7                       1718 00103$:
                                    1719 ;	code/rda5807/RDA5807M.c:472: RDA5807M_Write_Reg(0x02, band);
-      00106B 8C 3D            [24] 1720 	mov	_RDA5807M_Write_Reg_PARM_2,r4
-      00106D 8F 3E            [24] 1721 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r7
-      00106F 75 82 02         [24] 1722 	mov	dpl, #0x02
+      0010D7 8C 3E            [24] 1720 	mov	_RDA5807M_Write_Reg_PARM_2,r4
+      0010D9 8F 3F            [24] 1721 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r7
+      0010DB 75 82 02         [24] 1722 	mov	dpl, #0x02
                                    1723 ;	code/rda5807/RDA5807M.c:473: }
-      001072 02 0A 58         [24] 1724 	ljmp	_RDA5807M_Write_Reg
+      0010DE 02 0A C4         [24] 1724 	ljmp	_RDA5807M_Write_Reg
                                    1725 ;------------------------------------------------------------
                                    1726 ;Allocation info for local variables in function 'RDA5807M_CHANGE_MUTE'
                                    1727 ;------------------------------------------------------------
@@ -1732,42 +1732,42 @@
                                    1732 ;	-----------------------------------------
                                    1733 ;	 function RDA5807M_CHANGE_MUTE
                                    1734 ;	-----------------------------------------
-      001075                       1735 _RDA5807M_CHANGE_MUTE:
+      0010E1                       1735 _RDA5807M_CHANGE_MUTE:
                                    1736 ;	code/rda5807/RDA5807M.c:479: band = RDA5807M_Read_Reg(0x02);
-      001075 75 82 02         [24] 1737 	mov	dpl, #0x02
-      001078 12 0A 8B         [24] 1738 	lcall	_RDA5807M_Read_Reg
-      00107B AE 82            [24] 1739 	mov	r6, dpl
+      0010E1 75 82 02         [24] 1737 	mov	dpl, #0x02
+      0010E4 12 0A F7         [24] 1738 	lcall	_RDA5807M_Read_Reg
+      0010E7 AE 82            [24] 1739 	mov	r6, dpl
                                    1740 ;	code/rda5807/RDA5807M.c:480: mute = band >> 14;
-      00107D E5 83            [12] 1741 	mov	a,dph
-      00107F FF               [12] 1742 	mov	r7,a
-      001080 23               [12] 1743 	rl	a
-      001081 23               [12] 1744 	rl	a
-      001082 54 03            [12] 1745 	anl	a,#0x03
+      0010E9 E5 83            [12] 1741 	mov	a,dph
+      0010EB FF               [12] 1742 	mov	r7,a
+      0010EC 23               [12] 1743 	rl	a
+      0010ED 23               [12] 1744 	rl	a
+      0010EE 54 03            [12] 1745 	anl	a,#0x03
                                    1746 ;	code/rda5807/RDA5807M.c:481: mute = (~mute) & 0x01;
-      001084 F4               [12] 1747 	cpl	a
-      001085 30 E0 0C         [24] 1748 	jnb	acc.0,00102$
+      0010F0 F4               [12] 1747 	cpl	a
+      0010F1 30 E0 0C         [24] 1748 	jnb	acc.0,00102$
                                    1749 ;	code/rda5807/RDA5807M.c:482: if (mute)
                                    1750 ;	code/rda5807/RDA5807M.c:484: band |= 1 << 14;
-      001088 8E 04            [24] 1751 	mov	ar4,r6
-      00108A 8F 05            [24] 1752 	mov	ar5,r7
-      00108C 43 05 40         [24] 1753 	orl	ar5,#0x40
+      0010F4 8E 04            [24] 1751 	mov	ar4,r6
+      0010F6 8F 05            [24] 1752 	mov	ar5,r7
+      0010F8 43 05 40         [24] 1753 	orl	ar5,#0x40
                                    1754 ;	code/rda5807/RDA5807M.c:485: MUTE_STATUS = 1;
-      00108F 75 3C 01         [24] 1755 	mov	_MUTE_STATUS,#0x01
-      001092 80 0A            [24] 1756 	sjmp	00103$
-      001094                       1757 00102$:
+      0010FB 75 3D 01         [24] 1755 	mov	_MUTE_STATUS,#0x01
+      0010FE 80 0A            [24] 1756 	sjmp	00103$
+      001100                       1757 00102$:
                                    1758 ;	code/rda5807/RDA5807M.c:489: band &= ~(1 << 14);
-      001094 53 07 BF         [24] 1759 	anl	ar7,#0xbf
-      001097 8E 04            [24] 1760 	mov	ar4,r6
-      001099 8F 05            [24] 1761 	mov	ar5,r7
+      001100 53 07 BF         [24] 1759 	anl	ar7,#0xbf
+      001103 8E 04            [24] 1760 	mov	ar4,r6
+      001105 8F 05            [24] 1761 	mov	ar5,r7
                                    1762 ;	code/rda5807/RDA5807M.c:490: MUTE_STATUS = 0;
-      00109B 75 3C 00         [24] 1763 	mov	_MUTE_STATUS,#0x00
-      00109E                       1764 00103$:
+      001107 75 3D 00         [24] 1763 	mov	_MUTE_STATUS,#0x00
+      00110A                       1764 00103$:
                                    1765 ;	code/rda5807/RDA5807M.c:492: RDA5807M_Write_Reg(0x02, band);
-      00109E 8C 3D            [24] 1766 	mov	_RDA5807M_Write_Reg_PARM_2,r4
-      0010A0 8D 3E            [24] 1767 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r5
-      0010A2 75 82 02         [24] 1768 	mov	dpl, #0x02
+      00110A 8C 3E            [24] 1766 	mov	_RDA5807M_Write_Reg_PARM_2,r4
+      00110C 8D 3F            [24] 1767 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r5
+      00110E 75 82 02         [24] 1768 	mov	dpl, #0x02
                                    1769 ;	code/rda5807/RDA5807M.c:493: }
-      0010A5 02 0A 58         [24] 1770 	ljmp	_RDA5807M_Write_Reg
+      001111 02 0A C4         [24] 1770 	ljmp	_RDA5807M_Write_Reg
                                    1771 ;------------------------------------------------------------
                                    1772 ;Allocation info for local variables in function 'RDA5807M_Set_Output_Idle'
                                    1773 ;------------------------------------------------------------
@@ -1778,35 +1778,35 @@
                                    1778 ;	-----------------------------------------
                                    1779 ;	 function RDA5807M_Set_Output_Idle
                                    1780 ;	-----------------------------------------
-      0010A8                       1781 _RDA5807M_Set_Output_Idle:
-      0010A8 AF 82            [24] 1782 	mov	r7, dpl
+      001114                       1781 _RDA5807M_Set_Output_Idle:
+      001114 AF 82            [24] 1782 	mov	r7, dpl
                                    1783 ;	code/rda5807/RDA5807M.c:503: impedance = RDA5807M_Read_Reg(0x02);
-      0010AA 75 82 02         [24] 1784 	mov	dpl, #0x02
-      0010AD C0 07            [24] 1785 	push	ar7
-      0010AF 12 0A 8B         [24] 1786 	lcall	_RDA5807M_Read_Reg
-      0010B2 AD 82            [24] 1787 	mov	r5, dpl
-      0010B4 AE 83            [24] 1788 	mov	r6, dph
-      0010B6 D0 07            [24] 1789 	pop	ar7
+      001116 75 82 02         [24] 1784 	mov	dpl, #0x02
+      001119 C0 07            [24] 1785 	push	ar7
+      00111B 12 0A F7         [24] 1786 	lcall	_RDA5807M_Read_Reg
+      00111E AD 82            [24] 1787 	mov	r5, dpl
+      001120 AE 83            [24] 1788 	mov	r6, dph
+      001122 D0 07            [24] 1789 	pop	ar7
                                    1790 ;	code/rda5807/RDA5807M.c:504: if (flage)
-      0010B8 EF               [12] 1791 	mov	a,r7
-      0010B9 60 09            [24] 1792 	jz	00102$
+      001124 EF               [12] 1791 	mov	a,r7
+      001125 60 09            [24] 1792 	jz	00102$
                                    1793 ;	code/rda5807/RDA5807M.c:506: impedance &= ~(1 << 15);
-      0010BB 8D 04            [24] 1794 	mov	ar4,r5
-      0010BD 8E 07            [24] 1795 	mov	ar7,r6
-      0010BF 53 07 7F         [24] 1796 	anl	ar7,#0x7f
-      0010C2 80 07            [24] 1797 	sjmp	00103$
-      0010C4                       1798 00102$:
+      001127 8D 04            [24] 1794 	mov	ar4,r5
+      001129 8E 07            [24] 1795 	mov	ar7,r6
+      00112B 53 07 7F         [24] 1796 	anl	ar7,#0x7f
+      00112E 80 07            [24] 1797 	sjmp	00103$
+      001130                       1798 00102$:
                                    1799 ;	code/rda5807/RDA5807M.c:510: impedance |= 1 << 15;
-      0010C4 43 06 80         [24] 1800 	orl	ar6,#0x80
-      0010C7 8D 04            [24] 1801 	mov	ar4,r5
-      0010C9 8E 07            [24] 1802 	mov	ar7,r6
-      0010CB                       1803 00103$:
+      001130 43 06 80         [24] 1800 	orl	ar6,#0x80
+      001133 8D 04            [24] 1801 	mov	ar4,r5
+      001135 8E 07            [24] 1802 	mov	ar7,r6
+      001137                       1803 00103$:
                                    1804 ;	code/rda5807/RDA5807M.c:512: RDA5807M_Write_Reg(0x02, impedance);
-      0010CB 8C 3D            [24] 1805 	mov	_RDA5807M_Write_Reg_PARM_2,r4
-      0010CD 8F 3E            [24] 1806 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r7
-      0010CF 75 82 02         [24] 1807 	mov	dpl, #0x02
+      001137 8C 3E            [24] 1805 	mov	_RDA5807M_Write_Reg_PARM_2,r4
+      001139 8F 3F            [24] 1806 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r7
+      00113B 75 82 02         [24] 1807 	mov	dpl, #0x02
                                    1808 ;	code/rda5807/RDA5807M.c:513: }
-      0010D2 02 0A 58         [24] 1809 	ljmp	_RDA5807M_Write_Reg
+      00113E 02 0A C4         [24] 1809 	ljmp	_RDA5807M_Write_Reg
                                    1810 ;------------------------------------------------------------
                                    1811 ;Allocation info for local variables in function 'RDA5807M_Read_RSSI'
                                    1812 ;------------------------------------------------------------
@@ -1816,18 +1816,18 @@
                                    1816 ;	-----------------------------------------
                                    1817 ;	 function RDA5807M_Read_RSSI
                                    1818 ;	-----------------------------------------
-      0010D5                       1819 _RDA5807M_Read_RSSI:
+      001141                       1819 _RDA5807M_Read_RSSI:
                                    1820 ;	code/rda5807/RDA5807M.c:522: temp_rssi = RDA5807M_Read_Reg(0x0B);
-      0010D5 75 82 0B         [24] 1821 	mov	dpl, #0x0b
-      0010D8 12 0A 8B         [24] 1822 	lcall	_RDA5807M_Read_Reg
+      001141 75 82 0B         [24] 1821 	mov	dpl, #0x0b
+      001144 12 0A F7         [24] 1822 	lcall	_RDA5807M_Read_Reg
                                    1823 ;	code/rda5807/RDA5807M.c:523: temp_rssi >>= 9;
-      0010DB E5 83            [12] 1824 	mov	a,dph
-      0010DD C3               [12] 1825 	clr	c
-      0010DE 13               [12] 1826 	rrc	a
+      001147 E5 83            [12] 1824 	mov	a,dph
+      001149 C3               [12] 1825 	clr	c
+      00114A 13               [12] 1826 	rrc	a
                                    1827 ;	code/rda5807/RDA5807M.c:524: return (uint8_t)temp_rssi;
-      0010DF F5 82            [12] 1828 	mov	dpl, a
+      00114B F5 82            [12] 1828 	mov	dpl, a
                                    1829 ;	code/rda5807/RDA5807M.c:525: }
-      0010E1 22               [24] 1830 	ret
+      00114D 22               [24] 1830 	ret
                                    1831 ;------------------------------------------------------------
                                    1832 ;Allocation info for local variables in function 'RDA5807M_CHIPID'
                                    1833 ;------------------------------------------------------------
@@ -1835,11 +1835,11 @@
                                    1835 ;	-----------------------------------------
                                    1836 ;	 function RDA5807M_CHIPID
                                    1837 ;	-----------------------------------------
-      0010E2                       1838 _RDA5807M_CHIPID:
+      00114E                       1838 _RDA5807M_CHIPID:
                                    1839 ;	code/rda5807/RDA5807M.c:534: return RDA5807M_Read_Reg(0x00);
-      0010E2 75 82 00         [24] 1840 	mov	dpl, #0x00
+      00114E 75 82 00         [24] 1840 	mov	dpl, #0x00
                                    1841 ;	code/rda5807/RDA5807M.c:535: }
-      0010E5 02 0A 8B         [24] 1842 	ljmp	_RDA5807M_Read_Reg
+      001151 02 0A F7         [24] 1842 	ljmp	_RDA5807M_Read_Reg
                                    1843 ;------------------------------------------------------------
                                    1844 ;Allocation info for local variables in function 'RDA5807M_Set_FreqRange'
                                    1845 ;------------------------------------------------------------
@@ -1850,109 +1850,109 @@
                                    1850 ;	-----------------------------------------
                                    1851 ;	 function RDA5807M_Set_FreqRange
                                    1852 ;	-----------------------------------------
-      0010E8                       1853 _RDA5807M_Set_FreqRange:
-      0010E8 AF 82            [24] 1854 	mov	r7, dpl
+      001154                       1853 _RDA5807M_Set_FreqRange:
+      001154 AF 82            [24] 1854 	mov	r7, dpl
                                    1855 ;	code/rda5807/RDA5807M.c:549: band = RDA5807M_Read_Reg(0x03);
-      0010EA 75 82 03         [24] 1856 	mov	dpl, #0x03
-      0010ED C0 07            [24] 1857 	push	ar7
-      0010EF 12 0A 8B         [24] 1858 	lcall	_RDA5807M_Read_Reg
-      0010F2 AD 82            [24] 1859 	mov	r5, dpl
-      0010F4 AE 83            [24] 1860 	mov	r6, dph
-      0010F6 D0 07            [24] 1861 	pop	ar7
+      001156 75 82 03         [24] 1856 	mov	dpl, #0x03
+      001159 C0 07            [24] 1857 	push	ar7
+      00115B 12 0A F7         [24] 1858 	lcall	_RDA5807M_Read_Reg
+      00115E AD 82            [24] 1859 	mov	r5, dpl
+      001160 AE 83            [24] 1860 	mov	r6, dph
+      001162 D0 07            [24] 1861 	pop	ar7
                                    1862 ;	code/rda5807/RDA5807M.c:550: if (Range == BAND_87_108)
-      0010F8 BF 01 11         [24] 1863 	cjne	r7,#0x01,00113$
+      001164 BF 01 11         [24] 1863 	cjne	r7,#0x01,00113$
                                    1864 ;	code/rda5807/RDA5807M.c:552: band &= ~(1 << 3);
-      0010FB 8D 03            [24] 1865 	mov	ar3,r5
-      0010FD 8E 04            [24] 1866 	mov	ar4,r6
+      001167 8D 03            [24] 1865 	mov	ar3,r5
+      001169 8E 04            [24] 1866 	mov	ar4,r6
                                    1867 ;	code/rda5807/RDA5807M.c:553: band &= ~(1 << 2);
-      0010FF 53 03 F3         [24] 1868 	anl	ar3,#(0xf7&0xfb)
-      001102 8B 3D            [24] 1869 	mov	_RDA5807M_Write_Reg_PARM_2,r3
-      001104 8C 3E            [24] 1870 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r4
+      00116B 53 03 F3         [24] 1868 	anl	ar3,#(0xf7&0xfb)
+      00116E 8B 3E            [24] 1869 	mov	_RDA5807M_Write_Reg_PARM_2,r3
+      001170 8C 3F            [24] 1870 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r4
                                    1871 ;	code/rda5807/RDA5807M.c:554: RDA5807M_Write_Reg(0x03, band);
-      001106 75 82 03         [24] 1872 	mov	dpl, #0x03
-      001109 02 0A 58         [24] 1873 	ljmp	_RDA5807M_Write_Reg
-      00110C                       1874 00113$:
+      001172 75 82 03         [24] 1872 	mov	dpl, #0x03
+      001175 02 0A C4         [24] 1873 	ljmp	_RDA5807M_Write_Reg
+      001178                       1874 00113$:
                                    1875 ;	code/rda5807/RDA5807M.c:556: else if (Range == BAND_76_91)
-      00110C BF 02 14         [24] 1876 	cjne	r7,#0x02,00110$
+      001178 BF 02 14         [24] 1876 	cjne	r7,#0x02,00110$
                                    1877 ;	code/rda5807/RDA5807M.c:558: band &= ~(1 << 3);
-      00110F 8D 03            [24] 1878 	mov	ar3,r5
-      001111 8E 04            [24] 1879 	mov	ar4,r6
-      001113 53 03 F7         [24] 1880 	anl	ar3,#0xf7
+      00117B 8D 03            [24] 1878 	mov	ar3,r5
+      00117D 8E 04            [24] 1879 	mov	ar4,r6
+      00117F 53 03 F7         [24] 1880 	anl	ar3,#0xf7
                                    1881 ;	code/rda5807/RDA5807M.c:559: band |= 1 << 2;
-      001116 74 04            [12] 1882 	mov	a,#0x04
-      001118 4B               [12] 1883 	orl	a,r3
-      001119 F5 3D            [12] 1884 	mov	_RDA5807M_Write_Reg_PARM_2,a
-      00111B 8C 3E            [24] 1885 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r4
+      001182 74 04            [12] 1882 	mov	a,#0x04
+      001184 4B               [12] 1883 	orl	a,r3
+      001185 F5 3E            [12] 1884 	mov	_RDA5807M_Write_Reg_PARM_2,a
+      001187 8C 3F            [24] 1885 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r4
                                    1886 ;	code/rda5807/RDA5807M.c:560: RDA5807M_Write_Reg(0x03, band);
-      00111D 75 82 03         [24] 1887 	mov	dpl, #0x03
-      001120 02 0A 58         [24] 1888 	ljmp	_RDA5807M_Write_Reg
-      001123                       1889 00110$:
+      001189 75 82 03         [24] 1887 	mov	dpl, #0x03
+      00118C 02 0A C4         [24] 1888 	ljmp	_RDA5807M_Write_Reg
+      00118F                       1889 00110$:
                                    1890 ;	code/rda5807/RDA5807M.c:562: else if (Range == BAND_76_108)
-      001123 BF 03 14         [24] 1891 	cjne	r7,#0x03,00107$
+      00118F BF 03 14         [24] 1891 	cjne	r7,#0x03,00107$
                                    1892 ;	code/rda5807/RDA5807M.c:564: band |= 1 << 3;
-      001126 43 05 08         [24] 1893 	orl	ar5,#0x08
+      001192 43 05 08         [24] 1893 	orl	ar5,#0x08
                                    1894 ;	code/rda5807/RDA5807M.c:565: band &= ~(1 << 2);
-      001129 8D 03            [24] 1895 	mov	ar3,r5
-      00112B 8E 04            [24] 1896 	mov	ar4,r6
-      00112D 53 03 FB         [24] 1897 	anl	ar3,#0xfb
-      001130 8B 3D            [24] 1898 	mov	_RDA5807M_Write_Reg_PARM_2,r3
-      001132 8C 3E            [24] 1899 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r4
+      001195 8D 03            [24] 1895 	mov	ar3,r5
+      001197 8E 04            [24] 1896 	mov	ar4,r6
+      001199 53 03 FB         [24] 1897 	anl	ar3,#0xfb
+      00119C 8B 3E            [24] 1898 	mov	_RDA5807M_Write_Reg_PARM_2,r3
+      00119E 8C 3F            [24] 1899 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r4
                                    1900 ;	code/rda5807/RDA5807M.c:566: RDA5807M_Write_Reg(0x03, band);
-      001134 75 82 03         [24] 1901 	mov	dpl, #0x03
-      001137 02 0A 58         [24] 1902 	ljmp	_RDA5807M_Write_Reg
-      00113A                       1903 00107$:
+      0011A0 75 82 03         [24] 1901 	mov	dpl, #0x03
+      0011A3 02 0A C4         [24] 1902 	ljmp	_RDA5807M_Write_Reg
+      0011A6                       1903 00107$:
                                    1904 ;	code/rda5807/RDA5807M.c:568: else if (Range == BAND_65_76)
-      00113A BF 04 27         [24] 1905 	cjne	r7,#0x04,00104$
+      0011A6 BF 04 27         [24] 1905 	cjne	r7,#0x04,00104$
                                    1906 ;	code/rda5807/RDA5807M.c:570: band |= 1 << 2;
-      00113D 43 05 04         [24] 1907 	orl	ar5,#0x04
+      0011A9 43 05 04         [24] 1907 	orl	ar5,#0x04
                                    1908 ;	code/rda5807/RDA5807M.c:571: band |= 1 << 3;
-      001140 74 08            [12] 1909 	mov	a,#0x08
-      001142 4D               [12] 1910 	orl	a,r5
-      001143 F5 3D            [12] 1911 	mov	_RDA5807M_Write_Reg_PARM_2,a
-      001145 8E 3E            [24] 1912 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r6
+      0011AC 74 08            [12] 1909 	mov	a,#0x08
+      0011AE 4D               [12] 1910 	orl	a,r5
+      0011AF F5 3E            [12] 1911 	mov	_RDA5807M_Write_Reg_PARM_2,a
+      0011B1 8E 3F            [24] 1912 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r6
                                    1913 ;	code/rda5807/RDA5807M.c:572: RDA5807M_Write_Reg(0x03, band);
-      001147 75 82 03         [24] 1914 	mov	dpl, #0x03
-      00114A 12 0A 58         [24] 1915 	lcall	_RDA5807M_Write_Reg
+      0011B3 75 82 03         [24] 1914 	mov	dpl, #0x03
+      0011B6 12 0A C4         [24] 1915 	lcall	_RDA5807M_Write_Reg
                                    1916 ;	code/rda5807/RDA5807M.c:573: band = RDA5807M_Read_Reg(0x07);
-      00114D 75 82 07         [24] 1917 	mov	dpl, #0x07
-      001150 12 0A 8B         [24] 1918 	lcall	_RDA5807M_Read_Reg
-      001153 AB 82            [24] 1919 	mov	r3, dpl
-      001155 AC 83            [24] 1920 	mov	r4, dph
+      0011B9 75 82 07         [24] 1917 	mov	dpl, #0x07
+      0011BC 12 0A F7         [24] 1918 	lcall	_RDA5807M_Read_Reg
+      0011BF AB 82            [24] 1919 	mov	r3, dpl
+      0011C1 AC 83            [24] 1920 	mov	r4, dph
                                    1921 ;	code/rda5807/RDA5807M.c:574: band |= 1 << 9;
-      001157 43 04 02         [24] 1922 	orl	ar4,#0x02
-      00115A 8B 3D            [24] 1923 	mov	_RDA5807M_Write_Reg_PARM_2,r3
-      00115C 8C 3E            [24] 1924 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r4
+      0011C3 43 04 02         [24] 1922 	orl	ar4,#0x02
+      0011C6 8B 3E            [24] 1923 	mov	_RDA5807M_Write_Reg_PARM_2,r3
+      0011C8 8C 3F            [24] 1924 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r4
                                    1925 ;	code/rda5807/RDA5807M.c:575: RDA5807M_Write_Reg(0x07, band);
-      00115E 75 82 07         [24] 1926 	mov	dpl, #0x07
-      001161 02 0A 58         [24] 1927 	ljmp	_RDA5807M_Write_Reg
-      001164                       1928 00104$:
+      0011CA 75 82 07         [24] 1926 	mov	dpl, #0x07
+      0011CD 02 0A C4         [24] 1927 	ljmp	_RDA5807M_Write_Reg
+      0011D0                       1928 00104$:
                                    1929 ;	code/rda5807/RDA5807M.c:577: else if (Range == BAND_50_76)
-      001164 BF 05 27         [24] 1930 	cjne	r7,#0x05,00115$
+      0011D0 BF 05 27         [24] 1930 	cjne	r7,#0x05,00115$
                                    1931 ;	code/rda5807/RDA5807M.c:579: band |= 1 << 2;
-      001167 43 05 04         [24] 1932 	orl	ar5,#0x04
+      0011D3 43 05 04         [24] 1932 	orl	ar5,#0x04
                                    1933 ;	code/rda5807/RDA5807M.c:580: band |= 1 << 3;
-      00116A 74 08            [12] 1934 	mov	a,#0x08
-      00116C 4D               [12] 1935 	orl	a,r5
-      00116D F5 3D            [12] 1936 	mov	_RDA5807M_Write_Reg_PARM_2,a
-      00116F 8E 3E            [24] 1937 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r6
+      0011D6 74 08            [12] 1934 	mov	a,#0x08
+      0011D8 4D               [12] 1935 	orl	a,r5
+      0011D9 F5 3E            [12] 1936 	mov	_RDA5807M_Write_Reg_PARM_2,a
+      0011DB 8E 3F            [24] 1937 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r6
                                    1938 ;	code/rda5807/RDA5807M.c:581: RDA5807M_Write_Reg(0x03, band);
-      001171 75 82 03         [24] 1939 	mov	dpl, #0x03
-      001174 12 0A 58         [24] 1940 	lcall	_RDA5807M_Write_Reg
+      0011DD 75 82 03         [24] 1939 	mov	dpl, #0x03
+      0011E0 12 0A C4         [24] 1940 	lcall	_RDA5807M_Write_Reg
                                    1941 ;	code/rda5807/RDA5807M.c:582: band = RDA5807M_Read_Reg(0x07);
-      001177 75 82 07         [24] 1942 	mov	dpl, #0x07
-      00117A 12 0A 8B         [24] 1943 	lcall	_RDA5807M_Read_Reg
-      00117D AE 82            [24] 1944 	mov	r6, dpl
-      00117F AF 83            [24] 1945 	mov	r7, dph
+      0011E3 75 82 07         [24] 1942 	mov	dpl, #0x07
+      0011E6 12 0A F7         [24] 1943 	lcall	_RDA5807M_Read_Reg
+      0011E9 AE 82            [24] 1944 	mov	r6, dpl
+      0011EB AF 83            [24] 1945 	mov	r7, dph
                                    1946 ;	code/rda5807/RDA5807M.c:583: band &= ~(1 << 9);
-      001181 53 07 FD         [24] 1947 	anl	ar7,#0xfd
-      001184 8E 3D            [24] 1948 	mov	_RDA5807M_Write_Reg_PARM_2,r6
-      001186 8F 3E            [24] 1949 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r7
+      0011ED 53 07 FD         [24] 1947 	anl	ar7,#0xfd
+      0011F0 8E 3E            [24] 1948 	mov	_RDA5807M_Write_Reg_PARM_2,r6
+      0011F2 8F 3F            [24] 1949 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r7
                                    1950 ;	code/rda5807/RDA5807M.c:584: RDA5807M_Write_Reg(0x07, band);
-      001188 75 82 07         [24] 1951 	mov	dpl, #0x07
+      0011F4 75 82 07         [24] 1951 	mov	dpl, #0x07
                                    1952 ;	code/rda5807/RDA5807M.c:586: }
-      00118B 02 0A 58         [24] 1953 	ljmp	_RDA5807M_Write_Reg
-      00118E                       1954 00115$:
-      00118E 22               [24] 1955 	ret
+      0011F7 02 0A C4         [24] 1953 	ljmp	_RDA5807M_Write_Reg
+      0011FA                       1954 00115$:
+      0011FA 22               [24] 1955 	ret
                                    1956 ;------------------------------------------------------------
                                    1957 ;Allocation info for local variables in function 'RDA5807M_Set_Freqspace_step'
                                    1958 ;------------------------------------------------------------
@@ -1963,70 +1963,70 @@
                                    1963 ;	-----------------------------------------
                                    1964 ;	 function RDA5807M_Set_Freqspace_step
                                    1965 ;	-----------------------------------------
-      00118F                       1966 _RDA5807M_Set_Freqspace_step:
-      00118F AF 82            [24] 1967 	mov	r7, dpl
+      0011FB                       1966 _RDA5807M_Set_Freqspace_step:
+      0011FB AF 82            [24] 1967 	mov	r7, dpl
                                    1968 ;	code/rda5807/RDA5807M.c:597: band = RDA5807M_Read_Reg(0x03);
-      001191 75 82 03         [24] 1969 	mov	dpl, #0x03
-      001194 C0 07            [24] 1970 	push	ar7
-      001196 12 0A 8B         [24] 1971 	lcall	_RDA5807M_Read_Reg
-      001199 AD 82            [24] 1972 	mov	r5, dpl
-      00119B AE 83            [24] 1973 	mov	r6, dph
-      00119D D0 07            [24] 1974 	pop	ar7
+      0011FD 75 82 03         [24] 1969 	mov	dpl, #0x03
+      001200 C0 07            [24] 1970 	push	ar7
+      001202 12 0A F7         [24] 1971 	lcall	_RDA5807M_Read_Reg
+      001205 AD 82            [24] 1972 	mov	r5, dpl
+      001207 AE 83            [24] 1973 	mov	r6, dph
+      001209 D0 07            [24] 1974 	pop	ar7
                                    1975 ;	code/rda5807/RDA5807M.c:598: if (SPACE == Space_100kHz)
-      00119F BF 01 0D         [24] 1976 	cjne	r7,#0x01,00110$
+      00120B BF 01 0D         [24] 1976 	cjne	r7,#0x01,00110$
                                    1977 ;	code/rda5807/RDA5807M.c:600: band &= ~(1 << 1);
-      0011A2 8D 03            [24] 1978 	mov	ar3,r5
-      0011A4 8E 04            [24] 1979 	mov	ar4,r6
+      00120E 8D 03            [24] 1978 	mov	ar3,r5
+      001210 8E 04            [24] 1979 	mov	ar4,r6
                                    1980 ;	code/rda5807/RDA5807M.c:601: band &= ~(1 << 0);
-      0011A6 53 03 FC         [24] 1981 	anl	ar3,#(0xfd&0xfe)
-      0011A9 8B 05            [24] 1982 	mov	ar5,r3
-      0011AB 8C 06            [24] 1983 	mov	ar6,r4
-      0011AD 80 34            [24] 1984 	sjmp	00111$
-      0011AF                       1985 00110$:
+      001212 53 03 FC         [24] 1981 	anl	ar3,#(0xfd&0xfe)
+      001215 8B 05            [24] 1982 	mov	ar5,r3
+      001217 8C 06            [24] 1983 	mov	ar6,r4
+      001219 80 34            [24] 1984 	sjmp	00111$
+      00121B                       1985 00110$:
                                    1986 ;	code/rda5807/RDA5807M.c:603: else if (SPACE == Space_200kHz)
-      0011AF BF 02 0F         [24] 1987 	cjne	r7,#0x02,00107$
+      00121B BF 02 0F         [24] 1987 	cjne	r7,#0x02,00107$
                                    1988 ;	code/rda5807/RDA5807M.c:605: band &= ~(1 << 1);
-      0011B2 8D 03            [24] 1989 	mov	ar3,r5
-      0011B4 8E 04            [24] 1990 	mov	ar4,r6
-      0011B6 53 03 FD         [24] 1991 	anl	ar3,#0xfd
+      00121E 8D 03            [24] 1989 	mov	ar3,r5
+      001220 8E 04            [24] 1990 	mov	ar4,r6
+      001222 53 03 FD         [24] 1991 	anl	ar3,#0xfd
                                    1992 ;	code/rda5807/RDA5807M.c:606: band |= 1 << 0;
-      0011B9 74 01            [12] 1993 	mov	a,#0x01
-      0011BB 4B               [12] 1994 	orl	a,r3
-      0011BC FD               [12] 1995 	mov	r5,a
-      0011BD 8C 06            [24] 1996 	mov	ar6,r4
-      0011BF 80 22            [24] 1997 	sjmp	00111$
-      0011C1                       1998 00107$:
+      001225 74 01            [12] 1993 	mov	a,#0x01
+      001227 4B               [12] 1994 	orl	a,r3
+      001228 FD               [12] 1995 	mov	r5,a
+      001229 8C 06            [24] 1996 	mov	ar6,r4
+      00122B 80 22            [24] 1997 	sjmp	00111$
+      00122D                       1998 00107$:
                                    1999 ;	code/rda5807/RDA5807M.c:608: else if (SPACE == Space_50KHz)
-      0011C1 BF 03 10         [24] 2000 	cjne	r7,#0x03,00104$
+      00122D BF 03 10         [24] 2000 	cjne	r7,#0x03,00104$
                                    2001 ;	code/rda5807/RDA5807M.c:610: band |= 1 << 1;
-      0011C4 43 05 02         [24] 2002 	orl	ar5,#0x02
+      001230 43 05 02         [24] 2002 	orl	ar5,#0x02
                                    2003 ;	code/rda5807/RDA5807M.c:611: band &= ~(1 << 0);
-      0011C7 8D 03            [24] 2004 	mov	ar3,r5
-      0011C9 8E 04            [24] 2005 	mov	ar4,r6
-      0011CB 53 03 FE         [24] 2006 	anl	ar3,#0xfe
-      0011CE 8B 05            [24] 2007 	mov	ar5,r3
-      0011D0 8C 06            [24] 2008 	mov	ar6,r4
-      0011D2 80 0F            [24] 2009 	sjmp	00111$
-      0011D4                       2010 00104$:
+      001233 8D 03            [24] 2004 	mov	ar3,r5
+      001235 8E 04            [24] 2005 	mov	ar4,r6
+      001237 53 03 FE         [24] 2006 	anl	ar3,#0xfe
+      00123A 8B 05            [24] 2007 	mov	ar5,r3
+      00123C 8C 06            [24] 2008 	mov	ar6,r4
+      00123E 80 0F            [24] 2009 	sjmp	00111$
+      001240                       2010 00104$:
                                    2011 ;	code/rda5807/RDA5807M.c:613: else if (SPACE == Space_25KHz)
-      0011D4 BF 04 0C         [24] 2012 	cjne	r7,#0x04,00111$
+      001240 BF 04 0C         [24] 2012 	cjne	r7,#0x04,00111$
                                    2013 ;	code/rda5807/RDA5807M.c:615: band |= 1 << 1;
-      0011D7 74 02            [12] 2014 	mov	a,#0x02
-      0011D9 4D               [12] 2015 	orl	a,r5
-      0011DA FC               [12] 2016 	mov	r4,a
-      0011DB 8E 07            [24] 2017 	mov	ar7,r6
+      001243 74 02            [12] 2014 	mov	a,#0x02
+      001245 4D               [12] 2015 	orl	a,r5
+      001246 FC               [12] 2016 	mov	r4,a
+      001247 8E 07            [24] 2017 	mov	ar7,r6
                                    2018 ;	code/rda5807/RDA5807M.c:616: band |= 1 << 0;
-      0011DD 74 01            [12] 2019 	mov	a,#0x01
-      0011DF 4C               [12] 2020 	orl	a,r4
-      0011E0 FD               [12] 2021 	mov	r5,a
-      0011E1 8F 06            [24] 2022 	mov	ar6,r7
-      0011E3                       2023 00111$:
+      001249 74 01            [12] 2019 	mov	a,#0x01
+      00124B 4C               [12] 2020 	orl	a,r4
+      00124C FD               [12] 2021 	mov	r5,a
+      00124D 8F 06            [24] 2022 	mov	ar6,r7
+      00124F                       2023 00111$:
                                    2024 ;	code/rda5807/RDA5807M.c:618: RDA5807M_Write_Reg(0x03, band);
-      0011E3 8D 3D            [24] 2025 	mov	_RDA5807M_Write_Reg_PARM_2,r5
-      0011E5 8E 3E            [24] 2026 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r6
-      0011E7 75 82 03         [24] 2027 	mov	dpl, #0x03
+      00124F 8D 3E            [24] 2025 	mov	_RDA5807M_Write_Reg_PARM_2,r5
+      001251 8E 3F            [24] 2026 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),r6
+      001253 75 82 03         [24] 2027 	mov	dpl, #0x03
                                    2028 ;	code/rda5807/RDA5807M.c:619: }
-      0011EA 02 0A 58         [24] 2029 	ljmp	_RDA5807M_Write_Reg
+      001256 02 0A C4         [24] 2029 	ljmp	_RDA5807M_Write_Reg
                                    2030 ;------------------------------------------------------------
                                    2031 ;Allocation info for local variables in function 'RDA5807M_Reast'
                                    2032 ;------------------------------------------------------------
@@ -2034,16 +2034,16 @@
                                    2034 ;	-----------------------------------------
                                    2035 ;	 function RDA5807M_Reast
                                    2036 ;	-----------------------------------------
-      0011ED                       2037 _RDA5807M_Reast:
+      001259                       2037 _RDA5807M_Reast:
                                    2038 ;	code/rda5807/RDA5807M.c:627: RDA5807M_Write_Reg(0x02, 0x0003); // 复位
-      0011ED 75 3D 03         [24] 2039 	mov	_RDA5807M_Write_Reg_PARM_2,#0x03
-      0011F0 75 3E 00         [24] 2040 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),#0x00
-      0011F3 75 82 02         [24] 2041 	mov	dpl, #0x02
-      0011F6 12 0A 58         [24] 2042 	lcall	_RDA5807M_Write_Reg
+      001259 75 3E 03         [24] 2039 	mov	_RDA5807M_Write_Reg_PARM_2,#0x03
+      00125C 75 3F 00         [24] 2040 	mov	(_RDA5807M_Write_Reg_PARM_2 + 1),#0x00
+      00125F 75 82 02         [24] 2041 	mov	dpl, #0x02
+      001262 12 0A C4         [24] 2042 	lcall	_RDA5807M_Write_Reg
                                    2043 ;	code/rda5807/RDA5807M.c:628: Delay(50);
-      0011F9 90 00 32         [24] 2044 	mov	dptr,#0x0032
+      001265 90 00 32         [24] 2044 	mov	dptr,#0x0032
                                    2045 ;	code/rda5807/RDA5807M.c:629: }
-      0011FC 02 05 92         [24] 2046 	ljmp	_Delay
+      001268 02 05 BB         [24] 2046 	ljmp	_Delay
                                    2047 	.area CSEG    (CODE)
                                    2048 	.area CONST   (CODE)
                                    2049 	.area XINIT   (CODE)
