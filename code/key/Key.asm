@@ -602,11 +602,11 @@ _Combination_14::
 	mov	_k1_long_flag,a
 ;	code/key/Key.c:29: unsigned char k2_long_flag = 0; // 长按标志
 	mov	_k2_long_flag,a
-;	code/key/Key.c:32: unsigned char Combination_12 = 0; // 组合按键按下标识
+;	code/key/Key.c:31: unsigned char Combination_12 = 0; // 组合按键按下标识
 	mov	_Combination_12,a
-;	code/key/Key.c:33: unsigned char Combination_13 = 0; // 组合按键按下标识
+;	code/key/Key.c:32: unsigned char Combination_13 = 0; // 组合按键按下标识
 	mov	_Combination_13,a
-;	code/key/Key.c:34: unsigned char Combination_14 = 0; // 组合按键按下标识
+;	code/key/Key.c:33: unsigned char Combination_14 = 0; // 组合按键按下标识
 	mov	_Combination_14,a
 ;--------------------------------------------------------
 ; Home
@@ -622,7 +622,7 @@ _Combination_14::
 ;------------------------------------------------------------
 ;temp          Allocated to registers 
 ;------------------------------------------------------------
-;	code/key/Key.c:41: unsigned char POP_KEY(void)
+;	code/key/Key.c:40: unsigned char POP_KEY(void)
 ;	-----------------------------------------
 ;	 function POP_KEY
 ;	-----------------------------------------
@@ -635,173 +635,173 @@ _POP_KEY:
 	ar2 = 0x02
 	ar1 = 0x01
 	ar0 = 0x00
-;	code/key/Key.c:44: temp = KeyNum;
+;	code/key/Key.c:43: temp = KeyNum;
 	mov	dpl,_KeyNum
-;	code/key/Key.c:45: KeyNum = 0;
+;	code/key/Key.c:44: KeyNum = 0;
 	mov	_KeyNum,#0x00
-;	code/key/Key.c:46: return temp;
-;	code/key/Key.c:47: }
+;	code/key/Key.c:45: return temp;
+;	code/key/Key.c:46: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'Key_Loop'
 ;------------------------------------------------------------
-;	code/key/Key.c:52: void Key_Loop(void)
+;	code/key/Key.c:51: void Key_Loop(void)
 ;	-----------------------------------------
 ;	 function Key_Loop
 ;	-----------------------------------------
 _Key_Loop:
-;	code/key/Key.c:54: if (KEY1) // v+按键松开
+;	code/key/Key.c:53: if (KEY1) // v+按键松开
 	jnb	_KEY1,00133$
-;	code/key/Key.c:57: k1_cnt = 0;
+;	code/key/Key.c:56: k1_cnt = 0;
 	clr	a
 	mov	_k1_cnt,a
 	mov	(_k1_cnt + 1),a
-;	code/key/Key.c:58: if (k1_short_flag)
+;	code/key/Key.c:57: if (k1_short_flag)
 	mov	a,_k1_short_flag
 	jz	00102$
-;	code/key/Key.c:60: k1_short_flag = 0;
+;	code/key/Key.c:59: k1_short_flag = 0;
 	mov	_k1_short_flag,#0x00
-;	code/key/Key.c:61: KeyNum = 1;
+;	code/key/Key.c:60: KeyNum = 1;
 	mov	_KeyNum,#0x01
 00102$:
-;	code/key/Key.c:63: if (k1_long_flag) // 在key1 长按的基础上 按住了key3
+;	code/key/Key.c:62: if (k1_long_flag) // 在key1 长按的基础上 按住了key3
 	mov	a,_k1_long_flag
 	jz	00113$
-;	code/key/Key.c:65: if (Combination_12)
+;	code/key/Key.c:64: if (Combination_12)
 	mov	a,_Combination_12
 	jz	00110$
-;	code/key/Key.c:67: Combination_12 = 0;
+;	code/key/Key.c:66: Combination_12 = 0;
 	mov	_Combination_12,#0x00
 	sjmp	00111$
 00110$:
-;	code/key/Key.c:69: else if (Combination_13)
+;	code/key/Key.c:68: else if (Combination_13)
 	mov	a,_Combination_13
 	jz	00107$
-;	code/key/Key.c:71: Combination_13 = 0;
+;	code/key/Key.c:70: Combination_13 = 0;
 	mov	_Combination_13,#0x00
 	sjmp	00111$
 00107$:
-;	code/key/Key.c:73: else if (Combination_14)
+;	code/key/Key.c:72: else if (Combination_14)
 	mov	a,_Combination_14
 	jz	00104$
-;	code/key/Key.c:75: Combination_14 = 0;
+;	code/key/Key.c:74: Combination_14 = 0;
 	mov	_Combination_14,#0x00
 	sjmp	00111$
 00104$:
-;	code/key/Key.c:79: KeyNum = 11;
+;	code/key/Key.c:78: KeyNum = 11;
 	mov	_KeyNum,#0x0b
 00111$:
-;	code/key/Key.c:81: k1_long_flag = 0;
+;	code/key/Key.c:80: k1_long_flag = 0;
 	mov	_k1_long_flag,#0x00
 00113$:
-;	code/key/Key.c:84: k1_lock_flage = 0; // 清除自锁标志
+;	code/key/Key.c:83: k1_lock_flage = 0; // 清除自锁标志
 	mov	_k1_lock_flage,#0x00
 	ljmp	00134$
 00133$:
-;	code/key/Key.c:86: else if (!k1_lock_flage && !Combination_12 && !Combination_13 && !Combination_14) // 按键持续按下
+;	code/key/Key.c:85: else if (!k1_lock_flage && !Combination_12 && !Combination_13 && !Combination_14) // 按键持续按下
 	mov	a,_k1_lock_flage
-	jz	00479$
+	jz	00469$
 	ljmp	00134$
-00479$:
+00469$:
 	mov	a,_Combination_12
 	jnz	00134$
 	mov	a,_Combination_13
 	jnz	00134$
 	mov	a,_Combination_14
 	jnz	00134$
-;	code/key/Key.c:88: if (++k1_cnt > KEY_DELAY_TIME)
+;	code/key/Key.c:87: if (++k1_cnt > KEY_DELAY_TIME)
 	inc	_k1_cnt
 	clr	a
-	cjne	a,_k1_cnt,00483$
+	cjne	a,_k1_cnt,00473$
 	inc	(_k1_cnt + 1)
-00483$:
+00473$:
 	clr	c
 	mov	a,#0x14
 	subb	a,_k1_cnt
 	clr	a
 	subb	a,(_k1_cnt + 1)
 	jnc	00115$
-;	code/key/Key.c:90: k1_short_flag = 1;
+;	code/key/Key.c:89: k1_short_flag = 1;
 	mov	_k1_short_flag,#0x01
 00115$:
-;	code/key/Key.c:92: if (++k1_cnt > KEY_LONG_TIME)
+;	code/key/Key.c:91: if (++k1_cnt > KEY_LONG_TIME)
 	inc	_k1_cnt
 	clr	a
-	cjne	a,_k1_cnt,00485$
+	cjne	a,_k1_cnt,00475$
 	inc	(_k1_cnt + 1)
-00485$:
+00475$:
 	clr	c
 	mov	a,#0x58
 	subb	a,_k1_cnt
 	mov	a,#0x02
 	subb	a,(_k1_cnt + 1)
 	jnc	00134$
-;	code/key/Key.c:94: if (!KEY2)
+;	code/key/Key.c:93: if (!KEY2)
 	jb	_KEY2,00123$
-;	code/key/Key.c:96: k1_lock_flage = 1; // 自锁防止再次进入
+;	code/key/Key.c:95: k1_lock_flage = 1; // 自锁防止再次进入
 	mov	_k1_lock_flage,#0x01
-;	code/key/Key.c:97: k1_long_flag = 1;
+;	code/key/Key.c:96: k1_long_flag = 1;
 	mov	_k1_long_flag,#0x01
-;	code/key/Key.c:98: k1_short_flag = 0; // 清空短按
+;	code/key/Key.c:97: k1_short_flag = 0; // 清空短按
 	mov	_k1_short_flag,#0x00
-;	code/key/Key.c:99: Combination_12 = 1;
+;	code/key/Key.c:98: Combination_12 = 1;
 	mov	_Combination_12,#0x01
-;	code/key/Key.c:100: KeyNum = 12;
+;	code/key/Key.c:99: KeyNum = 12;
 	mov	_KeyNum,#0x0c
 	sjmp	00134$
 00123$:
-;	code/key/Key.c:102: else if (!KEY3)
+;	code/key/Key.c:101: else if (!KEY3)
 	jb	_KEY3,00120$
-;	code/key/Key.c:104: k1_lock_flage = 1; // 自锁防止再次进入
+;	code/key/Key.c:103: k1_lock_flage = 1; // 自锁防止再次进入
 	mov	_k1_lock_flage,#0x01
-;	code/key/Key.c:105: k1_long_flag = 1;
+;	code/key/Key.c:104: k1_long_flag = 1;
 	mov	_k1_long_flag,#0x01
-;	code/key/Key.c:106: k1_short_flag = 0; // 清空短按
+;	code/key/Key.c:105: k1_short_flag = 0; // 清空短按
 	mov	_k1_short_flag,#0x00
-;	code/key/Key.c:107: Combination_13 = 1;
+;	code/key/Key.c:106: Combination_13 = 1;
 	mov	_Combination_13,#0x01
-;	code/key/Key.c:108: KeyNum = 13;
+;	code/key/Key.c:107: KeyNum = 13;
 	mov	_KeyNum,#0x0d
 	sjmp	00134$
 00120$:
-;	code/key/Key.c:110: else if (!KEY4)
+;	code/key/Key.c:109: else if (!KEY4)
 	jb	_KEY4,00117$
-;	code/key/Key.c:112: k1_lock_flage = 1; // 自锁防止再次进入
+;	code/key/Key.c:111: k1_lock_flage = 1; // 自锁防止再次进入
 	mov	_k1_lock_flage,#0x01
-;	code/key/Key.c:113: k1_long_flag = 1;
+;	code/key/Key.c:112: k1_long_flag = 1;
 	mov	_k1_long_flag,#0x01
-;	code/key/Key.c:114: k1_short_flag = 0; // 清空短按
+;	code/key/Key.c:113: k1_short_flag = 0; // 清空短按
 	mov	_k1_short_flag,#0x00
-;	code/key/Key.c:115: Combination_14 = 1;
+;	code/key/Key.c:114: Combination_14 = 1;
 	mov	_Combination_14,#0x01
-;	code/key/Key.c:116: KeyNum = 14;
+;	code/key/Key.c:115: KeyNum = 14;
 	mov	_KeyNum,#0x0e
 	sjmp	00134$
 00117$:
-;	code/key/Key.c:120: k1_short_flag = 0;
+;	code/key/Key.c:119: k1_short_flag = 0;
 	mov	_k1_short_flag,#0x00
-;	code/key/Key.c:121: k1_long_flag = 1;
+;	code/key/Key.c:120: k1_long_flag = 1;
 	mov	_k1_long_flag,#0x01
 00134$:
-;	code/key/Key.c:126: if (KEY2) // v+按键松开
+;	code/key/Key.c:125: if (KEY2) // v+按键松开
 	jnb	_KEY2,00149$
-;	code/key/Key.c:128: if (k2_short_flag)
+;	code/key/Key.c:127: if (k2_short_flag)
 	mov	a,_k2_short_flag
 	jz	00136$
-;	code/key/Key.c:130: k2_short_flag = 0;
+;	code/key/Key.c:129: k2_short_flag = 0;
 	mov	_k2_short_flag,#0x00
-;	code/key/Key.c:131: KeyNum = 2;
+;	code/key/Key.c:130: KeyNum = 2;
 	mov	_KeyNum,#0x02
 00136$:
-;	code/key/Key.c:133: k2_lock_flage = 0; // 清除自锁标志
-;	code/key/Key.c:134: k2_cnt = 0;
+;	code/key/Key.c:132: k2_lock_flage = 0; // 清除自锁标志
+;	code/key/Key.c:133: k2_cnt = 0;
 	clr	a
 	mov	_k2_lock_flage,a
 	mov	_k2_cnt,a
 	mov	(_k2_cnt + 1),a
 	sjmp	00150$
 00149$:
-;	code/key/Key.c:136: else if (!k2_lock_flage && !k1_short_flag && !k1_long_flag && !Combination_12 && !Combination_13 && !Combination_14) // 按键持续按下
+;	code/key/Key.c:135: else if (!k2_lock_flage && !k1_short_flag && !k1_long_flag && !Combination_12 && !Combination_13 && !Combination_14) // 按键持续按下
 	mov	a,_k2_lock_flage
 	jnz	00150$
 	mov	a,_k1_short_flag
@@ -814,185 +814,177 @@ _Key_Loop:
 	jnz	00150$
 	mov	a,_Combination_14
 	jnz	00150$
-;	code/key/Key.c:138: if (++k2_cnt > KEY_DELAY_TIME)
+;	code/key/Key.c:137: if (++k2_cnt > KEY_DELAY_TIME)
 	inc	_k2_cnt
 	clr	a
-	cjne	a,_k2_cnt,00498$
+	cjne	a,_k2_cnt,00488$
 	inc	(_k2_cnt + 1)
-00498$:
+00488$:
 	clr	c
 	mov	a,#0x14
 	subb	a,_k2_cnt
 	clr	a
 	subb	a,(_k2_cnt + 1)
 	jnc	00138$
-;	code/key/Key.c:140: k2_short_flag = 2;
+;	code/key/Key.c:139: k2_short_flag = 2;
 	mov	_k2_short_flag,#0x02
 00138$:
-;	code/key/Key.c:142: if (++k2_cnt > KEY_LONG_TIME)
+;	code/key/Key.c:141: if (++k2_cnt > KEY_LONG_TIME)
 	inc	_k2_cnt
 	clr	a
-	cjne	a,_k2_cnt,00500$
+	cjne	a,_k2_cnt,00490$
 	inc	(_k2_cnt + 1)
-00500$:
+00490$:
 	clr	c
 	mov	a,#0x58
 	subb	a,_k2_cnt
 	mov	a,#0x02
 	subb	a,(_k2_cnt + 1)
 	jnc	00150$
-;	code/key/Key.c:144: k2_short_flag = 0;
+;	code/key/Key.c:143: k2_short_flag = 0;
 	mov	_k2_short_flag,#0x00
-;	code/key/Key.c:145: k2_lock_flage = 2;
+;	code/key/Key.c:144: k2_lock_flage = 2;
 	mov	_k2_lock_flage,#0x02
-;	code/key/Key.c:146: KeyNum = 22;
+;	code/key/Key.c:145: KeyNum = 22;
 	mov	_KeyNum,#0x16
 00150$:
-;	code/key/Key.c:151: if (KEY3) // F+按键松开
-	jnb	_KEY3,00171$
-;	code/key/Key.c:153: if (k3_auto_search_flag)
-	mov	a,_k3_auto_search_flag
-	jz	00157$
-;	code/key/Key.c:155: k3_auto_search_flag = 0;
-	mov	_k3_auto_search_flag,#0x00
-	sjmp	00158$
-00157$:
-;	code/key/Key.c:157: else if (k3_long_flag)
+;	code/key/Key.c:150: if (KEY3) // F+按键松开
+	jnb	_KEY3,00167$
+;	code/key/Key.c:152: if (k3_long_flag)
 	mov	a,_k3_long_flag
-	jz	00154$
-;	code/key/Key.c:159: k3_long_flag = 0;
+	jz	00152$
+;	code/key/Key.c:154: k3_long_flag = 0;
 	mov	_k3_long_flag,#0x00
-	sjmp	00158$
-00154$:
-;	code/key/Key.c:161: else if (k3_short_flag) // If short press was detected and no auto-search/long-press
+00152$:
+;	code/key/Key.c:156: if (k3_short_flag) // If short press was detected and no auto-search/long-press
 	mov	a,_k3_short_flag
-	jz	00158$
-;	code/key/Key.c:163: k3_short_flag = 0;
+	jz	00154$
+;	code/key/Key.c:158: k3_short_flag = 0;
 	mov	_k3_short_flag,#0x00
-;	code/key/Key.c:164: KeyNum = 3; // Short press
+;	code/key/Key.c:159: KeyNum = 3; // Short press
 	mov	_KeyNum,#0x03
-00158$:
-;	code/key/Key.c:166: k3_lock_flage = 0; // 清除自锁标志
-;	code/key/Key.c:167: k3_cnt = 0;
+00154$:
+;	code/key/Key.c:161: k3_lock_flage = 0; // 清除自锁标志
+;	code/key/Key.c:162: k3_cnt = 0;
 	clr	a
 	mov	_k3_lock_flage,a
 	mov	_k3_cnt,a
 	mov	(_k3_cnt + 1),a
-	sjmp	00172$
-00171$:
-;	code/key/Key.c:169: else if (!k3_lock_flage && !k1_short_flag && !k1_long_flag && !Combination_12 && !Combination_13 && !Combination_14) // 按键持续按下
+	sjmp	00168$
+00167$:
+;	code/key/Key.c:164: else if (!k3_lock_flage && !k1_short_flag && !k1_long_flag && !Combination_12 && !Combination_13 && !Combination_14) // 按键持续按下
 	mov	a,_k3_lock_flage
-	jnz	00172$
+	jnz	00168$
 	mov	a,_k1_short_flag
-	jnz	00172$
+	jnz	00168$
 	mov	a,_k1_long_flag
-	jnz	00172$
+	jnz	00168$
 	mov	a,_Combination_12
-	jnz	00172$
+	jnz	00168$
 	mov	a,_Combination_13
-	jnz	00172$
+	jnz	00168$
 	mov	a,_Combination_14
-	jnz	00172$
-;	code/key/Key.c:171: if (++k3_cnt > KEY_DELAY_TIME)
+	jnz	00168$
+;	code/key/Key.c:166: if (++k3_cnt > KEY_DELAY_TIME)
 	inc	_k3_cnt
 	clr	a
-	cjne	a,_k3_cnt,00512$
+	cjne	a,_k3_cnt,00501$
 	inc	(_k3_cnt + 1)
-00512$:
+00501$:
 	clr	c
 	mov	a,#0x14
 	subb	a,_k3_cnt
 	clr	a
 	subb	a,(_k3_cnt + 1)
-	jnc	00160$
-;	code/key/Key.c:173: k3_short_flag = 1;
+	jnc	00156$
+;	code/key/Key.c:168: k3_short_flag = 1;
 	mov	_k3_short_flag,#0x01
-00160$:
-;	code/key/Key.c:175: if (++k3_cnt > KEY_LONG_TIME)
+00156$:
+;	code/key/Key.c:170: if (++k3_cnt > KEY_LONG_TIME)
 	inc	_k3_cnt
 	clr	a
-	cjne	a,_k3_cnt,00514$
+	cjne	a,_k3_cnt,00503$
 	inc	(_k3_cnt + 1)
-00514$:
+00503$:
 	clr	c
 	mov	a,#0x58
 	subb	a,_k3_cnt
 	mov	a,#0x02
 	subb	a,(_k3_cnt + 1)
-	jnc	00172$
-;	code/key/Key.c:177: k3_short_flag = 0;
+	jnc	00168$
+;	code/key/Key.c:172: k3_short_flag = 0;
 	mov	_k3_short_flag,#0x00
-;	code/key/Key.c:178: k3_lock_flage = 1; // Self-lock to prevent re-entry
+;	code/key/Key.c:173: k3_lock_flage = 1; // Self-lock to prevent re-entry
 	mov	_k3_lock_flage,#0x01
-;	code/key/Key.c:179: KeyNum = 33;
+;	code/key/Key.c:174: KeyNum = 33;
 	mov	_KeyNum,#0x21
-00172$:
-;	code/key/Key.c:183: if (KEY4) // v+按键松开
-	jnb	_KEY4,00187$
-;	code/key/Key.c:185: if (k4_short_flag)
+00168$:
+;	code/key/Key.c:178: if (KEY4) // v+按键松开
+	jnb	_KEY4,00183$
+;	code/key/Key.c:180: if (k4_short_flag)
 	mov	a,_k4_short_flag
-	jz	00174$
-;	code/key/Key.c:187: k4_short_flag = 0;
+	jz	00170$
+;	code/key/Key.c:182: k4_short_flag = 0;
 	mov	_k4_short_flag,#0x00
-;	code/key/Key.c:188: KeyNum = 4;
+;	code/key/Key.c:183: KeyNum = 4;
 	mov	_KeyNum,#0x04
-00174$:
-;	code/key/Key.c:190: k4_lock_flage = 0; // 清除自锁标志
-;	code/key/Key.c:191: k4_cnt = 0;
+00170$:
+;	code/key/Key.c:185: k4_lock_flage = 0; // 清除自锁标志
+;	code/key/Key.c:186: k4_cnt = 0;
 	clr	a
 	mov	_k4_lock_flage,a
 	mov	_k4_cnt,a
 	mov	(_k4_cnt + 1),a
 	ret
-00187$:
-;	code/key/Key.c:193: else if (!k4_lock_flage && !k1_short_flag && !k1_long_flag && !Combination_12 && !Combination_13 && !Combination_14) // 按键持续按下
+00183$:
+;	code/key/Key.c:188: else if (!k4_lock_flage && !k1_short_flag && !k1_long_flag && !Combination_12 && !Combination_13 && !Combination_14) // 按键持续按下
 	mov	a,_k4_lock_flage
-	jnz	00189$
+	jnz	00185$
 	mov	a,_k1_short_flag
-	jnz	00189$
+	jnz	00185$
 	mov	a,_k1_long_flag
-	jnz	00189$
+	jnz	00185$
 	mov	a,_Combination_12
-	jnz	00189$
+	jnz	00185$
 	mov	a,_Combination_13
-	jnz	00189$
+	jnz	00185$
 	mov	a,_Combination_14
-	jnz	00189$
-;	code/key/Key.c:195: if (++k4_cnt > KEY_DELAY_TIME)
+	jnz	00185$
+;	code/key/Key.c:190: if (++k4_cnt > KEY_DELAY_TIME)
 	inc	_k4_cnt
 	clr	a
-	cjne	a,_k4_cnt,00524$
+	cjne	a,_k4_cnt,00513$
 	inc	(_k4_cnt + 1)
-00524$:
+00513$:
 	clr	c
 	mov	a,#0x14
 	subb	a,_k4_cnt
 	clr	a
 	subb	a,(_k4_cnt + 1)
-	jnc	00176$
-;	code/key/Key.c:197: k4_short_flag = 1;
+	jnc	00172$
+;	code/key/Key.c:192: k4_short_flag = 1;
 	mov	_k4_short_flag,#0x01
-00176$:
-;	code/key/Key.c:199: if (++k4_cnt > KEY_LONG_TIME)
+00172$:
+;	code/key/Key.c:194: if (++k4_cnt > KEY_LONG_TIME)
 	inc	_k4_cnt
 	clr	a
-	cjne	a,_k4_cnt,00526$
+	cjne	a,_k4_cnt,00515$
 	inc	(_k4_cnt + 1)
-00526$:
+00515$:
 	clr	c
 	mov	a,#0x58
 	subb	a,_k4_cnt
 	mov	a,#0x02
 	subb	a,(_k4_cnt + 1)
-	jnc	00189$
-;	code/key/Key.c:201: k4_short_flag = 0;
+	jnc	00185$
+;	code/key/Key.c:196: k4_short_flag = 0;
 	mov	_k4_short_flag,#0x00
-;	code/key/Key.c:202: k4_lock_flage = 1; // Self-lock to prevent re-entry
+;	code/key/Key.c:197: k4_lock_flage = 1; // Self-lock to prevent re-entry
 	mov	_k4_lock_flage,#0x01
-;	code/key/Key.c:203: KeyNum = 44;
+;	code/key/Key.c:198: KeyNum = 44;
 	mov	_KeyNum,#0x2c
-00189$:
-;	code/key/Key.c:206: }
+00185$:
+;	code/key/Key.c:201: }
 	ret
 	.area CSEG    (CODE)
 	.area CONST   (CODE)

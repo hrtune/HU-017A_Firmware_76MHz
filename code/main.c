@@ -34,10 +34,6 @@ void userInput()
 		Led_CHANGE_SLEEP_MODE();
 	}
 
-
-
-
-
 	// 自动搜台 取消
 	if (search_SELLP_flag > 0 && Key_NUM == 3)
 	{
@@ -134,7 +130,8 @@ void userInput()
 			sys_freq = 7600;
 		}
 		RDA5807M_Set_Freq(sys_freq);
-		sys_radio_index = 0xFF; // Indicate not on a preset
+		LED_FRE_REAL = sys_freq; // Synchronize LED_FRE_REAL
+		sys_radio_index = 0xFF;	 // Indicate not on a preset
 		return;
 	}
 	// F-
@@ -155,23 +152,27 @@ void userInput()
 	// F+ Long Press (search next stable frequency up)
 	if (Key_NUM == 33)
 	{
-		DISPLAY_type = 15; // Start search animation
+		DISPLAY_type = 15;			 // Start search animation
 		sys_freq = RDA5807M_Seek(1); // Search up for next stable frequency
+		search_SELLP_flag = 0;
 		DISPLAY_type = 10; // Stop search animation, display frequency
+		search_SELLP_flag = 0;
 		LED_FRE_REAL = sys_freq;
 		sys_radio_index = 0xFF; // Indicate not on a preset
-		LED_HAND_MARK = 1; //  数码管设置为列表换台
+		LED_HAND_MARK = 1;		//  数码管设置为列表换台
 		return;
 	}
 	// F- Long Press (search next stable frequency down)
 	if (Key_NUM == 44)
 	{
-		DISPLAY_type = 15; // Start search animation
+		DISPLAY_type = 15;			 // Start search animation
 		sys_freq = RDA5807M_Seek(0); // Search down for next stable frequency
+		search_SELLP_flag = 0;
+		search_SELLP_flag = 0;
 		DISPLAY_type = 10; // Stop search animation, display frequency
 		LED_FRE_REAL = sys_freq;
 		sys_radio_index = 0xFF; // Indicate not on a preset
-		LED_HAND_MARK = 1; //  数码管设置为列表换台
+		LED_HAND_MARK = 1;		//  数码管设置为列表换台
 		return;
 	}
 }

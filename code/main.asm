@@ -671,66 +671,66 @@ _userInput:
 	lcall	_Led_CHANGE_SLEEP_MODE
 	pop	ar7
 00104$:
-;	code/main.c:42: if (search_SELLP_flag > 0 && Key_NUM == 3)
+;	code/main.c:38: if (search_SELLP_flag > 0 && Key_NUM == 3)
 	mov	a,_search_SELLP_flag
 	jz	00108$
 	cjne	r7,#0x03,00108$
-;	code/main.c:44: search_SELLP_flag = 0;
+;	code/main.c:40: search_SELLP_flag = 0;
 	mov	_search_SELLP_flag,#0x00
-;	code/main.c:45: DISPLAY_type = 10;
+;	code/main.c:41: DISPLAY_type = 10;
 	mov	_DISPLAY_type,#0x0a
-;	code/main.c:50: return;
+;	code/main.c:46: return;
 	ret
 00108$:
-;	code/main.c:54: if (search_SELLP_flag > 0 && Key_NUM == 4)
+;	code/main.c:50: if (search_SELLP_flag > 0 && Key_NUM == 4)
 	mov	a,_search_SELLP_flag
 	jz	00113$
 	cjne	r7,#0x04,00113$
-;	code/main.c:57: RDA5807M_Search_Automatic();
+;	code/main.c:53: RDA5807M_Search_Automatic();
 	lcall	_RDA5807M_Search_Automatic
-;	code/main.c:58: LED_FRE_REAL = sys_freq;
+;	code/main.c:54: LED_FRE_REAL = sys_freq;
 	mov	_LED_FRE_REAL,_sys_freq
 	mov	(_LED_FRE_REAL + 1),(_sys_freq + 1)
-;	code/main.c:59: search_SELLP_flag = 0;
+;	code/main.c:55: search_SELLP_flag = 0;
 	mov	_search_SELLP_flag,#0x00
-;	code/main.c:64: LED_HAND_MARK = 1; //  数码管设置为列表换台
+;	code/main.c:60: LED_HAND_MARK = 1; //  数码管设置为列表换台
 ;	assignBit
 	setb	_LED_HAND_MARK
-;	code/main.c:65: return;
+;	code/main.c:61: return;
 	ret
 00113$:
-;	code/main.c:69: if (Key_NUM == 30)
+;	code/main.c:65: if (Key_NUM == 30)
 	cjne	r7,#0x1e,00116$
-;	code/main.c:81: return;
+;	code/main.c:77: return;
 	ret
 00116$:
-;	code/main.c:85: if (Key_NUM == 14)
+;	code/main.c:81: if (Key_NUM == 14)
 	cjne	r7,#0x0e,00118$
-;	code/main.c:87: LED_RSSI = RDA5807M_Read_RSSI();
+;	code/main.c:83: LED_RSSI = RDA5807M_Read_RSSI();
 	lcall	_RDA5807M_Read_RSSI
 	mov	_LED_RSSI,dpl
-;	code/main.c:88: DISPLAY_type = 0x02;
+;	code/main.c:84: DISPLAY_type = 0x02;
 	mov	_DISPLAY_type,#0x02
-;	code/main.c:89: return;
+;	code/main.c:85: return;
 	ret
 00118$:
-;	code/main.c:93: if (Key_NUM == 22)
+;	code/main.c:89: if (Key_NUM == 22)
 	cjne	r7,#0x16,00120$
-;	code/main.c:95: DISPLAY_type = 1; // 数码管显示音量
+;	code/main.c:91: DISPLAY_type = 1; // 数码管显示音量
 	mov	_DISPLAY_type,#0x01
-;	code/main.c:96: resetSleepTime(); // 数码重置熄灭时间
+;	code/main.c:92: resetSleepTime(); // 数码重置熄灭时间
 	lcall	_resetSleepTime
-;	code/main.c:97: RDA5807M_CHANGE_MUTE();
-;	code/main.c:98: return;
+;	code/main.c:93: RDA5807M_CHANGE_MUTE();
+;	code/main.c:94: return;
 	ljmp	_RDA5807M_CHANGE_MUTE
 00120$:
-;	code/main.c:102: if (Key_NUM == 1)
+;	code/main.c:98: if (Key_NUM == 1)
 	cjne	r7,#0x01,00124$
-;	code/main.c:104: DISPLAY_type = 1; // 数码管显示音量
+;	code/main.c:100: DISPLAY_type = 1; // 数码管显示音量
 	mov	_DISPLAY_type,#0x01
-;	code/main.c:105: resetSleepTime(); // 数码重置熄灭时间
+;	code/main.c:101: resetSleepTime(); // 数码重置熄灭时间
 	lcall	_resetSleepTime
-;	code/main.c:107: if (sys_vol + 1 < 16)
+;	code/main.c:103: if (sys_vol + 1 < 16)
 	mov	r5,_sys_vol
 	mov	r6,#0x00
 	inc	r5
@@ -744,44 +744,44 @@ _userInput:
 	xrl	a,#0x80
 	subb	a,#0x80
 	jnc	00122$
-;	code/main.c:109: RDA5807M_Set_Volume(sys_vol + 1);
+;	code/main.c:105: RDA5807M_Set_Volume(sys_vol + 1);
 	mov	a,_sys_vol
 	inc	a
 	mov	dpl,a
-;	code/main.c:111: return;
+;	code/main.c:107: return;
 	ljmp	_RDA5807M_Set_Volume
 00122$:
 	ret
 00124$:
-;	code/main.c:114: if (Key_NUM == 2)
+;	code/main.c:110: if (Key_NUM == 2)
 	cjne	r7,#0x02,00128$
-;	code/main.c:116: DISPLAY_type = 1; // 数码管显示音量
+;	code/main.c:112: DISPLAY_type = 1; // 数码管显示音量
 	mov	_DISPLAY_type,#0x01
-;	code/main.c:117: resetSleepTime(); // 数码重置熄灭时间
+;	code/main.c:113: resetSleepTime(); // 数码重置熄灭时间
 	lcall	_resetSleepTime
-;	code/main.c:119: if (sys_vol > 0)
+;	code/main.c:115: if (sys_vol > 0)
 	mov	a,_sys_vol
 	jz	00126$
-;	code/main.c:121: RDA5807M_Set_Volume(sys_vol - 1);
+;	code/main.c:117: RDA5807M_Set_Volume(sys_vol - 1);
 	mov	a,_sys_vol
 	dec	a
 	mov	dpl,a
-;	code/main.c:123: return;
+;	code/main.c:119: return;
 	ljmp	_RDA5807M_Set_Volume
 00126$:
 	ret
 00128$:
-;	code/main.c:126: if (Key_NUM == 3)
+;	code/main.c:122: if (Key_NUM == 3)
 	cjne	r7,#0x03,00132$
-;	code/main.c:128: LED_SEEK_D = 1;
+;	code/main.c:124: LED_SEEK_D = 1;
 ;	assignBit
 	setb	_LED_SEEK_D
-;	code/main.c:129: LED_HAND_MARK = 0; // Manual tune display effect
+;	code/main.c:125: LED_HAND_MARK = 0; // Manual tune display effect
 ;	assignBit
 	clr	_LED_HAND_MARK
-;	code/main.c:130: resetSleepTime();
+;	code/main.c:126: resetSleepTime();
 	lcall	_resetSleepTime
-;	code/main.c:131: sys_freq += 10; // 0.1 MHz = 10 * 10kHz
+;	code/main.c:127: sys_freq += 10; // 0.1 MHz = 10 * 10kHz
 	mov	r5,_sys_freq
 	mov	r6,(_sys_freq + 1)
 	mov	a,#0x0a
@@ -790,7 +790,7 @@ _userInput:
 	clr	a
 	addc	a, r6
 	mov	r6,a
-;	code/main.c:132: if (sys_freq > 10800)
+;	code/main.c:128: if (sys_freq > 10800)
 	mov	_sys_freq,r5
 	mov  (_sys_freq + 1),r6
 	clr	c
@@ -799,30 +799,33 @@ _userInput:
 	mov	a,#0x2a
 	subb	a,r6
 	jnc	00130$
-;	code/main.c:134: sys_freq = 7600;
+;	code/main.c:130: sys_freq = 7600;
 	mov	_sys_freq,#0xb0
 	mov	(_sys_freq + 1),#0x1d
 00130$:
-;	code/main.c:136: RDA5807M_Set_Freq(sys_freq);
+;	code/main.c:132: RDA5807M_Set_Freq(sys_freq);
 	mov	dpl, _sys_freq
 	mov	dph, (_sys_freq + 1)
 	lcall	_RDA5807M_Set_Freq
-;	code/main.c:137: sys_radio_index = 0xFF; // Indicate not on a preset
+;	code/main.c:133: LED_FRE_REAL = sys_freq; // Synchronize LED_FRE_REAL
+	mov	_LED_FRE_REAL,_sys_freq
+	mov	(_LED_FRE_REAL + 1),(_sys_freq + 1)
+;	code/main.c:134: sys_radio_index = 0xFF;	 // Indicate not on a preset
 	mov	_sys_radio_index,#0xff
-;	code/main.c:138: return;
+;	code/main.c:135: return;
 	ret
 00132$:
-;	code/main.c:141: if (Key_NUM == 4)
+;	code/main.c:138: if (Key_NUM == 4)
 	cjne	r7,#0x04,00136$
-;	code/main.c:143: LED_SEEK_D = 0;
+;	code/main.c:140: LED_SEEK_D = 0;
 ;	assignBit
 	clr	_LED_SEEK_D
-;	code/main.c:144: LED_HAND_MARK = 0; // Manual tune display effect
+;	code/main.c:141: LED_HAND_MARK = 0; // Manual tune display effect
 ;	assignBit
 	clr	_LED_HAND_MARK
-;	code/main.c:145: resetSleepTime();
+;	code/main.c:142: resetSleepTime();
 	lcall	_resetSleepTime
-;	code/main.c:146: sys_freq -= 10; // 0.1 MHz = 10 * 10kHz
+;	code/main.c:143: sys_freq -= 10; // 0.1 MHz = 10 * 10kHz
 	mov	r5,_sys_freq
 	mov	r6,(_sys_freq + 1)
 	mov	a,r5
@@ -831,7 +834,7 @@ _userInput:
 	mov	a,r6
 	addc	a,#0xff
 	mov	r6,a
-;	code/main.c:147: if (sys_freq < 7600)
+;	code/main.c:144: if (sys_freq < 7600)
 	mov	_sys_freq,r5
 	mov  (_sys_freq + 1),r6
 	clr	c
@@ -840,100 +843,104 @@ _userInput:
 	mov	a,r6
 	subb	a,#0x1d
 	jnc	00134$
-;	code/main.c:149: sys_freq = 10800;
+;	code/main.c:146: sys_freq = 10800;
 	mov	_sys_freq,#0x30
 	mov	(_sys_freq + 1),#0x2a
 00134$:
-;	code/main.c:151: RDA5807M_Set_Freq(sys_freq);
+;	code/main.c:148: RDA5807M_Set_Freq(sys_freq);
 	mov	dpl, _sys_freq
 	mov	dph, (_sys_freq + 1)
 	lcall	_RDA5807M_Set_Freq
-;	code/main.c:152: sys_radio_index = 0xFF; // Indicate not on a preset
+;	code/main.c:149: sys_radio_index = 0xFF; // Indicate not on a preset
 	mov	_sys_radio_index,#0xff
-;	code/main.c:153: return;
+;	code/main.c:150: return;
 	ret
 00136$:
-;	code/main.c:156: if (Key_NUM == 33)
+;	code/main.c:153: if (Key_NUM == 33)
 	cjne	r7,#0x21,00138$
-;	code/main.c:158: DISPLAY_type = 15; // Start search animation
+;	code/main.c:155: DISPLAY_type = 15;			 // Start search animation
 	mov	_DISPLAY_type,#0x0f
-;	code/main.c:159: sys_freq = RDA5807M_Seek(1); // Search up for next stable frequency
+;	code/main.c:156: sys_freq = RDA5807M_Seek(1); // Search up for next stable frequency
 	mov	dpl, #0x01
 	lcall	_RDA5807M_Seek
 	mov	_sys_freq,dpl
 	mov	(_sys_freq + 1),dph
-;	code/main.c:160: DISPLAY_type = 10; // Stop search animation, display frequency
+;	code/main.c:158: DISPLAY_type = 10; // Stop search animation, display frequency
 	mov	_DISPLAY_type,#0x0a
-;	code/main.c:161: LED_FRE_REAL = sys_freq;
+;	code/main.c:159: search_SELLP_flag = 0;
+	mov	_search_SELLP_flag,#0x00
+;	code/main.c:160: LED_FRE_REAL = sys_freq;
 	mov	_LED_FRE_REAL,_sys_freq
 	mov	(_LED_FRE_REAL + 1),(_sys_freq + 1)
-;	code/main.c:162: sys_radio_index = 0xFF; // Indicate not on a preset
+;	code/main.c:161: sys_radio_index = 0xFF; // Indicate not on a preset
 	mov	_sys_radio_index,#0xff
-;	code/main.c:163: LED_HAND_MARK = 1; //  数码管设置为列表换台
+;	code/main.c:162: LED_HAND_MARK = 1;		//  数码管设置为列表换台
 ;	assignBit
 	setb	_LED_HAND_MARK
-;	code/main.c:164: return;
+;	code/main.c:163: return;
 	ret
 00138$:
-;	code/main.c:167: if (Key_NUM == 44)
+;	code/main.c:166: if (Key_NUM == 44)
 	cjne	r7,#0x2c,00141$
-;	code/main.c:169: DISPLAY_type = 15; // Start search animation
+;	code/main.c:168: DISPLAY_type = 15;			 // Start search animation
 	mov	_DISPLAY_type,#0x0f
-;	code/main.c:170: sys_freq = RDA5807M_Seek(0); // Search down for next stable frequency
+;	code/main.c:169: sys_freq = RDA5807M_Seek(0); // Search down for next stable frequency
 	mov	dpl, #0x00
 	lcall	_RDA5807M_Seek
 	mov	_sys_freq,dpl
 	mov	(_sys_freq + 1),dph
-;	code/main.c:171: DISPLAY_type = 10; // Stop search animation, display frequency
+;	code/main.c:171: search_SELLP_flag = 0;
+	mov	_search_SELLP_flag,#0x00
+;	code/main.c:172: DISPLAY_type = 10; // Stop search animation, display frequency
 	mov	_DISPLAY_type,#0x0a
-;	code/main.c:172: LED_FRE_REAL = sys_freq;
+;	code/main.c:173: LED_FRE_REAL = sys_freq;
 	mov	_LED_FRE_REAL,_sys_freq
 	mov	(_LED_FRE_REAL + 1),(_sys_freq + 1)
-;	code/main.c:173: sys_radio_index = 0xFF; // Indicate not on a preset
+;	code/main.c:174: sys_radio_index = 0xFF; // Indicate not on a preset
 	mov	_sys_radio_index,#0xff
-;	code/main.c:174: LED_HAND_MARK = 1; //  数码管设置为列表换台
+;	code/main.c:175: LED_HAND_MARK = 1;		//  数码管设置为列表换台
 ;	assignBit
 	setb	_LED_HAND_MARK
-;	code/main.c:175: return;
+;	code/main.c:176: return;
 00141$:
-;	code/main.c:177: }
+;	code/main.c:178: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'main'
 ;------------------------------------------------------------
-;	code/main.c:179: void main(void)
+;	code/main.c:180: void main(void)
 ;	-----------------------------------------
 ;	 function main
 ;	-----------------------------------------
 _main:
-;	code/main.c:184: RDA5807M_init();
+;	code/main.c:185: RDA5807M_init();
 	lcall	_RDA5807M_init
-;	code/main.c:185: Delay(10);
+;	code/main.c:186: Delay(10);
 	mov	dptr,#0x000a
 	lcall	_Delay
-;	code/main.c:186: LED_FRE_REAL = sys_freq;
+;	code/main.c:187: LED_FRE_REAL = sys_freq;
 	mov	_LED_FRE_REAL,_sys_freq
 	mov	(_LED_FRE_REAL + 1),(_sys_freq + 1)
-;	code/main.c:189: P2M1 &= ~0x0F;
+;	code/main.c:190: P2M1 &= ~0x0F;
 	anl	_P2M1,#0xf0
-;	code/main.c:190: P2M0 |= 0x0F;
+;	code/main.c:191: P2M0 |= 0x0F;
 	orl	_P2M0,#0x0f
-;	code/main.c:193: Timer0Init();
+;	code/main.c:194: Timer0Init();
 	lcall	_Timer0Init
-;	code/main.c:195: RDA5807M_Set_Freq(7640);
+;	code/main.c:196: RDA5807M_Set_Freq(7640);
 	mov	dptr,#0x1dd8
 	lcall	_RDA5807M_Set_Freq
-;	code/main.c:196: LED_HAND_MARK = 1; // Set display to update frequency directly
+;	code/main.c:197: LED_HAND_MARK = 1; // Set display to update frequency directly
 ;	assignBit
 	setb	_LED_HAND_MARK
-;	code/main.c:198: RDA5807M_Set_Volume(10);
+;	code/main.c:199: RDA5807M_Set_Volume(10);
 	mov	dpl, #0x0a
 	lcall	_RDA5807M_Set_Volume
-;	code/main.c:202: while (1)
+;	code/main.c:203: while (1)
 00102$:
-;	code/main.c:204: userInput();
+;	code/main.c:205: userInput();
 	lcall	_userInput
-;	code/main.c:206: }
+;	code/main.c:207: }
 	sjmp	00102$
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'Timer0_Rountine'
@@ -941,7 +948,7 @@ _main:
 ;T0Count1      Allocated with name '_Timer0_Rountine_T0Count1_10000_68'
 ;T0Count2      Allocated with name '_Timer0_Rountine_T0Count2_10000_68'
 ;------------------------------------------------------------
-;	code/main.c:211: void Timer0_Rountine(void) __interrupt(1)
+;	code/main.c:212: void Timer0_Rountine(void) __interrupt(1)
 ;	-----------------------------------------
 ;	 function Timer0_Rountine
 ;	-----------------------------------------
@@ -961,15 +968,15 @@ _Timer0_Rountine:
 	push	(0+0)
 	push	psw
 	mov	psw,#0x00
-;	code/main.c:215: Led_Loop();
+;	code/main.c:216: Led_Loop();
 	lcall	_Led_Loop
-;	code/main.c:216: Key_Loop();
+;	code/main.c:217: Key_Loop();
 	lcall	_Key_Loop
-;	code/main.c:219: if (DISPLAY_type < 10)
+;	code/main.c:220: if (DISPLAY_type < 10)
 	mov	a,#0x100 - 0x0a
 	add	a,_DISPLAY_type
 	jc	00104$
-;	code/main.c:222: if (++T0Count2 >= 4000)
+;	code/main.c:223: if (++T0Count2 >= 4000)
 	inc	_Timer0_Rountine_T0Count2_10000_68
 	clr	a
 	cjne	a,_Timer0_Rountine_T0Count2_10000_68,00120$
@@ -983,21 +990,21 @@ _Timer0_Rountine:
 	mov	a,r7
 	subb	a,#0x0f
 	jc	00104$
-;	code/main.c:224: T0Count2 = 0;
+;	code/main.c:225: T0Count2 = 0;
 	clr	a
 	mov	_Timer0_Rountine_T0Count2_10000_68,a
 	mov	(_Timer0_Rountine_T0Count2_10000_68 + 1),a
-;	code/main.c:225: DISPLAY_type = 10;
+;	code/main.c:226: DISPLAY_type = 10;
 	mov	_DISPLAY_type,#0x0a
 00104$:
-;	code/main.c:229: TL0 = 0x88; // 设置定时初值
+;	code/main.c:230: TL0 = 0x88; // 设置定时初值
 	mov	_TL0,#0x88
-;	code/main.c:230: TH0 = 0x96; // 设置定时初值
+;	code/main.c:231: TH0 = 0x96; // 设置定时初值
 	mov	_TH0,#0x96
-;	code/main.c:231: TF0 = 0;	// 清除TF0标志
+;	code/main.c:232: TF0 = 0;	// 清除TF0标志
 ;	assignBit
 	clr	_TF0
-;	code/main.c:232: }
+;	code/main.c:233: }
 	pop	psw
 	pop	(0+0)
 	pop	(0+1)

@@ -28,7 +28,6 @@ unsigned char k4_short_flag = 0; // 短按标志
 unsigned char k1_long_flag = 0; // 长按标志
 unsigned char k2_long_flag = 0; // 长按标志
 
-
 unsigned char Combination_12 = 0; // 组合按键按下标识
 unsigned char Combination_13 = 0; // 组合按键按下标识
 unsigned char Combination_14 = 0; // 组合按键按下标识
@@ -150,15 +149,11 @@ void Key_Loop(void)
 	///////////////////////////////////////////////////////////////
 	if (KEY3) // F+按键松开
 	{
-		if (k3_auto_search_flag)
-		{ // If auto search was triggered, clear flag
-			k3_auto_search_flag = 0;
-		}
-		else if (k3_long_flag)
+		if (k3_long_flag)
 		{ // If long press was triggered, clear flag
 			k3_long_flag = 0;
 		}
-		else if (k3_short_flag) // If short press was detected and no auto-search/long-press
+		if (k3_short_flag) // If short press was detected and no auto-search/long-press
 		{
 			k3_short_flag = 0;
 			KeyNum = 3; // Short press
