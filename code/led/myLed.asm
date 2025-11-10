@@ -245,6 +245,7 @@
 	.globl _LED_RSSI
 	.globl _DISPLAY_type
 	.globl _LED_FRE_REAL
+	.globl _DisplaySearchAnimation
 	.globl _DisplayNUM
 	.globl _Led_CHANGE_SLEEP_MODE
 	.globl _resetSleepTime
@@ -491,7 +492,9 @@ _LED_SNR::
 	.ds 1
 _LED_SELL_TIME::
 	.ds 2
-_DisplayNUM_LED_POLLING_POSTITION_10000_52:
+_DisplaySearchAnimation_animation_step_10000_25:
+	.ds 1
+_DisplayNUM_LED_POLLING_POSTITION_10000_55:
 	.ds 1
 _DisplayNUM_PARM_2:
 	.ds 1
@@ -558,9 +561,16 @@ _LED_HAND_MARK::
 	.area GSFINAL (CODE)
 	.area GSINIT  (CODE)
 ;------------------------------------------------------------
+;Allocation info for local variables in function 'DisplaySearchAnimation'
+;------------------------------------------------------------
+;animation_step Allocated with name '_DisplaySearchAnimation_animation_step_10000_25'
+;------------------------------------------------------------
+;	code/led/myLed.c:34: static uint8_t animation_step = 0;
+	mov	_DisplaySearchAnimation_animation_step_10000_25,#0x00
+;------------------------------------------------------------
 ;Allocation info for local variables in function 'DisplayNUM'
 ;------------------------------------------------------------
-;LED_POLLING_POSTITION Allocated with name '_DisplayNUM_LED_POLLING_POSTITION_10000_52'
+;LED_POLLING_POSTITION Allocated with name '_DisplayNUM_LED_POLLING_POSTITION_10000_55'
 ;b             Allocated with name '_DisplayNUM_PARM_2'
 ;c             Allocated with name '_DisplayNUM_PARM_3'
 ;d             Allocated with name '_DisplayNUM_PARM_4'
@@ -569,8 +579,8 @@ _LED_HAND_MARK::
 ;de            Allocated to registers 
 ;sizeOfNixie   Allocated to registers 
 ;------------------------------------------------------------
-;	code/led/myLed.c:153: static uint8_t LED_POLLING_POSTITION = 0;
-	mov	_DisplayNUM_LED_POLLING_POSTITION_10000_52,#0x00
+;	code/led/myLed.c:186: static uint8_t LED_POLLING_POSTITION = 0;
+	mov	_DisplayNUM_LED_POLLING_POSTITION_10000_55,#0x00
 ;	code/led/myLed.c:18: uint16_t LED_FRE_REAL = 8700;
 	mov	_LED_FRE_REAL,#0xfc
 	mov	(_LED_FRE_REAL + 1),#0x21
@@ -599,16 +609,15 @@ _LED_HAND_MARK::
 ;--------------------------------------------------------
 	.area CSEG    (CODE)
 ;------------------------------------------------------------
-;Allocation info for local variables in function 'getData'
+;Allocation info for local variables in function 'DisplaySearchAnimation'
 ;------------------------------------------------------------
-;dpf           Allocated with name '_getData_PARM_2'
-;a             Allocated to registers r7 
+;animation_step Allocated with name '_DisplaySearchAnimation_animation_step_10000_25'
 ;------------------------------------------------------------
-;	code/led/myLed.c:34: char getData(uint8_t a, uint8_t dpf)
+;	code/led/myLed.c:32: void DisplaySearchAnimation()
 ;	-----------------------------------------
-;	 function getData
+;	 function DisplaySearchAnimation
 ;	-----------------------------------------
-_getData:
+_DisplaySearchAnimation:
 	ar7 = 0x07
 	ar6 = 0x06
 	ar5 = 0x05
@@ -617,36 +626,123 @@ _getData:
 	ar2 = 0x02
 	ar1 = 0x01
 	ar0 = 0x00
+;	code/led/myLed.c:36: P20 = P21 = P22 = P23 = 1;
+;	assignBit
+	setb	_P23
+;	assignBit
+	mov	c,_P23
+	mov	_P22,c
+;	assignBit
+	mov	c,_P22
+	mov	_P21,c
+;	assignBit
+	mov	c,_P21
+	mov	_P20,c
+;	code/led/myLed.c:38: switch (animation_step)
+	mov	a,_DisplaySearchAnimation_animation_step_10000_25
+	add	a,#0xff - 0x03
+	jc	00105$
+	mov	a,_DisplaySearchAnimation_animation_step_10000_25
+	mov	b,#0x03
+	mul	ab
+	mov	dptr,#00123$
+	jmp	@a+dptr
+00123$:
+	ljmp	00101$
+	ljmp	00102$
+	ljmp	00103$
+	ljmp	00104$
+;	code/led/myLed.c:40: case 0: // Light up first digit
+00101$:
+;	code/led/myLed.c:41: _74HC595_WriteByte(0xBF); // Segment 'a' on (top segment)
+	mov	dpl, #0xbf
+	lcall	__74HC595_WriteByte
+;	code/led/myLed.c:42: P20 = 0;
+;	assignBit
+	clr	_P20
+;	code/led/myLed.c:43: break;
+;	code/led/myLed.c:44: case 1: // Light up second digit
+	sjmp	00105$
+00102$:
+;	code/led/myLed.c:45: _74HC595_WriteByte(0xBF);
+	mov	dpl, #0xbf
+	lcall	__74HC595_WriteByte
+;	code/led/myLed.c:46: P21 = 0;
+;	assignBit
+	clr	_P21
+;	code/led/myLed.c:47: break;
+;	code/led/myLed.c:48: case 2: // Light up third digit
+	sjmp	00105$
+00103$:
+;	code/led/myLed.c:49: _74HC595_WriteByte(0xBF);
+	mov	dpl, #0xbf
+	lcall	__74HC595_WriteByte
+;	code/led/myLed.c:50: P22 = 0;
+;	assignBit
+	clr	_P22
+;	code/led/myLed.c:51: break;
+;	code/led/myLed.c:52: case 3: // Light up fourth digit
+	sjmp	00105$
+00104$:
+;	code/led/myLed.c:53: _74HC595_WriteByte(0xBF);
+	mov	dpl, #0xbf
+	lcall	__74HC595_WriteByte
+;	code/led/myLed.c:54: P23 = 0;
+;	assignBit
+	clr	_P23
+;	code/led/myLed.c:56: }
+00105$:
+;	code/led/myLed.c:58: if (++animation_step > 3)
+	inc	_DisplaySearchAnimation_animation_step_10000_25
+	mov	a,_DisplaySearchAnimation_animation_step_10000_25
+	add	a,#0xff - 0x03
+	jnc	00108$
+;	code/led/myLed.c:60: animation_step = 0;
+	mov	_DisplaySearchAnimation_animation_step_10000_25,#0x00
+00108$:
+;	code/led/myLed.c:62: }
+	ret
+;------------------------------------------------------------
+;Allocation info for local variables in function 'getData'
+;------------------------------------------------------------
+;dpf           Allocated with name '_getData_PARM_2'
+;a             Allocated to registers r7 
+;------------------------------------------------------------
+;	code/led/myLed.c:67: char getData(uint8_t a, uint8_t dpf)
+;	-----------------------------------------
+;	 function getData
+;	-----------------------------------------
+_getData:
 	mov	r7, dpl
-;	code/led/myLed.c:36: if (dpf)
+;	code/led/myLed.c:69: if (dpf)
 	mov	a,_getData_PARM_2
 	jz	00102$
-;	code/led/myLed.c:38: return NixieTableDp[a];
+;	code/led/myLed.c:71: return NixieTableDp[a];
 	mov	a,r7
 	mov	dptr,#_NixieTableDp
 	movc	a,@a+dptr
 	mov	dpl,a
 	ret
 00102$:
-;	code/led/myLed.c:42: return NixieTable[a];
+;	code/led/myLed.c:75: return NixieTable[a];
 	mov	a,r7
 	mov	dptr,#_NixieTable
 	movc	a,@a+dptr
-;	code/led/myLed.c:44: }
+;	code/led/myLed.c:77: }
 	mov	dpl,a
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'DispaySELLP'
 ;------------------------------------------------------------
-;	code/led/myLed.c:47: void DispaySELLP()
+;	code/led/myLed.c:80: void DispaySELLP()
 ;	-----------------------------------------
 ;	 function DispaySELLP
 ;	-----------------------------------------
 _DispaySELLP:
-;	code/led/myLed.c:49: if (sys_sleep_mode)
+;	code/led/myLed.c:82: if (sys_sleep_mode)
 	mov	a,_sys_sleep_mode
 	jz	00102$
-;	code/led/myLed.c:51: DisplayNUM(0xFF, 21, 0xFF, 0xFF, 0xFF);
+;	code/led/myLed.c:84: DisplayNUM(0xFF, 21, 0xFF, 0xFF, 0xFF);
 	mov	_DisplayNUM_PARM_2,#0x15
 	mov	_DisplayNUM_PARM_3,#0xff
 	mov	_DisplayNUM_PARM_4,#0xff
@@ -654,13 +750,13 @@ _DispaySELLP:
 	mov	dpl, #0xff
 	ljmp	_DisplayNUM
 00102$:
-;	code/led/myLed.c:55: DisplayNUM(0xFF, 22, 0xFF, 0xFF, 0xFF);
+;	code/led/myLed.c:88: DisplayNUM(0xFF, 22, 0xFF, 0xFF, 0xFF);
 	mov	_DisplayNUM_PARM_2,#0x16
 	mov	_DisplayNUM_PARM_3,#0xff
 	mov	_DisplayNUM_PARM_4,#0xff
 	mov	_DisplayNUM_PARM_5,#0xff
 	mov	dpl, #0xff
-;	code/led/myLed.c:57: }
+;	code/led/myLed.c:90: }
 	ljmp	_DisplayNUM
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'DispayF'
@@ -671,12 +767,12 @@ _DispaySELLP:
 ;NUM_BAI       Allocated to registers r4 
 ;NUM_DEC       Allocated to registers r6 
 ;------------------------------------------------------------
-;	code/led/myLed.c:60: void DispayF(uint16_t temp)
+;	code/led/myLed.c:93: void DispayF(uint16_t temp)
 ;	-----------------------------------------
 ;	 function DispayF
 ;	-----------------------------------------
 _DispayF:
-;	code/led/myLed.c:63: NUM_BAI = temp / 10000;
+;	code/led/myLed.c:96: NUM_BAI = temp / 10000;
 	mov	r6,dpl
 	mov	r7,dph
 	mov	__divuint_PARM_2,#0x10
@@ -687,7 +783,7 @@ _DispayF:
 	mov	r4, dpl
 	pop	ar6
 	pop	ar7
-;	code/led/myLed.c:64: NUM_SHI = (temp % 10000) / 1000;
+;	code/led/myLed.c:97: NUM_SHI = (temp % 10000) / 1000;
 	mov	__moduint_PARM_2,#0x10
 	mov	(__moduint_PARM_2 + 1),#0x27
 	mov	dpl, r6
@@ -703,7 +799,7 @@ _DispayF:
 	pop	ar4
 	pop	ar6
 	pop	ar7
-;	code/led/myLed.c:65: NUM_GE = (temp % 1000) / 100;
+;	code/led/myLed.c:98: NUM_GE = (temp % 1000) / 100;
 	mov	__moduint_PARM_2,#0xe8
 	mov	(__moduint_PARM_2 + 1),#0x03
 	mov	dpl, r6
@@ -721,7 +817,7 @@ _DispayF:
 	pop	ar4
 	pop	ar6
 	pop	ar7
-;	code/led/myLed.c:66: NUM_DEC = (temp % 100) / 10;
+;	code/led/myLed.c:99: NUM_DEC = (temp % 100) / 10;
 	mov	__moduint_PARM_2,#0x64
 	mov	(__moduint_PARM_2 + 1),#0x00
 	mov	dpl, r6
@@ -738,11 +834,11 @@ _DispayF:
 	mov	a,r6
 	div	ab
 	mov	r6,a
-;	code/led/myLed.c:67: if (NUM_BAI < 1)
+;	code/led/myLed.c:100: if (NUM_BAI < 1)
 	cjne	r4,#0x01,00112$
 00112$:
 	jnc	00102$
-;	code/led/myLed.c:69: DisplayNUM(100, NUM_SHI, NUM_GE, NUM_DEC, 3);
+;	code/led/myLed.c:102: DisplayNUM(100, NUM_SHI, NUM_GE, NUM_DEC, 3);
 	mov	_DisplayNUM_PARM_2,r3
 	mov	_DisplayNUM_PARM_3,r2
 	mov	_DisplayNUM_PARM_4,r6
@@ -750,54 +846,54 @@ _DispayF:
 	mov	dpl, #0x64
 	ljmp	_DisplayNUM
 00102$:
-;	code/led/myLed.c:73: DisplayNUM(NUM_BAI, NUM_SHI, NUM_GE, NUM_DEC, 3);
+;	code/led/myLed.c:106: DisplayNUM(NUM_BAI, NUM_SHI, NUM_GE, NUM_DEC, 3);
 	mov	_DisplayNUM_PARM_2,r3
 	mov	_DisplayNUM_PARM_3,r2
 	mov	_DisplayNUM_PARM_4,r6
 	mov	_DisplayNUM_PARM_5,#0x03
 	mov	dpl, r4
-;	code/led/myLed.c:75: }
+;	code/led/myLed.c:108: }
 	ljmp	_DisplayNUM
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'DispayFRE'
 ;------------------------------------------------------------
-;	code/led/myLed.c:77: void DispayFRE(void)
+;	code/led/myLed.c:110: void DispayFRE(void)
 ;	-----------------------------------------
 ;	 function DispayFRE
 ;	-----------------------------------------
 _DispayFRE:
-;	code/led/myLed.c:80: if (LED_FRE_REAL == sys_freq)
+;	code/led/myLed.c:113: if (LED_FRE_REAL == sys_freq)
 	mov	a,_sys_freq
 	cjne	a,_LED_FRE_REAL,00102$
 	mov	a,(_sys_freq + 1)
 	cjne	a,(_LED_FRE_REAL + 1),00102$
-;	code/led/myLed.c:82: DispayF(LED_FRE_REAL);
+;	code/led/myLed.c:115: DispayF(LED_FRE_REAL);
 	mov	dpl, _LED_FRE_REAL
 	mov	dph, (_LED_FRE_REAL + 1)
-;	code/led/myLed.c:83: return;
+;	code/led/myLed.c:116: return;
 	ljmp	_DispayF
 00102$:
-;	code/led/myLed.c:86: if (LED_HAND_MARK) // 列表换台
+;	code/led/myLed.c:119: if (LED_HAND_MARK) // 列表换台
 	jnb	_LED_HAND_MARK,00104$
-;	code/led/myLed.c:88: LED_FRE_REAL = sys_freq;
+;	code/led/myLed.c:121: LED_FRE_REAL = sys_freq;
 	mov	_LED_FRE_REAL,_sys_freq
 	mov	(_LED_FRE_REAL + 1),(_sys_freq + 1)
-;	code/led/myLed.c:89: DispayF(sys_freq);
+;	code/led/myLed.c:122: DispayF(sys_freq);
 	mov	dpl, _sys_freq
 	mov	dph, (_sys_freq + 1)
-;	code/led/myLed.c:90: return;
+;	code/led/myLed.c:123: return;
 	ljmp	_DispayF
 00104$:
-;	code/led/myLed.c:94: if (LED_SEEK_D)
+;	code/led/myLed.c:127: if (LED_SEEK_D)
 	jnb	_LED_SEEK_D,00116$
-;	code/led/myLed.c:96: if (LED_FRE_REAL != sys_freq)
+;	code/led/myLed.c:129: if (LED_FRE_REAL != sys_freq)
 	mov	a,_sys_freq
 	cjne	a,_LED_FRE_REAL,00172$
 	mov	a,(_sys_freq + 1)
 	cjne	a,(_LED_FRE_REAL + 1),00172$
 	ret
 00172$:
-;	code/led/myLed.c:98: DispayF(++LED_FRE_REAL);
+;	code/led/myLed.c:131: DispayF(++LED_FRE_REAL);
 	inc	_LED_FRE_REAL
 	clr	a
 	cjne	a,_LED_FRE_REAL,00173$
@@ -806,7 +902,7 @@ _DispayFRE:
 	mov	dpl, _LED_FRE_REAL
 	mov	dph, (_LED_FRE_REAL + 1)
 	lcall	_DispayF
-;	code/led/myLed.c:99: if (LED_FRE_REAL > 10800)
+;	code/led/myLed.c:132: if (LED_FRE_REAL > 10800)
 	mov	r6,_LED_FRE_REAL
 	mov	r7,(_LED_FRE_REAL + 1)
 	clr	c
@@ -815,21 +911,21 @@ _DispayFRE:
 	mov	a,#0x2a
 	subb	a,r7
 	jnc	00118$
-;	code/led/myLed.c:101: LED_FRE_REAL = 7600;
+;	code/led/myLed.c:134: LED_FRE_REAL = 7600;
 	mov	_LED_FRE_REAL,#0xb0
 	mov	(_LED_FRE_REAL + 1),#0x1d
 	ret
 00116$:
-;	code/led/myLed.c:105: else if (LED_SEEK_D == 0)
+;	code/led/myLed.c:138: else if (LED_SEEK_D == 0)
 	jb	_LED_SEEK_D,00118$
-;	code/led/myLed.c:107: if (LED_FRE_REAL != sys_freq)
+;	code/led/myLed.c:140: if (LED_FRE_REAL != sys_freq)
 	mov	a,_sys_freq
 	cjne	a,_LED_FRE_REAL,00176$
 	mov	a,(_sys_freq + 1)
 	cjne	a,(_LED_FRE_REAL + 1),00176$
 	ret
 00176$:
-;	code/led/myLed.c:109: DispayF(--LED_FRE_REAL);
+;	code/led/myLed.c:142: DispayF(--LED_FRE_REAL);
 	dec	_LED_FRE_REAL
 	mov	a,#0xff
 	cjne	a,_LED_FRE_REAL,00177$
@@ -838,7 +934,7 @@ _DispayFRE:
 	mov	dpl, _LED_FRE_REAL
 	mov	dph, (_LED_FRE_REAL + 1)
 	lcall	_DispayF
-;	code/led/myLed.c:110: if (LED_FRE_REAL < 7600) // Changed from 8700 to 7600 to match the upper bound logic
+;	code/led/myLed.c:143: if (LED_FRE_REAL < 7600) // Changed from 8700 to 7600 to match the upper bound logic
 	mov	r6,_LED_FRE_REAL
 	mov	r7,(_LED_FRE_REAL + 1)
 	clr	c
@@ -847,21 +943,21 @@ _DispayFRE:
 	mov	a,r7
 	subb	a,#0x1d
 	jnc	00118$
-;	code/led/myLed.c:112: LED_FRE_REAL = 10800;
+;	code/led/myLed.c:145: LED_FRE_REAL = 10800;
 	mov	_LED_FRE_REAL,#0x30
 	mov	(_LED_FRE_REAL + 1),#0x2a
 00118$:
-;	code/led/myLed.c:116: }
+;	code/led/myLed.c:149: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'DispayVl'
 ;------------------------------------------------------------
-;	code/led/myLed.c:119: void DispayVl()
+;	code/led/myLed.c:152: void DispayVl()
 ;	-----------------------------------------
 ;	 function DispayVl
 ;	-----------------------------------------
 _DispayVl:
-;	code/led/myLed.c:121: DisplayNUM(100, sys_vol / 10, sys_vol % 10, 100, 100);
+;	code/led/myLed.c:154: DisplayNUM(100, sys_vol / 10, sys_vol % 10, 100, 100);
 	mov	r7,_sys_vol
 	mov	ar6,r7
 	mov	b,#0x0a
@@ -876,7 +972,7 @@ _DispayVl:
 	mov	_DisplayNUM_PARM_4,#0x64
 	mov	_DisplayNUM_PARM_5,#0x64
 	mov	dpl, #0x64
-;	code/led/myLed.c:122: }
+;	code/led/myLed.c:155: }
 	ljmp	_DisplayNUM
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'DispayRSSI'
@@ -885,19 +981,19 @@ _DispayVl:
 ;NUM_SHI       Allocated to registers r5 
 ;NUM_BAI       Allocated to registers r6 
 ;------------------------------------------------------------
-;	code/led/myLed.c:125: void DispayRSSI()
+;	code/led/myLed.c:158: void DispayRSSI()
 ;	-----------------------------------------
 ;	 function DispayRSSI
 ;	-----------------------------------------
 _DispayRSSI:
-;	code/led/myLed.c:128: NUM_BAI = LED_RSSI / 100;
+;	code/led/myLed.c:161: NUM_BAI = LED_RSSI / 100;
 	mov	r7,_LED_RSSI
 	mov	ar6,r7
 	mov	b,#0x64
 	mov	a,r6
 	div	ab
 	mov	r6,a
-;	code/led/myLed.c:129: NUM_SHI = (LED_RSSI % 100) / 10;
+;	code/led/myLed.c:162: NUM_SHI = (LED_RSSI % 100) / 10;
 	mov	ar5,r7
 	mov	b,#0x64
 	mov	a,r5
@@ -907,15 +1003,15 @@ _DispayRSSI:
 	mov	a,r5
 	div	ab
 	mov	r5,a
-;	code/led/myLed.c:130: NUM_GE = (LED_RSSI % 10);
+;	code/led/myLed.c:163: NUM_GE = (LED_RSSI % 10);
 	mov	b,#0x0a
 	mov	a,r7
 	div	ab
 	mov	r7,b
-;	code/led/myLed.c:131: if (NUM_BAI)
+;	code/led/myLed.c:164: if (NUM_BAI)
 	mov	a,r6
 	jz	00102$
-;	code/led/myLed.c:133: DisplayNUM(0xFF, NUM_BAI, NUM_SHI, NUM_GE, 0xFF);
+;	code/led/myLed.c:166: DisplayNUM(0xFF, NUM_BAI, NUM_SHI, NUM_GE, 0xFF);
 	mov	_DisplayNUM_PARM_2,r6
 	mov	_DisplayNUM_PARM_3,r5
 	mov	_DisplayNUM_PARM_4,r7
@@ -923,13 +1019,13 @@ _DispayRSSI:
 	mov	dpl, #0xff
 	ljmp	_DisplayNUM
 00102$:
-;	code/led/myLed.c:137: DisplayNUM(0xFF, 0xFF, NUM_SHI, NUM_GE, 0xFF);
+;	code/led/myLed.c:170: DisplayNUM(0xFF, 0xFF, NUM_SHI, NUM_GE, 0xFF);
 	mov	_DisplayNUM_PARM_2,#0xff
 	mov	_DisplayNUM_PARM_3,r5
 	mov	_DisplayNUM_PARM_4,r7
 	mov	_DisplayNUM_PARM_5,#0xff
 	mov	dpl, #0xff
-;	code/led/myLed.c:139: }
+;	code/led/myLed.c:172: }
 	ljmp	_DisplayNUM
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'DispaySNR'
@@ -937,12 +1033,12 @@ _DispayRSSI:
 ;NUM_GE        Allocated to registers 
 ;NUM_SHI       Allocated to registers 
 ;------------------------------------------------------------
-;	code/led/myLed.c:141: void DispaySNR()
+;	code/led/myLed.c:174: void DispaySNR()
 ;	-----------------------------------------
 ;	 function DispaySNR
 ;	-----------------------------------------
 _DispaySNR:
-;	code/led/myLed.c:144: NUM_GE = (LED_SNR % 10);
+;	code/led/myLed.c:177: NUM_GE = (LED_SNR % 10);
 	mov	r7,_LED_SNR
 	mov	ar6,r7
 	mov	b,#0x0a
@@ -950,7 +1046,7 @@ _DispaySNR:
 	div	ab
 	mov	r6,b
 	mov	_DisplayNUM_PARM_4,r6
-;	code/led/myLed.c:145: NUM_SHI = (LED_SNR % 100) / 10;
+;	code/led/myLed.c:178: NUM_SHI = (LED_SNR % 100) / 10;
 	mov	b,#0x64
 	mov	a,r7
 	div	ab
@@ -959,16 +1055,16 @@ _DispaySNR:
 	mov	a,r7
 	div	ab
 	mov	_DisplayNUM_PARM_3, a
-;	code/led/myLed.c:146: DisplayNUM(23, 25, NUM_SHI, NUM_GE, 0xFF);
+;	code/led/myLed.c:179: DisplayNUM(23, 25, NUM_SHI, NUM_GE, 0xFF);
 	mov	_DisplayNUM_PARM_2,#0x19
 	mov	_DisplayNUM_PARM_5,#0xff
 	mov	dpl, #0x17
-;	code/led/myLed.c:147: }
+;	code/led/myLed.c:180: }
 	ljmp	_DisplayNUM
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'DisplayNUM'
 ;------------------------------------------------------------
-;LED_POLLING_POSTITION Allocated with name '_DisplayNUM_LED_POLLING_POSTITION_10000_52'
+;LED_POLLING_POSTITION Allocated with name '_DisplayNUM_LED_POLLING_POSTITION_10000_55'
 ;b             Allocated with name '_DisplayNUM_PARM_2'
 ;c             Allocated with name '_DisplayNUM_PARM_3'
 ;d             Allocated with name '_DisplayNUM_PARM_4'
@@ -977,13 +1073,13 @@ _DispaySNR:
 ;de            Allocated to registers 
 ;sizeOfNixie   Allocated to registers 
 ;------------------------------------------------------------
-;	code/led/myLed.c:150: void DisplayNUM(uint8_t a, uint8_t b, uint8_t c, uint8_t d, uint8_t dp)
+;	code/led/myLed.c:183: void DisplayNUM(uint8_t a, uint8_t b, uint8_t c, uint8_t d, uint8_t dp)
 ;	-----------------------------------------
 ;	 function DisplayNUM
 ;	-----------------------------------------
 _DisplayNUM:
 	mov	r7, dpl
-;	code/led/myLed.c:158: P20 = P21 = P22 = P23 = 1;
+;	code/led/myLed.c:191: P20 = P21 = P22 = P23 = 1;
 ;	assignBit
 	setb	_P23
 ;	assignBit
@@ -995,13 +1091,13 @@ _DisplayNUM:
 ;	assignBit
 	mov	c,_P21
 	mov	_P20,c
-;	code/led/myLed.c:160: switch (LED_POLLING_POSTITION)
-	mov	a,_DisplayNUM_LED_POLLING_POSTITION_10000_52
+;	code/led/myLed.c:193: switch (LED_POLLING_POSTITION)
+	mov	a,_DisplayNUM_LED_POLLING_POSTITION_10000_55
 	add	a,#0xff - 0x03
 	jnc	00154$
 	ljmp	00113$
 00154$:
-	mov	a,_DisplayNUM_LED_POLLING_POSTITION_10000_52
+	mov	a,_DisplayNUM_LED_POLLING_POSTITION_10000_55
 	mov	b,#0x03
 	mul	ab
 	mov	dptr,#00155$
@@ -1011,15 +1107,15 @@ _DisplayNUM:
 	ljmp	00104$
 	ljmp	00107$
 	ljmp	00110$
-;	code/led/myLed.c:162: case 0:
+;	code/led/myLed.c:195: case 0:
 00101$:
-;	code/led/myLed.c:163: if (a < sizeOfNixie)
+;	code/led/myLed.c:196: if (a < sizeOfNixie)
 	cjne	r7,#0x1a,00156$
 00156$:
 	jc	00157$
 	ljmp	00113$
 00157$:
-;	code/led/myLed.c:165: _74HC595_WriteByte(getData(a, dp == 1));
+;	code/led/myLed.c:198: _74HC595_WriteByte(getData(a, dp == 1));
 	mov	a,#0x01
 	cjne	a,_DisplayNUM_PARM_5,00158$
 	mov	a,#0x01
@@ -1031,18 +1127,18 @@ _DisplayNUM:
 	mov	dpl, r7
 	lcall	_getData
 	lcall	__74HC595_WriteByte
-;	code/led/myLed.c:166: P20 = 0;
+;	code/led/myLed.c:199: P20 = 0;
 ;	assignBit
 	clr	_P20
-;	code/led/myLed.c:168: break;
-;	code/led/myLed.c:169: case 1:
+;	code/led/myLed.c:201: break;
+;	code/led/myLed.c:202: case 1:
 	sjmp	00113$
 00104$:
-;	code/led/myLed.c:170: if (b < sizeOfNixie)
+;	code/led/myLed.c:203: if (b < sizeOfNixie)
 	mov	a,#0x100 - 0x1a
 	add	a,_DisplayNUM_PARM_2
 	jc	00113$
-;	code/led/myLed.c:172: _74HC595_WriteByte(getData(b, dp == 2));
+;	code/led/myLed.c:205: _74HC595_WriteByte(getData(b, dp == 2));
 	mov	a,#0x02
 	cjne	a,_DisplayNUM_PARM_5,00161$
 	mov	a,#0x01
@@ -1054,18 +1150,18 @@ _DisplayNUM:
 	mov	dpl, _DisplayNUM_PARM_2
 	lcall	_getData
 	lcall	__74HC595_WriteByte
-;	code/led/myLed.c:173: P21 = 0;
+;	code/led/myLed.c:206: P21 = 0;
 ;	assignBit
 	clr	_P21
-;	code/led/myLed.c:175: break;
-;	code/led/myLed.c:176: case 2:
+;	code/led/myLed.c:208: break;
+;	code/led/myLed.c:209: case 2:
 	sjmp	00113$
 00107$:
-;	code/led/myLed.c:177: if (c < sizeOfNixie)
+;	code/led/myLed.c:210: if (c < sizeOfNixie)
 	mov	a,#0x100 - 0x1a
 	add	a,_DisplayNUM_PARM_3
 	jc	00113$
-;	code/led/myLed.c:179: _74HC595_WriteByte(getData(c, dp == 3));
+;	code/led/myLed.c:212: _74HC595_WriteByte(getData(c, dp == 3));
 	mov	a,#0x03
 	cjne	a,_DisplayNUM_PARM_5,00164$
 	mov	a,#0x01
@@ -1077,18 +1173,18 @@ _DisplayNUM:
 	mov	dpl, _DisplayNUM_PARM_3
 	lcall	_getData
 	lcall	__74HC595_WriteByte
-;	code/led/myLed.c:180: P22 = 0;
+;	code/led/myLed.c:213: P22 = 0;
 ;	assignBit
 	clr	_P22
-;	code/led/myLed.c:182: break;
-;	code/led/myLed.c:183: case 3:
+;	code/led/myLed.c:215: break;
+;	code/led/myLed.c:216: case 3:
 	sjmp	00113$
 00110$:
-;	code/led/myLed.c:184: if (d < sizeOfNixie)
+;	code/led/myLed.c:217: if (d < sizeOfNixie)
 	mov	a,#0x100 - 0x1a
 	add	a,_DisplayNUM_PARM_4
 	jc	00113$
-;	code/led/myLed.c:186: _74HC595_WriteByte(getData(d, dp == 4));
+;	code/led/myLed.c:219: _74HC595_WriteByte(getData(d, dp == 4));
 	mov	a,#0x04
 	cjne	a,_DisplayNUM_PARM_5,00167$
 	mov	a,#0x01
@@ -1100,108 +1196,114 @@ _DisplayNUM:
 	mov	dpl, _DisplayNUM_PARM_4
 	lcall	_getData
 	lcall	__74HC595_WriteByte
-;	code/led/myLed.c:187: P23 = 0;
+;	code/led/myLed.c:220: P23 = 0;
 ;	assignBit
 	clr	_P23
-;	code/led/myLed.c:190: }
+;	code/led/myLed.c:223: }
 00113$:
-;	code/led/myLed.c:193: if (++LED_POLLING_POSTITION > 3)
-	inc	_DisplayNUM_LED_POLLING_POSTITION_10000_52
-	mov	a,_DisplayNUM_LED_POLLING_POSTITION_10000_52
+;	code/led/myLed.c:226: if (++LED_POLLING_POSTITION > 3)
+	inc	_DisplayNUM_LED_POLLING_POSTITION_10000_55
+	mov	a,_DisplayNUM_LED_POLLING_POSTITION_10000_55
 	add	a,#0xff - 0x03
 	jnc	00116$
-;	code/led/myLed.c:195: LED_POLLING_POSTITION = 0;
-	mov	_DisplayNUM_LED_POLLING_POSTITION_10000_52,#0x00
+;	code/led/myLed.c:228: LED_POLLING_POSTITION = 0;
+	mov	_DisplayNUM_LED_POLLING_POSTITION_10000_55,#0x00
 00116$:
-;	code/led/myLed.c:197: }
+;	code/led/myLed.c:230: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'DISPLY'
 ;------------------------------------------------------------
-;	code/led/myLed.c:200: void DISPLY()
+;	code/led/myLed.c:233: void DISPLY()
 ;	-----------------------------------------
 ;	 function DISPLY
 ;	-----------------------------------------
 _DISPLY:
-;	code/led/myLed.c:202: if (DISPLAY_type == 10)
+;	code/led/myLed.c:235: if (DISPLAY_type == 10)
 	mov	a,#0x0a
-	cjne	a,_DISPLAY_type,00102$
-;	code/led/myLed.c:203: DispayFRE(); // 展示频率
-	lcall	_DispayFRE
-00102$:
-;	code/led/myLed.c:204: if (DISPLAY_type == 1)
+	cjne	a,_DISPLAY_type,00116$
+;	code/led/myLed.c:236: DispayFRE(); // 展示频率
+	ljmp	_DispayFRE
+00116$:
+;	code/led/myLed.c:237: else if (DISPLAY_type == 1)
 	mov	a,#0x01
-	cjne	a,_DISPLAY_type,00104$
-;	code/led/myLed.c:205: DispayVl(); // 音量
-	lcall	_DispayVl
-00104$:
-;	code/led/myLed.c:206: if (DISPLAY_type == 2)
+	cjne	a,_DISPLAY_type,00113$
+;	code/led/myLed.c:238: DispayVl(); // 音量
+	ljmp	_DispayVl
+00113$:
+;	code/led/myLed.c:239: else if (DISPLAY_type == 2)
 	mov	a,#0x02
-	cjne	a,_DISPLAY_type,00106$
-;	code/led/myLed.c:207: DispayRSSI(); // 展示信号强度
-	lcall	_DispayRSSI
-00106$:
-;	code/led/myLed.c:208: if (DISPLAY_type == 3)
+	cjne	a,_DISPLAY_type,00110$
+;	code/led/myLed.c:240: DispayRSSI(); // 展示信号强度
+	ljmp	_DispayRSSI
+00110$:
+;	code/led/myLed.c:241: else if (DISPLAY_type == 3)
 	mov	a,#0x03
-	cjne	a,_DISPLAY_type,00108$
-;	code/led/myLed.c:209: DispaySELLP(); // 展示睡眠模式
-	lcall	_DispaySELLP
-00108$:
-;	code/led/myLed.c:210: if (DISPLAY_type == 14)
+	cjne	a,_DISPLAY_type,00107$
+;	code/led/myLed.c:242: DispaySELLP(); // 展示睡眠模式
+	ljmp	_DispaySELLP
+00107$:
+;	code/led/myLed.c:243: else if (DISPLAY_type == 14)
 	mov	a,#0x0e
-	cjne	a,_DISPLAY_type,00111$
-;	code/led/myLed.c:211: DispaySNR(); // 展示SNR
-;	code/led/myLed.c:212: }
+	cjne	a,_DISPLAY_type,00104$
+;	code/led/myLed.c:244: DispaySNR(); // 展示SNR
 	ljmp	_DispaySNR
-00111$:
+00104$:
+;	code/led/myLed.c:245: else if (DISPLAY_type == 15)
+	mov	a,#0x0f
+	cjne	a,_DISPLAY_type,00118$
+;	code/led/myLed.c:246: DisplaySearchAnimation(); // 展示搜索动画
+;	code/led/myLed.c:247: }
+	ljmp	_DisplaySearchAnimation
+00118$:
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'Led_CHANGE_SLEEP_MODE'
 ;------------------------------------------------------------
-;	code/led/myLed.c:214: void Led_CHANGE_SLEEP_MODE()
+;	code/led/myLed.c:249: void Led_CHANGE_SLEEP_MODE()
 ;	-----------------------------------------
 ;	 function Led_CHANGE_SLEEP_MODE
 ;	-----------------------------------------
 _Led_CHANGE_SLEEP_MODE:
-;	code/led/myLed.c:217: CONF_CHANGE_SLEEP_MODE();
+;	code/led/myLed.c:252: CONF_CHANGE_SLEEP_MODE();
 	lcall	_CONF_CHANGE_SLEEP_MODE
-;	code/led/myLed.c:218: DISPLAY_type = 3;
+;	code/led/myLed.c:253: DISPLAY_type = 3;
 	mov	_DISPLAY_type,#0x03
-;	code/led/myLed.c:219: resetSleepTime();
-;	code/led/myLed.c:220: }
+;	code/led/myLed.c:254: resetSleepTime();
+;	code/led/myLed.c:255: }
 	ljmp	_resetSleepTime
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'resetSleepTime'
 ;------------------------------------------------------------
-;	code/led/myLed.c:223: void resetSleepTime()
+;	code/led/myLed.c:258: void resetSleepTime()
 ;	-----------------------------------------
 ;	 function resetSleepTime
 ;	-----------------------------------------
 _resetSleepTime:
-;	code/led/myLed.c:225: if (sys_sleep_mode == 0)
+;	code/led/myLed.c:260: if (sys_sleep_mode == 0)
 	mov	a,_sys_sleep_mode
 	jnz	00103$
-;	code/led/myLed.c:227: LED_SELL_TIME = 0x1F40;
+;	code/led/myLed.c:262: LED_SELL_TIME = 0x1F40;
 	mov	_LED_SELL_TIME,#0x40
 	mov	(_LED_SELL_TIME + 1),#0x1f
 00103$:
-;	code/led/myLed.c:229: }
+;	code/led/myLed.c:264: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'Led_Loop'
 ;------------------------------------------------------------
-;	code/led/myLed.c:232: void Led_Loop()
+;	code/led/myLed.c:267: void Led_Loop()
 ;	-----------------------------------------
 ;	 function Led_Loop
 ;	-----------------------------------------
 _Led_Loop:
-;	code/led/myLed.c:235: if (sys_sleep_mode)
+;	code/led/myLed.c:270: if (sys_sleep_mode)
 	mov	a,_sys_sleep_mode
 	jz	00105$
-;	code/led/myLed.c:237: DISPLY();
+;	code/led/myLed.c:272: DISPLY();
 	ljmp	_DISPLY
 00105$:
-;	code/led/myLed.c:240: else if (LED_SELL_TIME > 10)
+;	code/led/myLed.c:275: else if (LED_SELL_TIME > 10)
 	mov	r6,_LED_SELL_TIME
 	mov	r7,(_LED_SELL_TIME + 1)
 	clr	c
@@ -1210,9 +1312,9 @@ _Led_Loop:
 	clr	a
 	subb	a,r7
 	jnc	00102$
-;	code/led/myLed.c:242: DISPLY();
+;	code/led/myLed.c:277: DISPLY();
 	lcall	_DISPLY
-;	code/led/myLed.c:243: LED_SELL_TIME--;
+;	code/led/myLed.c:278: LED_SELL_TIME--;
 	dec	_LED_SELL_TIME
 	mov	a,#0xff
 	cjne	a,_LED_SELL_TIME,00123$
@@ -1220,7 +1322,7 @@ _Led_Loop:
 00123$:
 	ret
 00102$:
-;	code/led/myLed.c:248: P20 = P21 = P22 = P23 = 1;
+;	code/led/myLed.c:283: P20 = P21 = P22 = P23 = 1;
 ;	assignBit
 	setb	_P23
 ;	assignBit
@@ -1232,7 +1334,7 @@ _Led_Loop:
 ;	assignBit
 	mov	c,_P21
 	mov	_P20,c
-;	code/led/myLed.c:250: }
+;	code/led/myLed.c:285: }
 	ret
 	.area CSEG    (CODE)
 	.area CONST   (CODE)

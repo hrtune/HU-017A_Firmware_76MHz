@@ -28,6 +28,39 @@ uint16_t LED_SELL_TIME = 0x1F40; // 统计睡眠模式剩余时间8s
 
 void DisplayNUM(uint8_t a, uint8_t b, uint8_t c, uint8_t d, uint8_t dp);
 
+// 显示搜索动画
+void DisplaySearchAnimation()
+{
+	static uint8_t animation_step = 0;
+	// Turn off all digits first
+	P20 = P21 = P22 = P23 = 1;
+
+	switch (animation_step)
+	{
+	case 0: // Light up first digit
+		_74HC595_WriteByte(0xBF); // Segment 'a' on (top segment)
+		P20 = 0;
+		break;
+	case 1: // Light up second digit
+		_74HC595_WriteByte(0xBF);
+		P21 = 0;
+		break;
+	case 2: // Light up third digit
+		_74HC595_WriteByte(0xBF);
+		P22 = 0;
+		break;
+	case 3: // Light up fourth digit
+		_74HC595_WriteByte(0xBF);
+		P23 = 0;
+		break;
+	}
+
+	if (++animation_step > 3)
+	{
+		animation_step = 0;
+	}
+}
+
 /**
  内部使用 根据dpf判断是否需要小数点
 **/
@@ -201,14 +234,16 @@ void DISPLY()
 {
 	if (DISPLAY_type == 10)
 		DispayFRE(); // 展示频率
-	if (DISPLAY_type == 1)
+	else if (DISPLAY_type == 1)
 		DispayVl(); // 音量
-	if (DISPLAY_type == 2)
+	else if (DISPLAY_type == 2)
 		DispayRSSI(); // 展示信号强度
-	if (DISPLAY_type == 3)
+	else if (DISPLAY_type == 3)
 		DispaySELLP(); // 展示睡眠模式
-	if (DISPLAY_type == 14)
+	else if (DISPLAY_type == 14)
 		DispaySNR(); // 展示SNR
+	else if (DISPLAY_type == 15)
+		DisplaySearchAnimation(); // 展示搜索动画
 }
 
 void Led_CHANGE_SLEEP_MODE()

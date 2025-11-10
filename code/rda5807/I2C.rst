@@ -532,7 +532,7 @@
                                     532 ;	-----------------------------------------
                                     533 ;	 function I2C_Delay
                                     534 ;	-----------------------------------------
-      0009B7                        535 _I2C_Delay:
+      000A2A                        535 _I2C_Delay:
                            000007   536 	ar7 = 0x07
                            000006   537 	ar6 = 0x06
                            000005   538 	ar5 = 0x05
@@ -542,9 +542,9 @@
                            000001   542 	ar1 = 0x01
                            000000   543 	ar0 = 0x00
                                     544 ;	code/rda5807/I2C.c:15: Delay_us_(10);
-      0009B7 90 00 0A         [24]  545 	mov	dptr,#0x000a
+      000A2A 90 00 0A         [24]  545 	mov	dptr,#0x000a
                                     546 ;	code/rda5807/I2C.c:16: }
-      0009BA 02 05 DD         [24]  547 	ljmp	_Delay_us_
+      000A2D 02 06 44         [24]  547 	ljmp	_Delay_us_
                                     548 ;------------------------------------------------------------
                                     549 ;Allocation info for local variables in function 'I2C_Start'
                                     550 ;------------------------------------------------------------
@@ -552,25 +552,25 @@
                                     552 ;	-----------------------------------------
                                     553 ;	 function I2C_Start
                                     554 ;	-----------------------------------------
-      0009BD                        555 _I2C_Start:
+      000A30                        555 _I2C_Start:
                                     556 ;	code/rda5807/I2C.c:27: SDA = 1;     // 需在SCL之前设定
                                     557 ;	assignBit
-      0009BD D2 A4            [12]  558 	setb	_SDA
+      000A30 D2 A4            [12]  558 	setb	_SDA
                                     559 ;	code/rda5807/I2C.c:28: SCL = 1;     // 硬件进入SDA检测状态
                                     560 ;	assignBit
-      0009BF D2 A5            [12]  561 	setb	_SCL
+      000A32 D2 A5            [12]  561 	setb	_SCL
                                     562 ;	code/rda5807/I2C.c:29: I2C_Delay(); // 延时至少4.7us
-      0009C1 12 09 B7         [24]  563 	lcall	_I2C_Delay
+      000A34 12 0A 2A         [24]  563 	lcall	_I2C_Delay
                                     564 ;	code/rda5807/I2C.c:30: SDA = 0;     // SDA由1->0,产生开始信号
                                     565 ;	assignBit
-      0009C4 C2 A4            [12]  566 	clr	_SDA
+      000A37 C2 A4            [12]  566 	clr	_SDA
                                     567 ;	code/rda5807/I2C.c:31: I2C_Delay(); // 延时至少4us
-      0009C6 12 09 B7         [24]  568 	lcall	_I2C_Delay
+      000A39 12 0A 2A         [24]  568 	lcall	_I2C_Delay
                                     569 ;	code/rda5807/I2C.c:32: SCL = 0;     // SCL变为无效
                                     570 ;	assignBit
-      0009C9 C2 A5            [12]  571 	clr	_SCL
+      000A3C C2 A5            [12]  571 	clr	_SCL
                                     572 ;	code/rda5807/I2C.c:33: }
-      0009CB 22               [24]  573 	ret
+      000A3E 22               [24]  573 	ret
                                     574 ;------------------------------------------------------------
                                     575 ;Allocation info for local variables in function 'I2C_End'
                                     576 ;------------------------------------------------------------
@@ -578,21 +578,21 @@
                                     578 ;	-----------------------------------------
                                     579 ;	 function I2C_End
                                     580 ;	-----------------------------------------
-      0009CC                        581 _I2C_End:
+      000A3F                        581 _I2C_End:
                                     582 ;	code/rda5807/I2C.c:43: SDA = 0;     // 在SCL之前拉低
                                     583 ;	assignBit
-      0009CC C2 A4            [12]  584 	clr	_SDA
+      000A3F C2 A4            [12]  584 	clr	_SDA
                                     585 ;	code/rda5807/I2C.c:44: SCL = 1;     // 硬件进入SDA检测状态
                                     586 ;	assignBit
-      0009CE D2 A5            [12]  587 	setb	_SCL
+      000A41 D2 A5            [12]  587 	setb	_SCL
                                     588 ;	code/rda5807/I2C.c:45: I2C_Delay(); // 至少延时4us
-      0009D0 12 09 B7         [24]  589 	lcall	_I2C_Delay
+      000A43 12 0A 2A         [24]  589 	lcall	_I2C_Delay
                                     590 ;	code/rda5807/I2C.c:46: SDA = 1;     // SDA由0->1,产生结束信号
                                     591 ;	assignBit
-      0009D3 D2 A4            [12]  592 	setb	_SDA
+      000A46 D2 A4            [12]  592 	setb	_SDA
                                     593 ;	code/rda5807/I2C.c:47: I2C_Delay(); // 延时至少4.7us
                                     594 ;	code/rda5807/I2C.c:48: }
-      0009D5 02 09 B7         [24]  595 	ljmp	_I2C_Delay
+      000A48 02 0A 2A         [24]  595 	ljmp	_I2C_Delay
                                     596 ;------------------------------------------------------------
                                     597 ;Allocation info for local variables in function 'IIC_Send_ACK'
                                     598 ;------------------------------------------------------------
@@ -602,24 +602,24 @@
                                     602 ;	-----------------------------------------
                                     603 ;	 function IIC_Send_ACK
                                     604 ;	-----------------------------------------
-      0009D8                        605 _IIC_Send_ACK:
+      000A4B                        605 _IIC_Send_ACK:
                                     606 ;	code/rda5807/I2C.c:59: SDA = ack; // 产生应答电平
                                     607 ;	assignBit
-      0009D8 E5 82            [12]  608 	mov	a,dpl
-      0009DA 24 FF            [12]  609 	add	a,#0xff
-      0009DC 92 A4            [24]  610 	mov	_SDA,c
+      000A4B E5 82            [12]  608 	mov	a,dpl
+      000A4D 24 FF            [12]  609 	add	a,#0xff
+      000A4F 92 A4            [24]  610 	mov	_SDA,c
                                     611 ;	code/rda5807/I2C.c:60: I2C_Delay();
-      0009DE 12 09 B7         [24]  612 	lcall	_I2C_Delay
+      000A51 12 0A 2A         [24]  612 	lcall	_I2C_Delay
                                     613 ;	code/rda5807/I2C.c:61: SCL = 1;     // 发送应答信号
                                     614 ;	assignBit
-      0009E1 D2 A5            [12]  615 	setb	_SCL
+      000A54 D2 A5            [12]  615 	setb	_SCL
                                     616 ;	code/rda5807/I2C.c:62: I2C_Delay(); // 延时至少4us
-      0009E3 12 09 B7         [24]  617 	lcall	_I2C_Delay
+      000A56 12 0A 2A         [24]  617 	lcall	_I2C_Delay
                                     618 ;	code/rda5807/I2C.c:63: SCL = 0;     // 整个期间保持应答信号
                                     619 ;	assignBit
-      0009E6 C2 A5            [12]  620 	clr	_SCL
+      000A59 C2 A5            [12]  620 	clr	_SCL
                                     621 ;	code/rda5807/I2C.c:64: }
-      0009E8 22               [24]  622 	ret
+      000A5B 22               [24]  622 	ret
                                     623 ;------------------------------------------------------------
                                     624 ;Allocation info for local variables in function 'IIC_Get_ACK'
                                     625 ;------------------------------------------------------------
@@ -627,31 +627,31 @@
                                     627 ;	-----------------------------------------
                                     628 ;	 function IIC_Get_ACK
                                     629 ;	-----------------------------------------
-      0009E9                        630 _IIC_Get_ACK:
+      000A5C                        630 _IIC_Get_ACK:
                                     631 ;	code/rda5807/I2C.c:75: SDA = 1;   // 电阻上拉,进入读
                                     632 ;	assignBit
-      0009E9 D2 A4            [12]  633 	setb	_SDA
+      000A5C D2 A4            [12]  633 	setb	_SDA
                                     634 ;	code/rda5807/I2C.c:76: I2C_Delay();
-      0009EB 12 09 B7         [24]  635 	lcall	_I2C_Delay
+      000A5E 12 0A 2A         [24]  635 	lcall	_I2C_Delay
                                     636 ;	code/rda5807/I2C.c:77: SCL = 1;     // 进入应答检测
                                     637 ;	assignBit
-      0009EE D2 A5            [12]  638 	setb	_SCL
+      000A61 D2 A5            [12]  638 	setb	_SCL
                                     639 ;	code/rda5807/I2C.c:78: I2C_Delay(); // 至少延时4us
-      0009F0 12 09 B7         [24]  640 	lcall	_I2C_Delay
+      000A63 12 0A 2A         [24]  640 	lcall	_I2C_Delay
                                     641 ;	code/rda5807/I2C.c:79: ret = SDA;   // 保存应答信号
                                     642 ;	assignBit
-      0009F3 A2 A4            [12]  643 	mov	c,_SDA
-      0009F5 92 02            [24]  644 	mov	_IIC_Get_ACK_ret_10000_18,c
+      000A66 A2 A4            [12]  643 	mov	c,_SDA
+      000A68 92 02            [24]  644 	mov	_IIC_Get_ACK_ret_10000_18,c
                                     645 ;	code/rda5807/I2C.c:80: SCL = 0;
                                     646 ;	assignBit
-      0009F7 C2 A5            [12]  647 	clr	_SCL
+      000A6A C2 A5            [12]  647 	clr	_SCL
                                     648 ;	code/rda5807/I2C.c:81: return (ret);
-      0009F9 A2 02            [12]  649 	mov	c,_IIC_Get_ACK_ret_10000_18
-      0009FB E4               [12]  650 	clr	a
-      0009FC 33               [12]  651 	rlc	a
-      0009FD F5 82            [12]  652 	mov	dpl,a
+      000A6C A2 02            [12]  649 	mov	c,_IIC_Get_ACK_ret_10000_18
+      000A6E E4               [12]  650 	clr	a
+      000A6F 33               [12]  651 	rlc	a
+      000A70 F5 82            [12]  652 	mov	dpl,a
                                     653 ;	code/rda5807/I2C.c:82: }
-      0009FF 22               [24]  654 	ret
+      000A72 22               [24]  654 	ret
                                     655 ;------------------------------------------------------------
                                     656 ;Allocation info for local variables in function 'I2C_SendByte'
                                     657 ;------------------------------------------------------------
@@ -662,58 +662,58 @@
                                     662 ;	-----------------------------------------
                                     663 ;	 function I2C_SendByte
                                     664 ;	-----------------------------------------
-      000A00                        665 _I2C_SendByte:
-      000A00 AF 82            [24]  666 	mov	r7, dpl
+      000A73                        665 _I2C_SendByte:
+      000A73 AF 82            [24]  666 	mov	r7, dpl
                                     667 ;	code/rda5807/I2C.c:95: while (loop--)
-      000A02 7E 08            [12]  668 	mov	r6,#0x08
-      000A04                        669 00104$:
-      000A04 8E 05            [24]  670 	mov	ar5,r6
-      000A06 1E               [12]  671 	dec	r6
-      000A07 ED               [12]  672 	mov	a,r5
-      000A08 60 21            [24]  673 	jz	00106$
+      000A75 7E 08            [12]  668 	mov	r6,#0x08
+      000A77                        669 00104$:
+      000A77 8E 05            [24]  670 	mov	ar5,r6
+      000A79 1E               [12]  671 	dec	r6
+      000A7A ED               [12]  672 	mov	a,r5
+      000A7B 60 21            [24]  673 	jz	00106$
                                     674 ;	code/rda5807/I2C.c:98: if (dat & 0x80)
-      000A0A EF               [12]  675 	mov	a,r7
-      000A0B 30 E7 04         [24]  676 	jnb	acc.7,00102$
+      000A7D EF               [12]  675 	mov	a,r7
+      000A7E 30 E7 04         [24]  676 	jnb	acc.7,00102$
                                     677 ;	code/rda5807/I2C.c:99: SDA = 1;
                                     678 ;	assignBit
-      000A0E D2 A4            [12]  679 	setb	_SDA
-      000A10 80 02            [24]  680 	sjmp	00103$
-      000A12                        681 00102$:
+      000A81 D2 A4            [12]  679 	setb	_SDA
+      000A83 80 02            [24]  680 	sjmp	00103$
+      000A85                        681 00102$:
                                     682 ;	code/rda5807/I2C.c:101: SDA = 0;
                                     683 ;	assignBit
-      000A12 C2 A4            [12]  684 	clr	_SDA
-      000A14                        685 00103$:
+      000A85 C2 A4            [12]  684 	clr	_SDA
+      000A87                        685 00103$:
                                     686 ;	code/rda5807/I2C.c:102: I2C_Delay();
-      000A14 C0 07            [24]  687 	push	ar7
-      000A16 C0 06            [24]  688 	push	ar6
-      000A18 12 09 B7         [24]  689 	lcall	_I2C_Delay
+      000A87 C0 07            [24]  687 	push	ar7
+      000A89 C0 06            [24]  688 	push	ar6
+      000A8B 12 0A 2A         [24]  689 	lcall	_I2C_Delay
                                     690 ;	code/rda5807/I2C.c:103: SCL = 1;
                                     691 ;	assignBit
-      000A1B D2 A5            [12]  692 	setb	_SCL
+      000A8E D2 A5            [12]  692 	setb	_SCL
                                     693 ;	code/rda5807/I2C.c:104: I2C_Delay(); // 延时至少4us
-      000A1D 12 09 B7         [24]  694 	lcall	_I2C_Delay
-      000A20 D0 06            [24]  695 	pop	ar6
-      000A22 D0 07            [24]  696 	pop	ar7
+      000A90 12 0A 2A         [24]  694 	lcall	_I2C_Delay
+      000A93 D0 06            [24]  695 	pop	ar6
+      000A95 D0 07            [24]  696 	pop	ar7
                                     697 ;	code/rda5807/I2C.c:105: SCL = 0;
                                     698 ;	assignBit
-      000A24 C2 A5            [12]  699 	clr	_SCL
+      000A97 C2 A5            [12]  699 	clr	_SCL
                                     700 ;	code/rda5807/I2C.c:106: dat <<= 1; // 低位向高位移动
-      000A26 EF               [12]  701 	mov	a,r7
-      000A27 2F               [12]  702 	add	a,r7
-      000A28 FF               [12]  703 	mov	r7,a
-      000A29 80 D9            [24]  704 	sjmp	00104$
-      000A2B                        705 00106$:
+      000A99 EF               [12]  701 	mov	a,r7
+      000A9A 2F               [12]  702 	add	a,r7
+      000A9B FF               [12]  703 	mov	r7,a
+      000A9C 80 D9            [24]  704 	sjmp	00104$
+      000A9E                        705 00106$:
                                     706 ;	code/rda5807/I2C.c:109: ack = IIC_Get_ACK();
-      000A2B 12 09 E9         [24]  707 	lcall	_IIC_Get_ACK
+      000A9E 12 0A 5C         [24]  707 	lcall	_IIC_Get_ACK
                                     708 ;	assignBit
-      000A2E E5 82            [12]  709 	mov	a,dpl
-      000A30 24 FF            [12]  710 	add	a,#0xff
-      000A32 E4               [12]  711 	clr	a
-      000A33 33               [12]  712 	rlc	a
+      000AA1 E5 82            [12]  709 	mov	a,dpl
+      000AA3 24 FF            [12]  710 	add	a,#0xff
+      000AA5 E4               [12]  711 	clr	a
+      000AA6 33               [12]  712 	rlc	a
                                     713 ;	code/rda5807/I2C.c:111: return (ack);
                                     714 ;	code/rda5807/I2C.c:112: }
-      000A34 F5 82            [12]  715 	mov	dpl,a
-      000A36 22               [24]  716 	ret
+      000AA7 F5 82            [12]  715 	mov	dpl,a
+      000AA9 22               [24]  716 	ret
                                     717 ;------------------------------------------------------------
                                     718 ;Allocation info for local variables in function 'I2C_ReadByte'
                                     719 ;------------------------------------------------------------
@@ -725,62 +725,62 @@
                                     725 ;	-----------------------------------------
                                     726 ;	 function I2C_ReadByte
                                     727 ;	-----------------------------------------
-      000A37                        728 _I2C_ReadByte:
-      000A37 AF 82            [24]  729 	mov	r7, dpl
+      000AAA                        728 _I2C_ReadByte:
+      000AAA AF 82            [24]  729 	mov	r7, dpl
                                     730 ;	code/rda5807/I2C.c:123: uint8_t ret = 0;
-      000A39 7E 00            [12]  731 	mov	r6,#0x00
+      000AAC 7E 00            [12]  731 	mov	r6,#0x00
                                     732 ;	code/rda5807/I2C.c:125: SDA = 1;
                                     733 ;	assignBit
-      000A3B D2 A4            [12]  734 	setb	_SDA
+      000AAE D2 A4            [12]  734 	setb	_SDA
                                     735 ;	code/rda5807/I2C.c:126: while (loop--)
-      000A3D 7D 08            [12]  736 	mov	r5,#0x08
-      000A3F                        737 00103$:
-      000A3F 8D 04            [24]  738 	mov	ar4,r5
-      000A41 1D               [12]  739 	dec	r5
-      000A42 EC               [12]  740 	mov	a,r4
-      000A43 60 2B            [24]  741 	jz	00105$
+      000AB0 7D 08            [12]  736 	mov	r5,#0x08
+      000AB2                        737 00103$:
+      000AB2 8D 04            [24]  738 	mov	ar4,r5
+      000AB4 1D               [12]  739 	dec	r5
+      000AB5 EC               [12]  740 	mov	a,r4
+      000AB6 60 2B            [24]  741 	jz	00105$
                                     742 ;	code/rda5807/I2C.c:128: ret <<= 1;
-      000A45 EE               [12]  743 	mov	a,r6
-      000A46 2E               [12]  744 	add	a,r6
-      000A47 FE               [12]  745 	mov	r6,a
+      000AB8 EE               [12]  743 	mov	a,r6
+      000AB9 2E               [12]  744 	add	a,r6
+      000ABA FE               [12]  745 	mov	r6,a
                                     746 ;	code/rda5807/I2C.c:129: SCL = 1;
                                     747 ;	assignBit
-      000A48 D2 A5            [12]  748 	setb	_SCL
+      000ABB D2 A5            [12]  748 	setb	_SCL
                                     749 ;	code/rda5807/I2C.c:130: I2C_Delay();
-      000A4A C0 07            [24]  750 	push	ar7
-      000A4C C0 06            [24]  751 	push	ar6
-      000A4E C0 05            [24]  752 	push	ar5
-      000A50 12 09 B7         [24]  753 	lcall	_I2C_Delay
-      000A53 D0 05            [24]  754 	pop	ar5
-      000A55 D0 06            [24]  755 	pop	ar6
-      000A57 D0 07            [24]  756 	pop	ar7
+      000ABD C0 07            [24]  750 	push	ar7
+      000ABF C0 06            [24]  751 	push	ar6
+      000AC1 C0 05            [24]  752 	push	ar5
+      000AC3 12 0A 2A         [24]  753 	lcall	_I2C_Delay
+      000AC6 D0 05            [24]  754 	pop	ar5
+      000AC8 D0 06            [24]  755 	pop	ar6
+      000ACA D0 07            [24]  756 	pop	ar7
                                     757 ;	code/rda5807/I2C.c:132: if (SDA)
-      000A59 30 A4 01         [24]  758 	jnb	_SDA,00102$
+      000ACC 30 A4 01         [24]  758 	jnb	_SDA,00102$
                                     759 ;	code/rda5807/I2C.c:134: ret++;
-      000A5C 0E               [12]  760 	inc	r6
-      000A5D                        761 00102$:
+      000ACF 0E               [12]  760 	inc	r6
+      000AD0                        761 00102$:
                                     762 ;	code/rda5807/I2C.c:136: SCL = 0;
                                     763 ;	assignBit
-      000A5D C2 A5            [12]  764 	clr	_SCL
+      000AD0 C2 A5            [12]  764 	clr	_SCL
                                     765 ;	code/rda5807/I2C.c:137: I2C_Delay();
-      000A5F C0 07            [24]  766 	push	ar7
-      000A61 C0 06            [24]  767 	push	ar6
-      000A63 C0 05            [24]  768 	push	ar5
-      000A65 12 09 B7         [24]  769 	lcall	_I2C_Delay
-      000A68 D0 05            [24]  770 	pop	ar5
-      000A6A D0 06            [24]  771 	pop	ar6
-      000A6C D0 07            [24]  772 	pop	ar7
-      000A6E 80 CF            [24]  773 	sjmp	00103$
-      000A70                        774 00105$:
+      000AD2 C0 07            [24]  766 	push	ar7
+      000AD4 C0 06            [24]  767 	push	ar6
+      000AD6 C0 05            [24]  768 	push	ar5
+      000AD8 12 0A 2A         [24]  769 	lcall	_I2C_Delay
+      000ADB D0 05            [24]  770 	pop	ar5
+      000ADD D0 06            [24]  771 	pop	ar6
+      000ADF D0 07            [24]  772 	pop	ar7
+      000AE1 80 CF            [24]  773 	sjmp	00103$
+      000AE3                        774 00105$:
                                     775 ;	code/rda5807/I2C.c:140: IIC_Send_ACK(ack);
-      000A70 8F 82            [24]  776 	mov	dpl, r7
-      000A72 C0 06            [24]  777 	push	ar6
-      000A74 12 09 D8         [24]  778 	lcall	_IIC_Send_ACK
-      000A77 D0 06            [24]  779 	pop	ar6
+      000AE3 8F 82            [24]  776 	mov	dpl, r7
+      000AE5 C0 06            [24]  777 	push	ar6
+      000AE7 12 0A 4B         [24]  778 	lcall	_IIC_Send_ACK
+      000AEA D0 06            [24]  779 	pop	ar6
                                     780 ;	code/rda5807/I2C.c:142: return ret;
-      000A79 8E 82            [24]  781 	mov	dpl, r6
+      000AEC 8E 82            [24]  781 	mov	dpl, r6
                                     782 ;	code/rda5807/I2C.c:143: }
-      000A7B 22               [24]  783 	ret
+      000AEE 22               [24]  783 	ret
                                     784 	.area CSEG    (CODE)
                                     785 	.area CONST   (CODE)
                                     786 	.area XINIT   (CODE)

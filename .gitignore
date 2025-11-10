@@ -1,0 +1,27 @@
+# macOS specific
+.DS_Store
+
+# Git specific
+.git/
+
+# Keil uVision specific files
+*.uvgui.wduba
+*.uvopt
+*.uvproj
+
+# Build artifacts
+*.lst
+*.rel
+*.rst
+*.sym
+*.map
+*.mem
+*.lk
+
+# Build directory
+build/
+
+# Ignore all other files except source code and .hex files
+# This is a more aggressive approach, ensure all desired source files are explicitly kept if needed.
+# For this project, .c, .h, .asm, Makefile, README.md, and .hex are explicitly kept by not being ignored.
+# If there are other file types that should be kept, they need to be explicitly un-ignored or not included in general ignore patterns.

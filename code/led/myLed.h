@@ -14,6 +14,8 @@ extern __bit LED_HAND_MARK;
 
 // 显示数码管
 void Led_Loop();
+// 显示搜索动画
+void DisplaySearchAnimation();
 
 // les 睡眠时间重置
 void resetSleepTime();

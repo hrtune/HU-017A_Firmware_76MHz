@@ -155,7 +155,9 @@ void userInput()
 	// F+ Long Press (search next stable frequency up)
 	if (Key_NUM == 33)
 	{
+		DISPLAY_type = 15; // Start search animation
 		sys_freq = RDA5807M_Seek(1); // Search up for next stable frequency
+		DISPLAY_type = 10; // Stop search animation, display frequency
 		LED_FRE_REAL = sys_freq;
 		sys_radio_index = 0xFF; // Indicate not on a preset
 		LED_HAND_MARK = 1; //  数码管设置为列表换台
@@ -164,7 +166,9 @@ void userInput()
 	// F- Long Press (search next stable frequency down)
 	if (Key_NUM == 44)
 	{
+		DISPLAY_type = 15; // Start search animation
 		sys_freq = RDA5807M_Seek(0); // Search down for next stable frequency
+		DISPLAY_type = 10; // Stop search animation, display frequency
 		LED_FRE_REAL = sys_freq;
 		sys_radio_index = 0xFF; // Indicate not on a preset
 		LED_HAND_MARK = 1; //  数码管设置为列表换台

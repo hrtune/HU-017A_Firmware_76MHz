@@ -498,8 +498,8 @@
                                     498 ; Stack segment in internal ram
                                     499 ;--------------------------------------------------------
                                     500 	.area SSEG
-      000048                        501 __start__stack:
-      000048                        502 	.ds	1
+      00004A                        501 __start__stack:
+      00004A                        502 	.ds	1
                                     503 
                                     504 ;--------------------------------------------------------
                                     505 ; indirectly addressable internal ram data
@@ -548,7 +548,7 @@
       000000 02 00 7E         [24]  548 	ljmp	__sdcc_gsinit_startup
       000003 32               [24]  549 	reti
       000004                        550 	.ds	7
-      00000B 02 09 48         [24]  551 	ljmp	_Timer0_Rountine
+      00000B 02 09 BB         [24]  551 	ljmp	_Timer0_Rountine
                                     552 ; restartable atomic support routines
       00000E                        553 	.ds	2
       000010                        554 sdcc_atomic_exchange_rollback_start::
@@ -621,16 +621,16 @@
                                     621 	.globl __mcs51_genXRAMCLEAR
                                     622 	.globl __mcs51_genRAMCLEAR
                                     623 ;	code/main.c:13: uint8_t search_SELLP_flag = 0;
-      000137 75 38 00         [24]  624 	mov	_search_SELLP_flag,#0x00
+      00013A 75 38 00         [24]  624 	mov	_search_SELLP_flag,#0x00
                                     625 	.area GSFINAL (CODE)
-      00013D 02 00 51         [24]  626 	ljmp	__sdcc_program_startup
+      000140 02 00 51         [24]  626 	ljmp	__sdcc_program_startup
                                     627 ;--------------------------------------------------------
                                     628 ; Home
                                     629 ;--------------------------------------------------------
                                     630 	.area HOME    (CODE)
                                     631 	.area HOME    (CODE)
       000051                        632 __sdcc_program_startup:
-      000051 02 09 1D         [24]  633 	ljmp	_main
+      000051 02 09 90         [24]  633 	ljmp	_main
                                     634 ;	return from main will return to caller
                                     635 ;--------------------------------------------------------
                                     636 ; code
@@ -646,7 +646,7 @@
                                     646 ;	-----------------------------------------
                                     647 ;	 function userInput
                                     648 ;	-----------------------------------------
-      0007EC                        649 _userInput:
+      000853                        649 _userInput:
                            000007   650 	ar7 = 0x07
                            000006   651 	ar6 = 0x06
                            000005   652 	ar5 = 0x05
@@ -656,356 +656,364 @@
                            000001   656 	ar1 = 0x01
                            000000   657 	ar0 = 0x00
                                     658 ;	code/main.c:20: uint8_t Key_NUM = POP_KEY();
-      0007EC 12 05 FC         [24]  659 	lcall	_POP_KEY
+      000853 12 06 63         [24]  659 	lcall	_POP_KEY
                                     660 ;	code/main.c:21: if (!Key_NUM) // 用户没有输入
-      0007EF E5 82            [12]  661 	mov	a,dpl
-      0007F1 FF               [12]  662 	mov	r7,a
-      0007F2 70 01            [24]  663 	jnz	00102$
+      000856 E5 82            [12]  661 	mov	a,dpl
+      000858 FF               [12]  662 	mov	r7,a
+      000859 70 01            [24]  663 	jnz	00102$
                                     664 ;	code/main.c:23: return;
-      0007F4 22               [24]  665 	ret
-      0007F5                        666 00102$:
+      00085B 22               [24]  665 	ret
+      00085C                        666 00102$:
                                     667 ;	code/main.c:32: if (Key_NUM == 12)
-      0007F5 BF 0C 07         [24]  668 	cjne	r7,#0x0c,00104$
+      00085C BF 0C 07         [24]  668 	cjne	r7,#0x0c,00104$
                                     669 ;	code/main.c:34: Led_CHANGE_SLEEP_MODE();
-      0007F8 C0 07            [24]  670 	push	ar7
-      0007FA 12 04 53         [24]  671 	lcall	_Led_CHANGE_SLEEP_MODE
-      0007FD D0 07            [24]  672 	pop	ar7
-      0007FF                        673 00104$:
+      00085F C0 07            [24]  670 	push	ar7
+      000861 12 04 BA         [24]  671 	lcall	_Led_CHANGE_SLEEP_MODE
+      000864 D0 07            [24]  672 	pop	ar7
+      000866                        673 00104$:
                                     674 ;	code/main.c:42: if (search_SELLP_flag > 0 && Key_NUM == 3)
-      0007FF E5 38            [12]  675 	mov	a,_search_SELLP_flag
-      000801 60 0A            [24]  676 	jz	00108$
-      000803 BF 03 07         [24]  677 	cjne	r7,#0x03,00108$
+      000866 E5 38            [12]  675 	mov	a,_search_SELLP_flag
+      000868 60 0A            [24]  676 	jz	00108$
+      00086A BF 03 07         [24]  677 	cjne	r7,#0x03,00108$
                                     678 ;	code/main.c:44: search_SELLP_flag = 0;
-      000806 75 38 00         [24]  679 	mov	_search_SELLP_flag,#0x00
+      00086D 75 38 00         [24]  679 	mov	_search_SELLP_flag,#0x00
                                     680 ;	code/main.c:45: DISPLAY_type = 10;
-      000809 75 0A 0A         [24]  681 	mov	_DISPLAY_type,#0x0a
+      000870 75 0A 0A         [24]  681 	mov	_DISPLAY_type,#0x0a
                                     682 ;	code/main.c:50: return;
-      00080C 22               [24]  683 	ret
-      00080D                        684 00108$:
+      000873 22               [24]  683 	ret
+      000874                        684 00108$:
                                     685 ;	code/main.c:54: if (search_SELLP_flag > 0 && Key_NUM == 4)
-      00080D E5 38            [12]  686 	mov	a,_search_SELLP_flag
-      00080F 60 12            [24]  687 	jz	00113$
-      000811 BF 04 0F         [24]  688 	cjne	r7,#0x04,00113$
+      000874 E5 38            [12]  686 	mov	a,_search_SELLP_flag
+      000876 60 12            [24]  687 	jz	00113$
+      000878 BF 04 0F         [24]  688 	cjne	r7,#0x04,00113$
                                     689 ;	code/main.c:57: RDA5807M_Search_Automatic();
-      000814 12 0F 38         [24]  690 	lcall	_RDA5807M_Search_Automatic
+      00087B 12 0F AB         [24]  690 	lcall	_RDA5807M_Search_Automatic
                                     691 ;	code/main.c:58: LED_FRE_REAL = sys_freq;
-      000817 85 1A 08         [24]  692 	mov	_LED_FRE_REAL,_sys_freq
-      00081A 85 1B 09         [24]  693 	mov	(_LED_FRE_REAL + 1),(_sys_freq + 1)
+      00087E 85 1B 08         [24]  692 	mov	_LED_FRE_REAL,_sys_freq
+      000881 85 1C 09         [24]  693 	mov	(_LED_FRE_REAL + 1),(_sys_freq + 1)
                                     694 ;	code/main.c:59: search_SELLP_flag = 0;
-      00081D 75 38 00         [24]  695 	mov	_search_SELLP_flag,#0x00
+      000884 75 38 00         [24]  695 	mov	_search_SELLP_flag,#0x00
                                     696 ;	code/main.c:64: LED_HAND_MARK = 1; //  数码管设置为列表换台
                                     697 ;	assignBit
-      000820 D2 01            [12]  698 	setb	_LED_HAND_MARK
+      000887 D2 01            [12]  698 	setb	_LED_HAND_MARK
                                     699 ;	code/main.c:65: return;
-      000822 22               [24]  700 	ret
-      000823                        701 00113$:
+      000889 22               [24]  700 	ret
+      00088A                        701 00113$:
                                     702 ;	code/main.c:69: if (Key_NUM == 30)
-      000823 BF 1E 01         [24]  703 	cjne	r7,#0x1e,00116$
+      00088A BF 1E 01         [24]  703 	cjne	r7,#0x1e,00116$
                                     704 ;	code/main.c:81: return;
-      000826 22               [24]  705 	ret
-      000827                        706 00116$:
+      00088D 22               [24]  705 	ret
+      00088E                        706 00116$:
                                     707 ;	code/main.c:85: if (Key_NUM == 14)
-      000827 BF 0E 0A         [24]  708 	cjne	r7,#0x0e,00118$
+      00088E BF 0E 0A         [24]  708 	cjne	r7,#0x0e,00118$
                                     709 ;	code/main.c:87: LED_RSSI = RDA5807M_Read_RSSI();
-      00082A 12 10 E9         [24]  710 	lcall	_RDA5807M_Read_RSSI
-      00082D 85 82 0B         [24]  711 	mov	_LED_RSSI,dpl
+      000891 12 11 5C         [24]  710 	lcall	_RDA5807M_Read_RSSI
+      000894 85 82 0B         [24]  711 	mov	_LED_RSSI,dpl
                                     712 ;	code/main.c:88: DISPLAY_type = 0x02;
-      000830 75 0A 02         [24]  713 	mov	_DISPLAY_type,#0x02
+      000897 75 0A 02         [24]  713 	mov	_DISPLAY_type,#0x02
                                     714 ;	code/main.c:89: return;
-      000833 22               [24]  715 	ret
-      000834                        716 00118$:
+      00089A 22               [24]  715 	ret
+      00089B                        716 00118$:
                                     717 ;	code/main.c:93: if (Key_NUM == 22)
-      000834 BF 16 09         [24]  718 	cjne	r7,#0x16,00120$
+      00089B BF 16 09         [24]  718 	cjne	r7,#0x16,00120$
                                     719 ;	code/main.c:95: DISPLAY_type = 1; // 数码管显示音量
-      000837 75 0A 01         [24]  720 	mov	_DISPLAY_type,#0x01
+      00089E 75 0A 01         [24]  720 	mov	_DISPLAY_type,#0x01
                                     721 ;	code/main.c:96: resetSleepTime(); // 数码重置熄灭时间
-      00083A 12 04 5C         [24]  722 	lcall	_resetSleepTime
+      0008A1 12 04 C3         [24]  722 	lcall	_resetSleepTime
                                     723 ;	code/main.c:97: RDA5807M_CHANGE_MUTE();
                                     724 ;	code/main.c:98: return;
-      00083D 02 10 89         [24]  725 	ljmp	_RDA5807M_CHANGE_MUTE
-      000840                        726 00120$:
+      0008A4 02 10 FC         [24]  725 	ljmp	_RDA5807M_CHANGE_MUTE
+      0008A7                        726 00120$:
                                     727 ;	code/main.c:102: if (Key_NUM == 1)
-      000840 BF 01 23         [24]  728 	cjne	r7,#0x01,00124$
+      0008A7 BF 01 23         [24]  728 	cjne	r7,#0x01,00124$
                                     729 ;	code/main.c:104: DISPLAY_type = 1; // 数码管显示音量
-      000843 75 0A 01         [24]  730 	mov	_DISPLAY_type,#0x01
+      0008AA 75 0A 01         [24]  730 	mov	_DISPLAY_type,#0x01
                                     731 ;	code/main.c:105: resetSleepTime(); // 数码重置熄灭时间
-      000846 12 04 5C         [24]  732 	lcall	_resetSleepTime
+      0008AD 12 04 C3         [24]  732 	lcall	_resetSleepTime
                                     733 ;	code/main.c:107: if (sys_vol + 1 < 16)
-      000849 AD 18            [24]  734 	mov	r5,_sys_vol
-      00084B 7E 00            [12]  735 	mov	r6,#0x00
-      00084D 0D               [12]  736 	inc	r5
-      00084E BD 00 01         [24]  737 	cjne	r5,#0x00,00276$
-      000851 0E               [12]  738 	inc	r6
-      000852                        739 00276$:
-      000852 C3               [12]  740 	clr	c
-      000853 ED               [12]  741 	mov	a,r5
-      000854 94 10            [12]  742 	subb	a,#0x10
-      000856 EE               [12]  743 	mov	a,r6
-      000857 64 80            [12]  744 	xrl	a,#0x80
-      000859 94 80            [12]  745 	subb	a,#0x80
-      00085B 50 08            [24]  746 	jnc	00122$
+      0008B0 AD 19            [24]  734 	mov	r5,_sys_vol
+      0008B2 7E 00            [12]  735 	mov	r6,#0x00
+      0008B4 0D               [12]  736 	inc	r5
+      0008B5 BD 00 01         [24]  737 	cjne	r5,#0x00,00276$
+      0008B8 0E               [12]  738 	inc	r6
+      0008B9                        739 00276$:
+      0008B9 C3               [12]  740 	clr	c
+      0008BA ED               [12]  741 	mov	a,r5
+      0008BB 94 10            [12]  742 	subb	a,#0x10
+      0008BD EE               [12]  743 	mov	a,r6
+      0008BE 64 80            [12]  744 	xrl	a,#0x80
+      0008C0 94 80            [12]  745 	subb	a,#0x80
+      0008C2 50 08            [24]  746 	jnc	00122$
                                     747 ;	code/main.c:109: RDA5807M_Set_Volume(sys_vol + 1);
-      00085D E5 18            [12]  748 	mov	a,_sys_vol
-      00085F 04               [12]  749 	inc	a
-      000860 F5 82            [12]  750 	mov	dpl,a
+      0008C4 E5 19            [12]  748 	mov	a,_sys_vol
+      0008C6 04               [12]  749 	inc	a
+      0008C7 F5 82            [12]  750 	mov	dpl,a
                                     751 ;	code/main.c:111: return;
-      000862 02 10 1E         [24]  752 	ljmp	_RDA5807M_Set_Volume
-      000865                        753 00122$:
-      000865 22               [24]  754 	ret
-      000866                        755 00124$:
+      0008C9 02 10 91         [24]  752 	ljmp	_RDA5807M_Set_Volume
+      0008CC                        753 00122$:
+      0008CC 22               [24]  754 	ret
+      0008CD                        755 00124$:
                                     756 ;	code/main.c:114: if (Key_NUM == 2)
-      000866 BF 02 13         [24]  757 	cjne	r7,#0x02,00128$
+      0008CD BF 02 13         [24]  757 	cjne	r7,#0x02,00128$
                                     758 ;	code/main.c:116: DISPLAY_type = 1; // 数码管显示音量
-      000869 75 0A 01         [24]  759 	mov	_DISPLAY_type,#0x01
+      0008D0 75 0A 01         [24]  759 	mov	_DISPLAY_type,#0x01
                                     760 ;	code/main.c:117: resetSleepTime(); // 数码重置熄灭时间
-      00086C 12 04 5C         [24]  761 	lcall	_resetSleepTime
+      0008D3 12 04 C3         [24]  761 	lcall	_resetSleepTime
                                     762 ;	code/main.c:119: if (sys_vol > 0)
-      00086F E5 18            [12]  763 	mov	a,_sys_vol
-      000871 60 08            [24]  764 	jz	00126$
+      0008D6 E5 19            [12]  763 	mov	a,_sys_vol
+      0008D8 60 08            [24]  764 	jz	00126$
                                     765 ;	code/main.c:121: RDA5807M_Set_Volume(sys_vol - 1);
-      000873 E5 18            [12]  766 	mov	a,_sys_vol
-      000875 14               [12]  767 	dec	a
-      000876 F5 82            [12]  768 	mov	dpl,a
+      0008DA E5 19            [12]  766 	mov	a,_sys_vol
+      0008DC 14               [12]  767 	dec	a
+      0008DD F5 82            [12]  768 	mov	dpl,a
                                     769 ;	code/main.c:123: return;
-      000878 02 10 1E         [24]  770 	ljmp	_RDA5807M_Set_Volume
-      00087B                        771 00126$:
-      00087B 22               [24]  772 	ret
-      00087C                        773 00128$:
+      0008DF 02 10 91         [24]  770 	ljmp	_RDA5807M_Set_Volume
+      0008E2                        771 00126$:
+      0008E2 22               [24]  772 	ret
+      0008E3                        773 00128$:
                                     774 ;	code/main.c:126: if (Key_NUM == 3)
-      00087C BF 03 32         [24]  775 	cjne	r7,#0x03,00132$
+      0008E3 BF 03 32         [24]  775 	cjne	r7,#0x03,00132$
                                     776 ;	code/main.c:128: LED_SEEK_D = 1;
                                     777 ;	assignBit
-      00087F D2 00            [12]  778 	setb	_LED_SEEK_D
+      0008E6 D2 00            [12]  778 	setb	_LED_SEEK_D
                                     779 ;	code/main.c:129: LED_HAND_MARK = 0; // Manual tune display effect
                                     780 ;	assignBit
-      000881 C2 01            [12]  781 	clr	_LED_HAND_MARK
+      0008E8 C2 01            [12]  781 	clr	_LED_HAND_MARK
                                     782 ;	code/main.c:130: resetSleepTime();
-      000883 12 04 5C         [24]  783 	lcall	_resetSleepTime
+      0008EA 12 04 C3         [24]  783 	lcall	_resetSleepTime
                                     784 ;	code/main.c:131: sys_freq += 10; // 0.1 MHz = 10 * 10kHz
-      000886 AD 1A            [24]  785 	mov	r5,_sys_freq
-      000888 AE 1B            [24]  786 	mov	r6,(_sys_freq + 1)
-      00088A 74 0A            [12]  787 	mov	a,#0x0a
-      00088C 2D               [12]  788 	add	a, r5
-      00088D FD               [12]  789 	mov	r5,a
-      00088E E4               [12]  790 	clr	a
-      00088F 3E               [12]  791 	addc	a, r6
-      000890 FE               [12]  792 	mov	r6,a
+      0008ED AD 1B            [24]  785 	mov	r5,_sys_freq
+      0008EF AE 1C            [24]  786 	mov	r6,(_sys_freq + 1)
+      0008F1 74 0A            [12]  787 	mov	a,#0x0a
+      0008F3 2D               [12]  788 	add	a, r5
+      0008F4 FD               [12]  789 	mov	r5,a
+      0008F5 E4               [12]  790 	clr	a
+      0008F6 3E               [12]  791 	addc	a, r6
+      0008F7 FE               [12]  792 	mov	r6,a
                                     793 ;	code/main.c:132: if (sys_freq > 10800)
-      000891 8D 1A            [24]  794 	mov	_sys_freq,r5
-      000893 8E 1B            [24]  795 	mov  (_sys_freq + 1),r6
-      000895 C3               [12]  796 	clr	c
-      000896 74 30            [12]  797 	mov	a,#0x30
-      000898 9D               [12]  798 	subb	a,r5
-      000899 74 2A            [12]  799 	mov	a,#0x2a
-      00089B 9E               [12]  800 	subb	a,r6
-      00089C 50 06            [24]  801 	jnc	00130$
+      0008F8 8D 1B            [24]  794 	mov	_sys_freq,r5
+      0008FA 8E 1C            [24]  795 	mov  (_sys_freq + 1),r6
+      0008FC C3               [12]  796 	clr	c
+      0008FD 74 30            [12]  797 	mov	a,#0x30
+      0008FF 9D               [12]  798 	subb	a,r5
+      000900 74 2A            [12]  799 	mov	a,#0x2a
+      000902 9E               [12]  800 	subb	a,r6
+      000903 50 06            [24]  801 	jnc	00130$
                                     802 ;	code/main.c:134: sys_freq = 7600;
-      00089E 75 1A B0         [24]  803 	mov	_sys_freq,#0xb0
-      0008A1 75 1B 1D         [24]  804 	mov	(_sys_freq + 1),#0x1d
-      0008A4                        805 00130$:
+      000905 75 1B B0         [24]  803 	mov	_sys_freq,#0xb0
+      000908 75 1C 1D         [24]  804 	mov	(_sys_freq + 1),#0x1d
+      00090B                        805 00130$:
                                     806 ;	code/main.c:136: RDA5807M_Set_Freq(sys_freq);
-      0008A4 85 1A 82         [24]  807 	mov	dpl, _sys_freq
-      0008A7 85 1B 83         [24]  808 	mov	dph, (_sys_freq + 1)
-      0008AA 12 0D 79         [24]  809 	lcall	_RDA5807M_Set_Freq
+      00090B 85 1B 82         [24]  807 	mov	dpl, _sys_freq
+      00090E 85 1C 83         [24]  808 	mov	dph, (_sys_freq + 1)
+      000911 12 0D EC         [24]  809 	lcall	_RDA5807M_Set_Freq
                                     810 ;	code/main.c:137: sys_radio_index = 0xFF; // Indicate not on a preset
-      0008AD 75 1C FF         [24]  811 	mov	_sys_radio_index,#0xff
+      000914 75 1D FF         [24]  811 	mov	_sys_radio_index,#0xff
                                     812 ;	code/main.c:138: return;
-      0008B0 22               [24]  813 	ret
-      0008B1                        814 00132$:
+      000917 22               [24]  813 	ret
+      000918                        814 00132$:
                                     815 ;	code/main.c:141: if (Key_NUM == 4)
-      0008B1 BF 04 33         [24]  816 	cjne	r7,#0x04,00136$
+      000918 BF 04 33         [24]  816 	cjne	r7,#0x04,00136$
                                     817 ;	code/main.c:143: LED_SEEK_D = 0;
                                     818 ;	assignBit
-      0008B4 C2 00            [12]  819 	clr	_LED_SEEK_D
+      00091B C2 00            [12]  819 	clr	_LED_SEEK_D
                                     820 ;	code/main.c:144: LED_HAND_MARK = 0; // Manual tune display effect
                                     821 ;	assignBit
-      0008B6 C2 01            [12]  822 	clr	_LED_HAND_MARK
+      00091D C2 01            [12]  822 	clr	_LED_HAND_MARK
                                     823 ;	code/main.c:145: resetSleepTime();
-      0008B8 12 04 5C         [24]  824 	lcall	_resetSleepTime
+      00091F 12 04 C3         [24]  824 	lcall	_resetSleepTime
                                     825 ;	code/main.c:146: sys_freq -= 10; // 0.1 MHz = 10 * 10kHz
-      0008BB AD 1A            [24]  826 	mov	r5,_sys_freq
-      0008BD AE 1B            [24]  827 	mov	r6,(_sys_freq + 1)
-      0008BF ED               [12]  828 	mov	a,r5
-      0008C0 24 F6            [12]  829 	add	a,#0xf6
-      0008C2 FD               [12]  830 	mov	r5,a
-      0008C3 EE               [12]  831 	mov	a,r6
-      0008C4 34 FF            [12]  832 	addc	a,#0xff
-      0008C6 FE               [12]  833 	mov	r6,a
+      000922 AD 1B            [24]  826 	mov	r5,_sys_freq
+      000924 AE 1C            [24]  827 	mov	r6,(_sys_freq + 1)
+      000926 ED               [12]  828 	mov	a,r5
+      000927 24 F6            [12]  829 	add	a,#0xf6
+      000929 FD               [12]  830 	mov	r5,a
+      00092A EE               [12]  831 	mov	a,r6
+      00092B 34 FF            [12]  832 	addc	a,#0xff
+      00092D FE               [12]  833 	mov	r6,a
                                     834 ;	code/main.c:147: if (sys_freq < 7600)
-      0008C7 8D 1A            [24]  835 	mov	_sys_freq,r5
-      0008C9 8E 1B            [24]  836 	mov  (_sys_freq + 1),r6
-      0008CB C3               [12]  837 	clr	c
-      0008CC ED               [12]  838 	mov	a,r5
-      0008CD 94 B0            [12]  839 	subb	a,#0xb0
-      0008CF EE               [12]  840 	mov	a,r6
-      0008D0 94 1D            [12]  841 	subb	a,#0x1d
-      0008D2 50 06            [24]  842 	jnc	00134$
+      00092E 8D 1B            [24]  835 	mov	_sys_freq,r5
+      000930 8E 1C            [24]  836 	mov  (_sys_freq + 1),r6
+      000932 C3               [12]  837 	clr	c
+      000933 ED               [12]  838 	mov	a,r5
+      000934 94 B0            [12]  839 	subb	a,#0xb0
+      000936 EE               [12]  840 	mov	a,r6
+      000937 94 1D            [12]  841 	subb	a,#0x1d
+      000939 50 06            [24]  842 	jnc	00134$
                                     843 ;	code/main.c:149: sys_freq = 10800;
-      0008D4 75 1A 30         [24]  844 	mov	_sys_freq,#0x30
-      0008D7 75 1B 2A         [24]  845 	mov	(_sys_freq + 1),#0x2a
-      0008DA                        846 00134$:
+      00093B 75 1B 30         [24]  844 	mov	_sys_freq,#0x30
+      00093E 75 1C 2A         [24]  845 	mov	(_sys_freq + 1),#0x2a
+      000941                        846 00134$:
                                     847 ;	code/main.c:151: RDA5807M_Set_Freq(sys_freq);
-      0008DA 85 1A 82         [24]  848 	mov	dpl, _sys_freq
-      0008DD 85 1B 83         [24]  849 	mov	dph, (_sys_freq + 1)
-      0008E0 12 0D 79         [24]  850 	lcall	_RDA5807M_Set_Freq
+      000941 85 1B 82         [24]  848 	mov	dpl, _sys_freq
+      000944 85 1C 83         [24]  849 	mov	dph, (_sys_freq + 1)
+      000947 12 0D EC         [24]  850 	lcall	_RDA5807M_Set_Freq
                                     851 ;	code/main.c:152: sys_radio_index = 0xFF; // Indicate not on a preset
-      0008E3 75 1C FF         [24]  852 	mov	_sys_radio_index,#0xff
+      00094A 75 1D FF         [24]  852 	mov	_sys_radio_index,#0xff
                                     853 ;	code/main.c:153: return;
-      0008E6 22               [24]  854 	ret
-      0008E7                        855 00136$:
+      00094D 22               [24]  854 	ret
+      00094E                        855 00136$:
                                     856 ;	code/main.c:156: if (Key_NUM == 33)
-      0008E7 BF 21 18         [24]  857 	cjne	r7,#0x21,00138$
-                                    858 ;	code/main.c:158: sys_freq = RDA5807M_Seek(1); // Search up for next stable frequency
-      0008EA 75 82 01         [24]  859 	mov	dpl, #0x01
-      0008ED 12 0F 27         [24]  860 	lcall	_RDA5807M_Seek
-      0008F0 85 82 1A         [24]  861 	mov	_sys_freq,dpl
-      0008F3 85 83 1B         [24]  862 	mov	(_sys_freq + 1),dph
-                                    863 ;	code/main.c:159: LED_FRE_REAL = sys_freq;
-      0008F6 85 1A 08         [24]  864 	mov	_LED_FRE_REAL,_sys_freq
-      0008F9 85 1B 09         [24]  865 	mov	(_LED_FRE_REAL + 1),(_sys_freq + 1)
-                                    866 ;	code/main.c:160: sys_radio_index = 0xFF; // Indicate not on a preset
-      0008FC 75 1C FF         [24]  867 	mov	_sys_radio_index,#0xff
-                                    868 ;	code/main.c:161: LED_HAND_MARK = 1; //  数码管设置为列表换台
-                                    869 ;	assignBit
-      0008FF D2 01            [12]  870 	setb	_LED_HAND_MARK
-                                    871 ;	code/main.c:162: return;
-      000901 22               [24]  872 	ret
-      000902                        873 00138$:
-                                    874 ;	code/main.c:165: if (Key_NUM == 44)
-      000902 BF 2C 17         [24]  875 	cjne	r7,#0x2c,00141$
-                                    876 ;	code/main.c:167: sys_freq = RDA5807M_Seek(0); // Search down for next stable frequency
-      000905 75 82 00         [24]  877 	mov	dpl, #0x00
-      000908 12 0F 27         [24]  878 	lcall	_RDA5807M_Seek
-      00090B 85 82 1A         [24]  879 	mov	_sys_freq,dpl
-      00090E 85 83 1B         [24]  880 	mov	(_sys_freq + 1),dph
-                                    881 ;	code/main.c:168: LED_FRE_REAL = sys_freq;
-      000911 85 1A 08         [24]  882 	mov	_LED_FRE_REAL,_sys_freq
-      000914 85 1B 09         [24]  883 	mov	(_LED_FRE_REAL + 1),(_sys_freq + 1)
-                                    884 ;	code/main.c:169: sys_radio_index = 0xFF; // Indicate not on a preset
-      000917 75 1C FF         [24]  885 	mov	_sys_radio_index,#0xff
-                                    886 ;	code/main.c:170: LED_HAND_MARK = 1; //  数码管设置为列表换台
-                                    887 ;	assignBit
-      00091A D2 01            [12]  888 	setb	_LED_HAND_MARK
-                                    889 ;	code/main.c:171: return;
-      00091C                        890 00141$:
-                                    891 ;	code/main.c:173: }
-      00091C 22               [24]  892 	ret
-                                    893 ;------------------------------------------------------------
-                                    894 ;Allocation info for local variables in function 'main'
-                                    895 ;------------------------------------------------------------
-                                    896 ;	code/main.c:175: void main(void)
-                                    897 ;	-----------------------------------------
-                                    898 ;	 function main
-                                    899 ;	-----------------------------------------
-      00091D                        900 _main:
-                                    901 ;	code/main.c:180: RDA5807M_init();
-      00091D 12 0A FC         [24]  902 	lcall	_RDA5807M_init
-                                    903 ;	code/main.c:181: Delay(10);
-      000920 90 00 0A         [24]  904 	mov	dptr,#0x000a
-      000923 12 05 BB         [24]  905 	lcall	_Delay
-                                    906 ;	code/main.c:182: LED_FRE_REAL = sys_freq;
-      000926 85 1A 08         [24]  907 	mov	_LED_FRE_REAL,_sys_freq
-      000929 85 1B 09         [24]  908 	mov	(_LED_FRE_REAL + 1),(_sys_freq + 1)
-                                    909 ;	code/main.c:185: P2M1 &= ~0x0F;
-      00092C 53 95 F0         [24]  910 	anl	_P2M1,#0xf0
-                                    911 ;	code/main.c:186: P2M0 |= 0x0F;
-      00092F 43 96 0F         [24]  912 	orl	_P2M0,#0x0f
-                                    913 ;	code/main.c:189: Timer0Init();
-      000932 12 05 92         [24]  914 	lcall	_Timer0Init
-                                    915 ;	code/main.c:191: RDA5807M_Set_Freq(7640);
-      000935 90 1D D8         [24]  916 	mov	dptr,#0x1dd8
-      000938 12 0D 79         [24]  917 	lcall	_RDA5807M_Set_Freq
-                                    918 ;	code/main.c:192: LED_HAND_MARK = 1; // Set display to update frequency directly
-                                    919 ;	assignBit
-      00093B D2 01            [12]  920 	setb	_LED_HAND_MARK
-                                    921 ;	code/main.c:194: RDA5807M_Set_Volume(10);
-      00093D 75 82 0A         [24]  922 	mov	dpl, #0x0a
-      000940 12 10 1E         [24]  923 	lcall	_RDA5807M_Set_Volume
-                                    924 ;	code/main.c:198: while (1)
-      000943                        925 00102$:
-                                    926 ;	code/main.c:200: userInput();
-      000943 12 07 EC         [24]  927 	lcall	_userInput
-                                    928 ;	code/main.c:202: }
-      000946 80 FB            [24]  929 	sjmp	00102$
-                                    930 ;------------------------------------------------------------
-                                    931 ;Allocation info for local variables in function 'Timer0_Rountine'
-                                    932 ;------------------------------------------------------------
-                                    933 ;T0Count1      Allocated with name '_Timer0_Rountine_T0Count1_10000_68'
-                                    934 ;T0Count2      Allocated with name '_Timer0_Rountine_T0Count2_10000_68'
-                                    935 ;------------------------------------------------------------
-                                    936 ;	code/main.c:207: void Timer0_Rountine(void) __interrupt(1)
-                                    937 ;	-----------------------------------------
-                                    938 ;	 function Timer0_Rountine
-                                    939 ;	-----------------------------------------
-      000948                        940 _Timer0_Rountine:
-      000948 C0 21            [24]  941 	push	bits
-      00094A C0 E0            [24]  942 	push	acc
-      00094C C0 F0            [24]  943 	push	b
-      00094E C0 82            [24]  944 	push	dpl
-      000950 C0 83            [24]  945 	push	dph
-      000952 C0 07            [24]  946 	push	(0+7)
-      000954 C0 06            [24]  947 	push	(0+6)
-      000956 C0 05            [24]  948 	push	(0+5)
-      000958 C0 04            [24]  949 	push	(0+4)
-      00095A C0 03            [24]  950 	push	(0+3)
-      00095C C0 02            [24]  951 	push	(0+2)
-      00095E C0 01            [24]  952 	push	(0+1)
-      000960 C0 00            [24]  953 	push	(0+0)
-      000962 C0 D0            [24]  954 	push	psw
-      000964 75 D0 00         [24]  955 	mov	psw,#0x00
-                                    956 ;	code/main.c:211: Led_Loop();
-      000967 12 04 67         [24]  957 	lcall	_Led_Loop
-                                    958 ;	code/main.c:212: Key_Loop();
-      00096A 12 06 03         [24]  959 	lcall	_Key_Loop
-                                    960 ;	code/main.c:215: if (DISPLAY_type < 10)
-      00096D 74 F6            [12]  961 	mov	a,#0x100 - 0x0a
-      00096F 25 0A            [12]  962 	add	a,_DISPLAY_type
-      000971 40 1D            [24]  963 	jc	00104$
-                                    964 ;	code/main.c:218: if (++T0Count2 >= 4000)
-      000973 05 3B            [12]  965 	inc	_Timer0_Rountine_T0Count2_10000_68
-      000975 E4               [12]  966 	clr	a
-      000976 B5 3B 02         [24]  967 	cjne	a,_Timer0_Rountine_T0Count2_10000_68,00120$
-      000979 05 3C            [12]  968 	inc	(_Timer0_Rountine_T0Count2_10000_68 + 1)
-      00097B                        969 00120$:
-      00097B AE 3B            [24]  970 	mov	r6,_Timer0_Rountine_T0Count2_10000_68
-      00097D AF 3C            [24]  971 	mov	r7,(_Timer0_Rountine_T0Count2_10000_68 + 1)
-      00097F C3               [12]  972 	clr	c
-      000980 EE               [12]  973 	mov	a,r6
-      000981 94 A0            [12]  974 	subb	a,#0xa0
-      000983 EF               [12]  975 	mov	a,r7
-      000984 94 0F            [12]  976 	subb	a,#0x0f
-      000986 40 08            [24]  977 	jc	00104$
-                                    978 ;	code/main.c:220: T0Count2 = 0;
-      000988 E4               [12]  979 	clr	a
-      000989 F5 3B            [12]  980 	mov	_Timer0_Rountine_T0Count2_10000_68,a
-      00098B F5 3C            [12]  981 	mov	(_Timer0_Rountine_T0Count2_10000_68 + 1),a
-                                    982 ;	code/main.c:221: DISPLAY_type = 10;
-      00098D 75 0A 0A         [24]  983 	mov	_DISPLAY_type,#0x0a
-      000990                        984 00104$:
-                                    985 ;	code/main.c:225: TL0 = 0x88; // 设置定时初值
-      000990 75 8A 88         [24]  986 	mov	_TL0,#0x88
-                                    987 ;	code/main.c:226: TH0 = 0x96; // 设置定时初值
-      000993 75 8C 96         [24]  988 	mov	_TH0,#0x96
-                                    989 ;	code/main.c:227: TF0 = 0;	// 清除TF0标志
-                                    990 ;	assignBit
-      000996 C2 8D            [12]  991 	clr	_TF0
-                                    992 ;	code/main.c:228: }
-      000998 D0 D0            [24]  993 	pop	psw
-      00099A D0 00            [24]  994 	pop	(0+0)
-      00099C D0 01            [24]  995 	pop	(0+1)
-      00099E D0 02            [24]  996 	pop	(0+2)
-      0009A0 D0 03            [24]  997 	pop	(0+3)
-      0009A2 D0 04            [24]  998 	pop	(0+4)
-      0009A4 D0 05            [24]  999 	pop	(0+5)
-      0009A6 D0 06            [24] 1000 	pop	(0+6)
-      0009A8 D0 07            [24] 1001 	pop	(0+7)
-      0009AA D0 83            [24] 1002 	pop	dph
-      0009AC D0 82            [24] 1003 	pop	dpl
-      0009AE D0 F0            [24] 1004 	pop	b
-      0009B0 D0 E0            [24] 1005 	pop	acc
-      0009B2 D0 21            [24] 1006 	pop	bits
-      0009B4 02 00 54         [24] 1007 	ljmp	sdcc_atomic_maybe_rollback
-                                   1008 	.area CSEG    (CODE)
-                                   1009 	.area CONST   (CODE)
-                                   1010 	.area XINIT   (CODE)
-                                   1011 	.area CABS    (ABS,CODE)
+      00094E BF 21 1E         [24]  857 	cjne	r7,#0x21,00138$
+                                    858 ;	code/main.c:158: DISPLAY_type = 15; // Start search animation
+      000951 75 0A 0F         [24]  859 	mov	_DISPLAY_type,#0x0f
+                                    860 ;	code/main.c:159: sys_freq = RDA5807M_Seek(1); // Search up for next stable frequency
+      000954 75 82 01         [24]  861 	mov	dpl, #0x01
+      000957 12 0F 9A         [24]  862 	lcall	_RDA5807M_Seek
+      00095A 85 82 1B         [24]  863 	mov	_sys_freq,dpl
+      00095D 85 83 1C         [24]  864 	mov	(_sys_freq + 1),dph
+                                    865 ;	code/main.c:160: DISPLAY_type = 10; // Stop search animation, display frequency
+      000960 75 0A 0A         [24]  866 	mov	_DISPLAY_type,#0x0a
+                                    867 ;	code/main.c:161: LED_FRE_REAL = sys_freq;
+      000963 85 1B 08         [24]  868 	mov	_LED_FRE_REAL,_sys_freq
+      000966 85 1C 09         [24]  869 	mov	(_LED_FRE_REAL + 1),(_sys_freq + 1)
+                                    870 ;	code/main.c:162: sys_radio_index = 0xFF; // Indicate not on a preset
+      000969 75 1D FF         [24]  871 	mov	_sys_radio_index,#0xff
+                                    872 ;	code/main.c:163: LED_HAND_MARK = 1; //  数码管设置为列表换台
+                                    873 ;	assignBit
+      00096C D2 01            [12]  874 	setb	_LED_HAND_MARK
+                                    875 ;	code/main.c:164: return;
+      00096E 22               [24]  876 	ret
+      00096F                        877 00138$:
+                                    878 ;	code/main.c:167: if (Key_NUM == 44)
+      00096F BF 2C 1D         [24]  879 	cjne	r7,#0x2c,00141$
+                                    880 ;	code/main.c:169: DISPLAY_type = 15; // Start search animation
+      000972 75 0A 0F         [24]  881 	mov	_DISPLAY_type,#0x0f
+                                    882 ;	code/main.c:170: sys_freq = RDA5807M_Seek(0); // Search down for next stable frequency
+      000975 75 82 00         [24]  883 	mov	dpl, #0x00
+      000978 12 0F 9A         [24]  884 	lcall	_RDA5807M_Seek
+      00097B 85 82 1B         [24]  885 	mov	_sys_freq,dpl
+      00097E 85 83 1C         [24]  886 	mov	(_sys_freq + 1),dph
+                                    887 ;	code/main.c:171: DISPLAY_type = 10; // Stop search animation, display frequency
+      000981 75 0A 0A         [24]  888 	mov	_DISPLAY_type,#0x0a
+                                    889 ;	code/main.c:172: LED_FRE_REAL = sys_freq;
+      000984 85 1B 08         [24]  890 	mov	_LED_FRE_REAL,_sys_freq
+      000987 85 1C 09         [24]  891 	mov	(_LED_FRE_REAL + 1),(_sys_freq + 1)
+                                    892 ;	code/main.c:173: sys_radio_index = 0xFF; // Indicate not on a preset
+      00098A 75 1D FF         [24]  893 	mov	_sys_radio_index,#0xff
+                                    894 ;	code/main.c:174: LED_HAND_MARK = 1; //  数码管设置为列表换台
+                                    895 ;	assignBit
+      00098D D2 01            [12]  896 	setb	_LED_HAND_MARK
+                                    897 ;	code/main.c:175: return;
+      00098F                        898 00141$:
+                                    899 ;	code/main.c:177: }
+      00098F 22               [24]  900 	ret
+                                    901 ;------------------------------------------------------------
+                                    902 ;Allocation info for local variables in function 'main'
+                                    903 ;------------------------------------------------------------
+                                    904 ;	code/main.c:179: void main(void)
+                                    905 ;	-----------------------------------------
+                                    906 ;	 function main
+                                    907 ;	-----------------------------------------
+      000990                        908 _main:
+                                    909 ;	code/main.c:184: RDA5807M_init();
+      000990 12 0B 6F         [24]  910 	lcall	_RDA5807M_init
+                                    911 ;	code/main.c:185: Delay(10);
+      000993 90 00 0A         [24]  912 	mov	dptr,#0x000a
+      000996 12 06 22         [24]  913 	lcall	_Delay
+                                    914 ;	code/main.c:186: LED_FRE_REAL = sys_freq;
+      000999 85 1B 08         [24]  915 	mov	_LED_FRE_REAL,_sys_freq
+      00099C 85 1C 09         [24]  916 	mov	(_LED_FRE_REAL + 1),(_sys_freq + 1)
+                                    917 ;	code/main.c:189: P2M1 &= ~0x0F;
+      00099F 53 95 F0         [24]  918 	anl	_P2M1,#0xf0
+                                    919 ;	code/main.c:190: P2M0 |= 0x0F;
+      0009A2 43 96 0F         [24]  920 	orl	_P2M0,#0x0f
+                                    921 ;	code/main.c:193: Timer0Init();
+      0009A5 12 05 F9         [24]  922 	lcall	_Timer0Init
+                                    923 ;	code/main.c:195: RDA5807M_Set_Freq(7640);
+      0009A8 90 1D D8         [24]  924 	mov	dptr,#0x1dd8
+      0009AB 12 0D EC         [24]  925 	lcall	_RDA5807M_Set_Freq
+                                    926 ;	code/main.c:196: LED_HAND_MARK = 1; // Set display to update frequency directly
+                                    927 ;	assignBit
+      0009AE D2 01            [12]  928 	setb	_LED_HAND_MARK
+                                    929 ;	code/main.c:198: RDA5807M_Set_Volume(10);
+      0009B0 75 82 0A         [24]  930 	mov	dpl, #0x0a
+      0009B3 12 10 91         [24]  931 	lcall	_RDA5807M_Set_Volume
+                                    932 ;	code/main.c:202: while (1)
+      0009B6                        933 00102$:
+                                    934 ;	code/main.c:204: userInput();
+      0009B6 12 08 53         [24]  935 	lcall	_userInput
+                                    936 ;	code/main.c:206: }
+      0009B9 80 FB            [24]  937 	sjmp	00102$
+                                    938 ;------------------------------------------------------------
+                                    939 ;Allocation info for local variables in function 'Timer0_Rountine'
+                                    940 ;------------------------------------------------------------
+                                    941 ;T0Count1      Allocated with name '_Timer0_Rountine_T0Count1_10000_68'
+                                    942 ;T0Count2      Allocated with name '_Timer0_Rountine_T0Count2_10000_68'
+                                    943 ;------------------------------------------------------------
+                                    944 ;	code/main.c:211: void Timer0_Rountine(void) __interrupt(1)
+                                    945 ;	-----------------------------------------
+                                    946 ;	 function Timer0_Rountine
+                                    947 ;	-----------------------------------------
+      0009BB                        948 _Timer0_Rountine:
+      0009BB C0 21            [24]  949 	push	bits
+      0009BD C0 E0            [24]  950 	push	acc
+      0009BF C0 F0            [24]  951 	push	b
+      0009C1 C0 82            [24]  952 	push	dpl
+      0009C3 C0 83            [24]  953 	push	dph
+      0009C5 C0 07            [24]  954 	push	(0+7)
+      0009C7 C0 06            [24]  955 	push	(0+6)
+      0009C9 C0 05            [24]  956 	push	(0+5)
+      0009CB C0 04            [24]  957 	push	(0+4)
+      0009CD C0 03            [24]  958 	push	(0+3)
+      0009CF C0 02            [24]  959 	push	(0+2)
+      0009D1 C0 01            [24]  960 	push	(0+1)
+      0009D3 C0 00            [24]  961 	push	(0+0)
+      0009D5 C0 D0            [24]  962 	push	psw
+      0009D7 75 D0 00         [24]  963 	mov	psw,#0x00
+                                    964 ;	code/main.c:215: Led_Loop();
+      0009DA 12 04 CE         [24]  965 	lcall	_Led_Loop
+                                    966 ;	code/main.c:216: Key_Loop();
+      0009DD 12 06 6A         [24]  967 	lcall	_Key_Loop
+                                    968 ;	code/main.c:219: if (DISPLAY_type < 10)
+      0009E0 74 F6            [12]  969 	mov	a,#0x100 - 0x0a
+      0009E2 25 0A            [12]  970 	add	a,_DISPLAY_type
+      0009E4 40 1D            [24]  971 	jc	00104$
+                                    972 ;	code/main.c:222: if (++T0Count2 >= 4000)
+      0009E6 05 3B            [12]  973 	inc	_Timer0_Rountine_T0Count2_10000_68
+      0009E8 E4               [12]  974 	clr	a
+      0009E9 B5 3B 02         [24]  975 	cjne	a,_Timer0_Rountine_T0Count2_10000_68,00120$
+      0009EC 05 3C            [12]  976 	inc	(_Timer0_Rountine_T0Count2_10000_68 + 1)
+      0009EE                        977 00120$:
+      0009EE AE 3B            [24]  978 	mov	r6,_Timer0_Rountine_T0Count2_10000_68
+      0009F0 AF 3C            [24]  979 	mov	r7,(_Timer0_Rountine_T0Count2_10000_68 + 1)
+      0009F2 C3               [12]  980 	clr	c
+      0009F3 EE               [12]  981 	mov	a,r6
+      0009F4 94 A0            [12]  982 	subb	a,#0xa0
+      0009F6 EF               [12]  983 	mov	a,r7
+      0009F7 94 0F            [12]  984 	subb	a,#0x0f
+      0009F9 40 08            [24]  985 	jc	00104$
+                                    986 ;	code/main.c:224: T0Count2 = 0;
+      0009FB E4               [12]  987 	clr	a
+      0009FC F5 3B            [12]  988 	mov	_Timer0_Rountine_T0Count2_10000_68,a
+      0009FE F5 3C            [12]  989 	mov	(_Timer0_Rountine_T0Count2_10000_68 + 1),a
+                                    990 ;	code/main.c:225: DISPLAY_type = 10;
+      000A00 75 0A 0A         [24]  991 	mov	_DISPLAY_type,#0x0a
+      000A03                        992 00104$:
+                                    993 ;	code/main.c:229: TL0 = 0x88; // 设置定时初值
+      000A03 75 8A 88         [24]  994 	mov	_TL0,#0x88
+                                    995 ;	code/main.c:230: TH0 = 0x96; // 设置定时初值
+      000A06 75 8C 96         [24]  996 	mov	_TH0,#0x96
+                                    997 ;	code/main.c:231: TF0 = 0;	// 清除TF0标志
+                                    998 ;	assignBit
+      000A09 C2 8D            [12]  999 	clr	_TF0
+                                   1000 ;	code/main.c:232: }
+      000A0B D0 D0            [24] 1001 	pop	psw
+      000A0D D0 00            [24] 1002 	pop	(0+0)
+      000A0F D0 01            [24] 1003 	pop	(0+1)
+      000A11 D0 02            [24] 1004 	pop	(0+2)
+      000A13 D0 03            [24] 1005 	pop	(0+3)
+      000A15 D0 04            [24] 1006 	pop	(0+4)
+      000A17 D0 05            [24] 1007 	pop	(0+5)
+      000A19 D0 06            [24] 1008 	pop	(0+6)
+      000A1B D0 07            [24] 1009 	pop	(0+7)
+      000A1D D0 83            [24] 1010 	pop	dph
+      000A1F D0 82            [24] 1011 	pop	dpl
+      000A21 D0 F0            [24] 1012 	pop	b
+      000A23 D0 E0            [24] 1013 	pop	acc
+      000A25 D0 21            [24] 1014 	pop	bits
+      000A27 02 00 54         [24] 1015 	ljmp	sdcc_atomic_maybe_rollback
+                                   1016 	.area CSEG    (CODE)
+                                   1017 	.area CONST   (CODE)
+                                   1018 	.area XINIT   (CODE)
+                                   1019 	.area CABS    (ABS,CODE)

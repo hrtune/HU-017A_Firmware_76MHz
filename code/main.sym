@@ -446,7 +446,7 @@ Symbol Table
     _TR0                                                        =  00008C G
     _TR1                                                        =  00008E G
     _Timer0Init                                                    ****** GX
- 18 _Timer0_Rountine                                               00015C GR
+ 18 _Timer0_Rountine                                               000168 GR
   6 _Timer0_Rountine_T0Count1_10000_68                             000001 R
   6 _Timer0_Rountine_T0Count2_10000_68                             000003 R
     _WDT_CONTR                                                  =  0000C1 G
@@ -459,7 +459,7 @@ Symbol Table
     __sdcc_gsinit_startup                                          ****** GX
   F __sdcc_program_startup                                         000051 GR
   7 __start__stack                                                 000000 GR
- 18 _main                                                          000131 GR
+ 18 _main                                                          00013D GR
     _resetSleepTime                                                ****** GX
   6 _search_SELLP_flag                                             000000 GR
     _sys_freq                                                      ****** GX
@@ -721,7 +721,7 @@ Area Table
   15 GSINIT5                                    size      0   flags   20
   16 GSINIT                                     size      3   flags   20
   17 GSFINAL                                    size      3   flags   20
-  18 CSEG                                       size    1CB   flags   20
+  18 CSEG                                       size    1D7   flags   20
   19 CONST                                      size      0   flags   20
   1A XINIT                                      size      0   flags   20
   1B CABS                                       size      0   flags   28

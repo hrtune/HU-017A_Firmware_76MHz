@@ -519,7 +519,7 @@
                                     519 ;	-----------------------------------------
                                     520 ;	 function Timer0Init
                                     521 ;	-----------------------------------------
-      000592                        522 _Timer0Init:
+      0005F9                        522 _Timer0Init:
                            000007   523 	ar7 = 0x07
                            000006   524 	ar6 = 0x06
                            000005   525 	ar5 = 0x05
@@ -529,29 +529,29 @@
                            000001   529 	ar1 = 0x01
                            000000   530 	ar0 = 0x00
                                     531 ;	code/time0/time0.c:9: AUXR |= 0x80;		//定时器时钟1T模式
-      000592 43 8E 80         [24]  532 	orl	_AUXR,#0x80
+      0005F9 43 8E 80         [24]  532 	orl	_AUXR,#0x80
                                     533 ;	code/time0/time0.c:10: TMOD &= 0xF0;		//设置定时器模式
-      000595 53 89 F0         [24]  534 	anl	_TMOD,#0xf0
+      0005FC 53 89 F0         [24]  534 	anl	_TMOD,#0xf0
                                     535 ;	code/time0/time0.c:11: TMOD |= 0x01;		//设置定时器模式
-      000598 43 89 01         [24]  536 	orl	_TMOD,#0x01
+      0005FF 43 89 01         [24]  536 	orl	_TMOD,#0x01
                                     537 ;	code/time0/time0.c:12: TL0 = 0x88;		//设置定时初值
-      00059B 75 8A 88         [24]  538 	mov	_TL0,#0x88
+      000602 75 8A 88         [24]  538 	mov	_TL0,#0x88
                                     539 ;	code/time0/time0.c:13: TH0 = 0x96;		//设置定时初值
-      00059E 75 8C 96         [24]  540 	mov	_TH0,#0x96
+      000605 75 8C 96         [24]  540 	mov	_TH0,#0x96
                                     541 ;	code/time0/time0.c:15: TF0 = 0;		//清除TF0标志
                                     542 ;	assignBit
-      0005A1 C2 8D            [12]  543 	clr	_TF0
+      000608 C2 8D            [12]  543 	clr	_TF0
                                     544 ;	code/time0/time0.c:16: ET0=1;			//打开中断允许寄存器
                                     545 ;	assignBit
-      0005A3 D2 A9            [12]  546 	setb	_ET0
+      00060A D2 A9            [12]  546 	setb	_ET0
                                     547 ;	code/time0/time0.c:17: EA=1;				//打开中断控制总开关
                                     548 ;	assignBit
-      0005A5 D2 AF            [12]  549 	setb	_EA
+      00060C D2 AF            [12]  549 	setb	_EA
                                     550 ;	code/time0/time0.c:18: TR0 = 1;		//定时器0开始计时
                                     551 ;	assignBit
-      0005A7 D2 8C            [12]  552 	setb	_TR0
+      00060E D2 8C            [12]  552 	setb	_TR0
                                     553 ;	code/time0/time0.c:19: }
-      0005A9 22               [24]  554 	ret
+      000610 22               [24]  554 	ret
                                     555 	.area CSEG    (CODE)
                                     556 	.area CONST   (CODE)
                                     557 	.area XINIT   (CODE)
