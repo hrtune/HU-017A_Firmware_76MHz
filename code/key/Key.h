@@ -3,6 +3,7 @@
 
 #define KEY_DELAY_TIME 20
 #define KEY_LONG_TIME 600
+#define KEY_AUTO_SEARCH_TIME 235
 
 /**
 
@@ -26,5 +27,8 @@ unsigned char POP_KEY(void);
  * 轮询查询键盘
  */
 void Key_Loop(void);
+
+extern unsigned char k3_long_flag;
+extern unsigned char k3_auto_search_flag;
 
 #endif

@@ -680,7 +680,7 @@
       000527 8B 83            [24]  680 	mov	dph,r3
       000529 8C F0            [24]  681 	mov	b,r4
       00052B E5 C2            [12]  682 	mov	a,_IAP_DATA
-      00052D 12 12 C4         [24]  683 	lcall	__gptrput
+      00052D 12 12 6C         [24]  683 	lcall	__gptrput
                                     684 ;	code/config/EEPROM.c:73: for (i = 0; i < sizeof(dat); i++)
       000530 0D               [12]  685 	inc	r5
       000531 BD 03 00         [24]  686 	cjne	r5,#0x03,00119$

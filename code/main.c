@@ -34,41 +34,9 @@ void userInput()
 		Led_CHANGE_SLEEP_MODE();
 	}
 
-	// 自动搜台+snr
-	if (search_SELLP_flag > 0 && Key_NUM == 1)
-	{
-		snr = RDA5807M_Read_SNR();
-		if (snr == 15)
-		{
-			snr = 0;
-		}
-		else
-		{
-			snr++;
-		}
-		RDA5807M_Set_SNR(snr);
-		// 设置显示屏幕
-		LED_SNR = snr;
-		return;
-	}
 
-	// 自动搜台-snr
-	if (search_SELLP_flag > 0 && Key_NUM == 2)
-	{
-		snr = RDA5807M_Read_SNR();
-		if (snr == 0)
-		{
-			snr = 15;
-		}
-		else
-		{
-			snr--;
-		}
-		RDA5807M_Set_SNR(snr);
-		// 设置显示屏幕
-		LED_SNR = snr;
-		return;
-	}
+
+
 
 	// 自动搜台 取消
 	if (search_SELLP_flag > 0 && Key_NUM == 3)
@@ -98,17 +66,17 @@ void userInput()
 	}
 
 	// K13 自动搜台 触发
-	if (Key_NUM == 13)
+	if (Key_NUM == 30)
 	{
 		// printf("auto serach radio ?\r\n");
-		LED_SNR = RDA5807M_Read_SNR();
-		search_SELLP_flag = 1;
-		DISPLAY_type = 14; // 显示snr设置
-		if (!sys_sleep_mode)
-		{
-			sys_sleep_mode = 1;
-			search_SELLP_flag = 11;
-		}
+		// LED_SNR = RDA5807M_Read_SNR();
+		// search_SELLP_flag = 1;
+		// DISPLAY_type = 14; // 显示snr设置
+		// if (!sys_sleep_mode)
+		// {
+		// 	sys_sleep_mode = 1;
+		// 	search_SELLP_flag = 11;
+		// }
 
 		return;
 	}
@@ -184,37 +152,22 @@ void userInput()
 		sys_radio_index = 0xFF; // Indicate not on a preset
 		return;
 	}
-	// F+ Long Press (cycle presets up)
+	// F+ Long Press (search next stable frequency up)
 	if (Key_NUM == 33)
 	{
-		if (sys_radio_index == sys_radio_index_max)
-		{
-			sys_radio_index = 0;
-		}
-		else
-		{
-			sys_radio_index++;
-		}
-		LED_HAND_MARK = 1; // 切换列表台
-		resetSleepTime();  // 数码重置熄灭时间
-		RDA5807M_Set_Freq(CONF_GET_RADIO_INDEX(sys_radio_index));
+		sys_freq = RDA5807M_Seek(1); // Search up for next stable frequency
+		LED_FRE_REAL = sys_freq;
+		sys_radio_index = 0xFF; // Indicate not on a preset
+		LED_HAND_MARK = 1; //  数码管设置为列表换台
 		return;
 	}
-	// F- Long Press (cycle presets down)
+	// F- Long Press (search next stable frequency down)
 	if (Key_NUM == 44)
 	{
-		if (sys_radio_index == 0)
-		{
-			sys_radio_index = sys_radio_index_max;
-		}
-		else
-		{
-			sys_radio_index--;
-		}
-
-		LED_HAND_MARK = 1; // 切换列表台
-		resetSleepTime();  // 数码重置熄灭时间
-		RDA5807M_Set_Freq(CONF_GET_RADIO_INDEX(sys_radio_index));
+		sys_freq = RDA5807M_Seek(0); // Search down for next stable frequency
+		LED_FRE_REAL = sys_freq;
+		sys_radio_index = 0xFF; // Indicate not on a preset
+		LED_HAND_MARK = 1; //  数码管设置为列表换台
 		return;
 	}
 }

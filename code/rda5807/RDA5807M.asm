@@ -21,7 +21,6 @@
 	.globl _I2C_End
 	.globl _I2C_Start
 	.globl _CONF_GET_RADIO_INDEX
-	.globl _CONF_SET_INDEX_MAX
 	.globl _CONF_RADIO_PUT
 	.globl _CONF_RADIO_ERASE
 	.globl _CONF_SET_VOL
@@ -1461,97 +1460,104 @@ _RDA5807M_Radio_TRUE:
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'RDA5807M_Search_Automatic'
 ;------------------------------------------------------------
-;i             Allocated to registers 
-;band          Allocated to registers r7 
-;Start         Allocated to registers r5 r6 
-;End           Allocated to registers r3 r4 
+;i             Allocated to registers r7 
+;band          Allocated to registers r6 
+;Start         Allocated to registers r4 r5 
+;End           Allocated to registers r2 r3 
 ;------------------------------------------------------------
 ;	code/rda5807/RDA5807M.c:357: void RDA5807M_Search_Automatic()
 ;	-----------------------------------------
 ;	 function RDA5807M_Search_Automatic
 ;	-----------------------------------------
 _RDA5807M_Search_Automatic:
+;	code/rda5807/RDA5807M.c:359: uint16_t i = 0; // 电台索引
+	mov	r7,#0x00
 ;	code/rda5807/RDA5807M.c:362: band = (RDA5807M_Read_Reg(0x03) & 0x000C) >> 2; // 0x03的3，2位（band）
 	mov	dpl, #0x03
+	push	ar7
 	lcall	_RDA5807M_Read_Reg
-	mov	r6, dpl
-	anl	ar6,#0x0c
+	mov	r5, dpl
+	pop	ar7
+	anl	ar5,#0x0c
 	clr	a
 	clr	c
 	rrc	a
-	xch	a,r6
+	xch	a,r5
 	rrc	a
-	xch	a,r6
+	xch	a,r5
 	clr	c
 	rrc	a
-	xch	a,r6
+	xch	a,r5
 	rrc	a
-	xch	a,r6
+	xch	a,r5
 ;	code/rda5807/RDA5807M.c:364: if (band == 0 /*0b00*/)
-	mov	a,r6
-	mov	r7,a
+	mov	a,r5
+	mov	r6,a
 	jnz	00114$
 ;	code/rda5807/RDA5807M.c:366: Start = 8700;
-	mov	r5,#0xfc
-	mov	r6,#0x21
+	mov	r4,#0xfc
+	mov	r5,#0x21
 ;	code/rda5807/RDA5807M.c:367: End = 10800;
-	mov	r3,#0x30
-	mov	r4,#0x2a
+	mov	r2,#0x30
+	mov	r3,#0x2a
 	sjmp	00115$
 00114$:
 ;	code/rda5807/RDA5807M.c:369: else if (band == 1 /*0b01*/)
-	cjne	r7,#0x01,00111$
+	cjne	r6,#0x01,00111$
 ;	code/rda5807/RDA5807M.c:371: Start = 7600;
-	mov	r5,#0xb0
-	mov	r6,#0x1d
+	mov	r4,#0xb0
+	mov	r5,#0x1d
 ;	code/rda5807/RDA5807M.c:372: End = 9100;
-	mov	r3,#0x8c
-	mov	r4,#0x23
+	mov	r2,#0x8c
+	mov	r3,#0x23
 	sjmp	00115$
 00111$:
 ;	code/rda5807/RDA5807M.c:374: else if (band == 2 /*0b10*/)
-	cjne	r7,#0x02,00108$
+	cjne	r6,#0x02,00108$
 ;	code/rda5807/RDA5807M.c:376: Start = 7600;
-	mov	r5,#0xb0
-	mov	r6,#0x1d
+	mov	r4,#0xb0
+	mov	r5,#0x1d
 ;	code/rda5807/RDA5807M.c:377: End = 10800;
-	mov	r3,#0x30
-	mov	r4,#0x2a
+	mov	r2,#0x30
+	mov	r3,#0x2a
 	sjmp	00115$
 00108$:
 ;	code/rda5807/RDA5807M.c:379: else if (band == 3 /*0b11*/)
-	cjne	r7,#0x03,00105$
+	cjne	r6,#0x03,00105$
 ;	code/rda5807/RDA5807M.c:381: if ((RDA5807M_Read_Reg(0x07) >> 9) & 0x01)
 	mov	dpl, #0x07
+	push	ar7
 	lcall	_RDA5807M_Read_Reg
-	mov	a,dph
+	mov	r6, dph
+	pop	ar7
+	mov	a,r6
 	rr	a
 	anl	a,#0x01
 	jz	00102$
 ;	code/rda5807/RDA5807M.c:383: Start = 6500;
-	mov	r5,#0x64
-	mov	r6,#0x19
+	mov	r4,#0x64
+	mov	r5,#0x19
 ;	code/rda5807/RDA5807M.c:384: End = 7600;
-	mov	r3,#0xb0
-	mov	r4,#0x1d
+	mov	r2,#0xb0
+	mov	r3,#0x1d
 	sjmp	00115$
 00102$:
 ;	code/rda5807/RDA5807M.c:388: Start = 5000;
-	mov	r5,#0x88
-	mov	r6,#0x13
+	mov	r4,#0x88
+	mov	r5,#0x13
 ;	code/rda5807/RDA5807M.c:389: End = 7600;
-	mov	r3,#0xb0
-	mov	r4,#0x1d
+	mov	r2,#0xb0
+	mov	r3,#0x1d
 	sjmp	00115$
 00105$:
 ;	code/rda5807/RDA5807M.c:395: return;
 	ret
 00115$:
 ;	code/rda5807/RDA5807M.c:398: sys_freq = LED_FRE_REAL = Start;
-	mov	_LED_FRE_REAL,r5
-	mov	(_LED_FRE_REAL + 1),r6
-	mov	_sys_freq,r5
-	mov	(_sys_freq + 1),r6
+	mov	_LED_FRE_REAL,r4
+	mov	(_LED_FRE_REAL + 1),r5
+	mov	_sys_freq,r4
+	mov	(_sys_freq + 1),r5
 ;	code/rda5807/RDA5807M.c:399: LED_SEEK_D = 1;
 ;	assignBit
 	setb	_LED_SEEK_D
@@ -1561,80 +1567,67 @@ _RDA5807M_Search_Automatic:
 ;	assignBit
 	clr	_LED_HAND_MARK
 ;	code/rda5807/RDA5807M.c:403: RDA5807M_Set_Freq(Start);
-	mov	dpl, r5
-	mov	dph, r6
-	push	ar4
+	mov	dpl, r4
+	mov	dph, r5
+	push	ar7
 	push	ar3
+	push	ar2
 	lcall	_RDA5807M_Set_Freq
 ;	code/rda5807/RDA5807M.c:404: Delay(50);
 	mov	dptr,#0x0032
 	lcall	_Delay
 ;	code/rda5807/RDA5807M.c:407: CONF_RADIO_ERASE();
 	lcall	_CONF_RADIO_ERASE
+	pop	ar2
 	pop	ar3
-	pop	ar4
+	pop	ar7
 ;	code/rda5807/RDA5807M.c:410: while (sys_freq != End)
-	mov	r6,#0x00
-	mov	r7,#0x00
 00118$:
+	mov	a,r2
+	cjne	a,_sys_freq,00187$
 	mov	a,r3
-	cjne	a,_sys_freq,00180$
-	mov	a,r4
-	cjne	a,(_sys_freq + 1),00180$
+	cjne	a,(_sys_freq + 1),00187$
 	sjmp	00120$
-00180$:
+00187$:
 ;	code/rda5807/RDA5807M.c:413: sys_freq = seek(1);
 	mov	dpl, #0x01
 	push	ar7
-	push	ar6
-	push	ar4
 	push	ar3
+	push	ar2
 	lcall	_seek
 	mov	_sys_freq,dpl
 	mov	(_sys_freq + 1),dph
 ;	code/rda5807/RDA5807M.c:415: if (RDA5807M_Radio_TRUE())
 	lcall	_RDA5807M_Radio_TRUE
 	mov	a, dpl
+	pop	ar2
 	pop	ar3
-	pop	ar4
-	pop	ar6
 	pop	ar7
 	jz	00118$
 ;	code/rda5807/RDA5807M.c:417: CONF_RADIO_PUT(i, sys_freq);
-	mov	dpl,r6
 	mov	_CONF_RADIO_PUT_PARM_2,_sys_freq
 	mov	(_CONF_RADIO_PUT_PARM_2 + 1),(_sys_freq + 1)
-	push	ar7
-	push	ar6
-	push	ar4
-	push	ar3
+	mov	dpl, #0x00
 	lcall	_CONF_RADIO_PUT
 ;	code/rda5807/RDA5807M.c:418: Delay(100); // 给用户听个声音
 	mov	dptr,#0x0064
 	lcall	_Delay
-	pop	ar3
-	pop	ar4
-	pop	ar6
-	pop	ar7
 ;	code/rda5807/RDA5807M.c:419: i++;        // 最后会多加一次
-	inc	r6
-	cjne	r6,#0x00,00118$
-	inc	r7
-	sjmp	00118$
+	mov	r7,#0x01
+;	code/rda5807/RDA5807M.c:420: break; // Stop after finding the first stable frequency
 00120$:
-;	code/rda5807/RDA5807M.c:423: i = i - 1;
-	mov	a,r6
-	dec	a
-	mov	dpl,a
-;	code/rda5807/RDA5807M.c:425: CONF_SET_INDEX_MAX(i);
-	lcall	_CONF_SET_INDEX_MAX
-;	code/rda5807/RDA5807M.c:427: sys_radio_index = 0;
+;	code/rda5807/RDA5807M.c:425: if (i > 0) {
+	mov	a,r7
+	jz	00123$
+;	code/rda5807/RDA5807M.c:426: sys_radio_index = 0;
 	mov	_sys_radio_index,#0x00
-;	code/rda5807/RDA5807M.c:428: RDA5807M_Set_Freq(CONF_GET_RADIO_INDEX(0));
+;	code/rda5807/RDA5807M.c:427: RDA5807M_Set_Freq(CONF_GET_RADIO_INDEX(0));
 	mov	dpl, #0x00
 	lcall	_CONF_GET_RADIO_INDEX
 ;	code/rda5807/RDA5807M.c:430: }
 	ljmp	_RDA5807M_Set_Freq
+00123$:
+	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'RDA5807M_Set_Volume'
 ;------------------------------------------------------------

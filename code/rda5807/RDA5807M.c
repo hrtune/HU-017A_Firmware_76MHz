@@ -411,21 +411,22 @@ void RDA5807M_Search_Automatic()
     {
         // 向下搜台 ，边界终止
         sys_freq = seek(1);
+        LED_FRE_REAL = sys_freq; // Update display frequency during search
         // 保存电台
         if (RDA5807M_Radio_TRUE())
         {
             CONF_RADIO_PUT(i, sys_freq);
             Delay(100); // 给用户听个声音
             i++;        // 最后会多加一次
+            break; // Stop after finding the first stable frequency
         }
     }
 
-    i = i - 1;
-    // 保存电台最大索引
-    CONF_SET_INDEX_MAX(i);
-
-    sys_radio_index = 0;
-    RDA5807M_Set_Freq(CONF_GET_RADIO_INDEX(0));
+    // If a station was found, tune to it. Otherwise, sys_radio_index remains 0xFF (or similar initial state).
+    if (i > 0) {
+        sys_radio_index = 0;
+        RDA5807M_Set_Freq(CONF_GET_RADIO_INDEX(0));
+    }
     // printf("Search_Automatic complete %bu\r\n", i);
 }
 

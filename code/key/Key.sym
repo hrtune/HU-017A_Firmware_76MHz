@@ -449,8 +449,10 @@ Symbol Table
   5 _k2_lock_flage                                                 000002 GR
   5 _k2_long_flag                                                  000012 GR
   5 _k2_short_flag                                                 00000E GR
+    _k3_auto_search_flag                                           ****** GX
   5 _k3_cnt                                                        000009 GR
   5 _k3_lock_flage                                                 000003 GR
+    _k3_long_flag                                                  ****** GX
   5 _k3_short_flag                                                 00000F GR
   5 _k4_cnt                                                        00000B GR
   5 _k4_lock_flage                                                 000004 GR
@@ -476,13 +478,13 @@ Symbol Table
     acc.7                                                       =  0000E7 L
     ar0                                                         =  000000 
     ar1                                                         =  000001 
-    ar2                                                         =  000002 
-    ar3                                                         =  000003 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051)               Page 9
 Hexadecimal [24-Bits]
 
 Symbol Table
 
+    ar2                                                         =  000002 
+    ar3                                                         =  000003 
     ar4                                                         =  000004 
     ar5                                                         =  000005 
     ar6                                                         =  000006 
@@ -536,13 +538,13 @@ Symbol Table
     p                                                           =  0000D0 L
     p0                                                          =  000080 L
     p0.0                                                        =  000080 L
-    p0.1                                                        =  000081 L
-    p0.2                                                        =  000082 L
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051)              Page 10
 Hexadecimal [24-Bits]
 
 Symbol Table
 
+    p0.1                                                        =  000081 L
+    p0.2                                                        =  000082 L
     p0.3                                                        =  000083 L
     p0.4                                                        =  000084 L
     p0.5                                                        =  000085 L
@@ -596,13 +598,13 @@ Symbol Table
     rcap2l                                                      =  0000CA L
     rclk                                                        =  0000CD L
     ren                                                         =  00009C L
-    ri                                                          =  000098 L
-    rs0                                                         =  0000D3 L
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051)              Page 11
 Hexadecimal [24-Bits]
 
 Symbol Table
 
+    ri                                                          =  000098 L
+    rs0                                                         =  0000D3 L
     rs1                                                         =  0000D4 L
     rxd                                                         =  0000B0 L
     sbuf                                                        =  000099 L
@@ -655,7 +657,6 @@ Symbol Table
     tr2                                                         =  0000CA L
     txd                                                         =  0000B1 L
 
-
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051)              Page 12
 Hexadecimal [24-Bits]
 
@@ -684,7 +685,7 @@ Area Table
   14 GSINIT5                                    size      0   flags   20
   15 GSINIT                                     size     32   flags   20
   16 GSFINAL                                    size      0   flags   20
-  17 CSEG                                       size    1DE   flags   20
+  17 CSEG                                       size    1F0   flags   20
   18 CONST                                      size      0   flags   20
   19 XINIT                                      size      0   flags   20
   1A CABS                                       size      0   flags   28
